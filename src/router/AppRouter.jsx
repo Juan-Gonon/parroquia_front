@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router'
-import { LoginPage } from '../features/auth/LoginPage'
 import { DashboardPage } from '../features/dashboard/DashboardPage'
+import { LoginPage } from '../page/auth/LoginPage'
 export const AppRouter = () => {
   const [status] = useState(true)
   return (
