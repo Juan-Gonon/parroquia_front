@@ -1,10 +1,12 @@
+import { Provider } from 'react-redux'
 import { AppRouter } from './router/AppRouter'
+import { store } from './app/storaje'
 
 function App() {
   return (
-    <>
+    <Provider store={store}>
       <AppRouter />
-    </>
+    </Provider>
   )
 }
 
