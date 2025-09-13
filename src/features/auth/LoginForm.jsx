@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 
-import { Mail, Lock, Eye, EyeOff, Cross, Heart } from 'lucide-react'
+import { Mail, Lock, Eye, EyeOff, Cross, Heart, User } from 'lucide-react'
 import { Button } from '../../components/Button'
 import { useFormLogin } from '../../hook/userFormLogin'
 
@@ -33,30 +33,30 @@ export function LoginForm() {
             </div>
           )}
 
-          {/* Email Field */}
+          {/* user Field */}
           <div className='space-y-2'>
             <label
-              htmlFor='email'
+              htmlFor='user'
               className='text-foreground/90 font-semibold text-sm block'>
-              Correo Electrónico
+              Usuario
             </label>
             <div className='relative'>
-              <Mail className='absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground' />
+              <User className='absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground' />
               <input
-                id='email'
-                type='email'
-                placeholder='tu.email@ejemplo.com'
-                value={formData.email}
-                onChange={(e) => handleInputChange('email', e.target.value)}
+                id='user'
+                type='text'
+                placeholder='Tu usuario'
+                value={formData.user}
+                onChange={(e) => handleInputChange('user', e.target.value)}
                 className={`w-full pl-12 pr-4 py-3 border rounded-xl bg-input focus:outline-none focus:ring-2 focus:ring-ring focus:border-border transition-all ${
-                  errors.email
+                  errors.user
                     ? 'border-destructive focus:ring-destructive focus:border-destructive'
                     : 'border-border'
                 }`}
               />
             </div>
-            {errors.email && (
-              <p className='text-sm text-destructive'>{errors.email}</p>
+            {errors.user && (
+              <p className='text-sm text-destructive'>{errors.user}</p>
             )}
           </div>
 

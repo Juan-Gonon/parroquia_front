@@ -1,25 +1,29 @@
 import { useState } from 'react'
-import { regularExps } from '../conf/regularExps'
+import { useAuthStore } from './useAuthStore'
+// import { regularExps } from '../conf/regularExps'
 
 export function useFormLogin() {
   const [formData, setFormData] = useState({
-    email: '',
+    user: '',
     password: '',
   })
 
   const [errors, setErrors] = useState({})
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const { starLogin } = useAuthStore()
 
   const validateForm = () => {
     const newErrors = {}
 
     // Email validation
-    if (!formData.email) {
-      newErrors.email = 'El correo electrónico es requerido'
-    } else if (!regularExps.email.test(formData.email)) {
-      newErrors.email = 'Por favor ingresa un correo electrónico válido'
+    if (!formData.user) {
+      newErrors.user = 'El usuario es incorrecto'
     }
+
+    // else if (!regularExps.email.test(formData.email)) {
+    //   newErrors.email = 'Por favor ingresa un correo electrónico válido'
+    // }
 
     // Password validation
     if (!formData.password) {
@@ -51,20 +55,13 @@ export function useFormLogin() {
     setErrors({})
 
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 2000))
-
-      // Here you would typically make an API call to authenticate
-      console.log('Login attempt:', formData)
-
-      // For demo purposes, show success
-      alert('¡Bienvenido a la comunidad!')
+      await starLogin({ user: formData.user, pass: formData.password })
     } catch (error) {
-      setErrors({
-        general: `Error al iniciar sesión. Por favor intenta nuevamente. ${error}`,
-      })
+      setErrors(error)
     } finally {
-      setIsLoading(false)
+      setTimeout(() => {
+        setIsLoading(false)
+      }, 300)
     }
   }
 
