@@ -3,18 +3,18 @@ import { getEnvVariables } from '../helpers/getEnv'
 
 const { VITE_API_URL } = getEnvVariables()
 
-const parroApi = axios.create({
+const parishApi = axios.create({
   baseURL: VITE_API_URL,
 })
 
-parroApi.interceptors.request.use(
+parishApi.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token')
 
     if (token) {
       config.headers = {
         ...config.headers,
-        'x-token': token,
+        Authorization: `Bearer ${token}`,
       }
     }
 
@@ -25,4 +25,4 @@ parroApi.interceptors.request.use(
   }
 )
 
-export default parroApi
+export default parishApi
