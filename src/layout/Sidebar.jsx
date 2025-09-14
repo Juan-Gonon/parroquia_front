@@ -1,27 +1,21 @@
 /* eslint-disable prettier/prettier */
-// import { useContext } from 'react'
 import logo from '../../public/vite.svg'
-// import { linksArray, secondaryLinksArray } from '../helpers/data'
-// import styled from 'styled-components'
-// import { v } from '../styles/Variables'
-// import { AiOutlineLeft } from 'react-icons/ai'
-// import { NavLink } from 'react-router-dom' // 👈 CORRECTO: react-router-dom
-// import { ThemeContext } from '../context/ContextThem'
-
-import { useContext } from 'react'
-import { ThemeContext } from '../context/ContextThem'
 import { linksArray, secondaryLinksArray } from '../helpers/data'
 import styled from 'styled-components'
 import { v } from '../styles/Variables'
 import { AiOutlineLeft } from 'react-icons/ai'
 import { NavLink } from 'react-router-dom'
+import { useThemeStore } from '../hook/useThemeStore'
 
 export const Sidebar = () => {
-  const { changeTheme, theme, sidebarOpen, setSidebarOpen } =
-    useContext(ThemeContext)
+  const { openSidebar, starToogle, sidebarOpen, theme } = useThemeStore()
 
   const modifySidebar = () => {
-    setSidebarOpen(!sidebarOpen)
+    openSidebar()
+  }
+
+  const changeTheme = () => {
+    starToogle()
   }
 
   return (
@@ -94,7 +88,7 @@ const Container = styled.div`
   background: ${({ theme }) => theme.bg};
   color: ${({ theme }) => theme.text};
   position: sticky;
-  padding-top: 20px;
+  padding-top: 25px;
   width: 100%;
   height: 100%;
   border-radius: 5px;

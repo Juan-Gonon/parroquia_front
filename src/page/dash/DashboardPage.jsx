@@ -1,11 +1,11 @@
-import { useContext } from 'react'
+// import { useContext } from 'react'
 import { Sidebar } from '../../layout/Sidebar'
-import { ThemeContext } from '../../context/ContextThem'
-import { Outlet } from 'react-router'
+import { Outlet } from 'react-router-dom'
 import styled from 'styled-components'
+import { useThemeStore } from '../../hook/useThemeStore'
 
 export const DashboardPage = () => {
-  const { sidebarOpen } = useContext(ThemeContext)
+  const { sidebarOpen } = useThemeStore()
   return (
     <DashboardWrapper>
       <Container className={`sidebarState ${sidebarOpen ? 'active' : ''}`}>

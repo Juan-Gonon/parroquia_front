@@ -4,13 +4,15 @@ import { LoginPage } from '../page/auth/LoginPage'
 import { useAuthStore } from '../hook/useAuthStore'
 import { useEffect } from 'react'
 import { Home } from '../page/home/home'
-import { ProviderTheme } from '../context/ContextThem'
 import { DashboardPage } from '../page/dash/DashboardPage'
 import { Navigate, Route, Routes, useNavigate } from 'react-router-dom'
+import { ThemeProvider } from 'styled-components'
+import { useThemeStore } from '../hook/useThemeStore'
 
 export const AppRouter = () => {
   const { status, renewLogin } = useAuthStore()
   const navigate = useNavigate()
+  const { themeStyle } = useThemeStore()
 
   useEffect(() => {
     renewLogin()
@@ -38,18 +40,18 @@ export const AppRouter = () => {
           <Route
             path='/'
             element={
-              <ProviderTheme>
+              <ThemeProvider theme={themeStyle}>
                 <DashboardPage />
-              </ProviderTheme>
+              </ThemeProvider>
             }>
             {/* Rutas hijas del dashboard */}
             <Route index element={<Home />} />
             <Route path='home' element={<Home />} />
-            <Route path='profile' element={<h1>Perfil</h1>} />
+            <Route path='productos' element={<h1>Perfil</h1>} />
             <Route path='settings' element={<h1>Ajustes</h1>} />
 
             {/* Redirección por defecto */}
-            <Route path='*' element={<Navigate to='home' />} />
+            <Route path='/*' element={<Navigate to='/' />} />
           </Route>
         </>
       )}
