@@ -1,11 +1,12 @@
 /* eslint-disable prettier/prettier */
-import logo from '../../public/vite.svg'
+// import logo from '../../public/vite.svg'
 import { linksArray, secondaryLinksArray } from '../helpers/data'
 import styled from 'styled-components'
 import { v } from '../styles/Variables'
 import { AiOutlineLeft } from 'react-icons/ai'
 import { NavLink } from 'react-router-dom'
 import { useThemeStore } from '../hook/useThemeStore'
+import { FaCross } from 'react-icons/fa'
 
 export const Sidebar = () => {
   const { openSidebar, starToogle, sidebarOpen, theme } = useThemeStore()
@@ -21,14 +22,15 @@ export const Sidebar = () => {
   return (
     <Container $isOpen={sidebarOpen} $themeUse={theme}>
       <button className='sidebar__button' onClick={modifySidebar}>
-        <AiOutlineLeft />
+        <AiOutlineLeft size={'20px'} />
       </button>
 
       <div className='logo__content'>
         <div className='img__content'>
-          <img src={logo} alt='logo' />
+          {/* <img src={logo} alt='logo' /> */}
+          <FaCross />
         </div>
-        <h2>Gonon's</h2>
+        <h2>Iglesia Zunilito</h2>
       </div>
 
       {/* LINKS PRINCIPALES */}
@@ -118,6 +120,7 @@ const Container = styled.div`
     justify-content: center;
     align-items: center;
     padding-bottom: ${v.lgSpacing};
+    padding-top: 5px;
 
     .img__content {
       display: flex;
