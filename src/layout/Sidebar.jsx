@@ -7,9 +7,11 @@ import { AiOutlineLeft } from 'react-icons/ai'
 import { NavLink } from 'react-router-dom'
 import { useThemeStore } from '../hook/useThemeStore'
 import { FaCross } from 'react-icons/fa'
+import { useAuthStore } from '../hook/useAuthStore'
 
 export const Sidebar = () => {
   const { openSidebar, starToogle, sidebarOpen, theme } = useThemeStore()
+  const { onLogOut } = useAuthStore()
 
   const modifySidebar = () => {
     openSidebar()
@@ -52,7 +54,8 @@ export const Sidebar = () => {
         <div key={index} className='link__container'>
           <NavLink
             to={item.to}
-            className={({ isActive }) => `links ${isActive ? 'active' : ''}`}>
+            className={({ isActive }) => `links ${isActive ? 'active' : ''}`}
+            onClick={onLogOut}>
             <div className='link__icon'>{item.icon}</div>
             {sidebarOpen && <span>{item.label}</span>}
           </NavLink>
