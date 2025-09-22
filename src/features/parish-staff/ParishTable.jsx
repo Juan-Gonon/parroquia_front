@@ -16,7 +16,7 @@ export const ParishTable = () => {
       limit: 10,
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [parish])
 
   return (
     <Container $themeUse={theme}>

@@ -84,9 +84,7 @@ export const getAllParishRolService = async ({ page = 1, limit = 10 }) => {
 
 export const createParishServie = async ({ data }) => {
   try {
-    console.log(data)
     const res = await parishApi.post('/parish-staff', data)
-    console.log(res)
 
     if (res.status !== 200) return
 

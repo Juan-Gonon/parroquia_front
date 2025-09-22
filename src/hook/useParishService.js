@@ -25,6 +25,11 @@ export const useParishService = () => {
     createParishServie({ data })
       .then((res) => console.log(res))
       .catch((error) => console.log(error))
+
+    getAllParish({
+      page: 1,
+      limit: 10,
+    })
   }
   return {
     parish,
