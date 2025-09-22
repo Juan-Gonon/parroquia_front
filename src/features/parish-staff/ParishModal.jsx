@@ -1,5 +1,5 @@
-/* eslint-disable prettier/prettier */
-import { useState } from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect } from 'react'
 import styled from 'styled-components'
 import { useUiModal } from '../../hook/useUiModal'
 import { AiOutlineUser, AiOutlineMail, AiOutlinePhone } from 'react-icons/ai'
@@ -7,40 +7,48 @@ import { MdOutlineHome } from 'react-icons/md'
 import { FaRegAddressCard } from 'react-icons/fa'
 import { ModalForm } from '../../components/ModalForm'
 import { InputField } from '../../components/inputField'
+import { useParishService } from '../../hook/useParishService'
+import { useForm } from '../../hook/useForm'
 // import { useThemeStore } from '../../hook/useThemeStore'
 
 export const ParishModal = () => {
   // const { theme } = useThemeStore()
   const { closeModal } = useUiModal()
-  const [formData, setFormData] = useState({
-    nombre: '',
-    apellido: '',
-    direccion: '',
-    email: '',
-    telefono: '',
-    idRol: '',
-  })
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
-  }
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    console.log(formData)
-    // Aquí iría el dispatch hacia Redux o el fetch/axios a tu backend
-    closeModal()
-  }
-
-  const resetForm = () =>
-    setFormData({
+  const { role, getAllParishRol } = useParishService()
+  const { formData, errors, handleChange, validate, resetForm } = useForm(
+    {
       nombre: '',
       apellido: '',
       direccion: '',
       email: '',
       telefono: '',
       idRol: '',
-    })
+    },
+    (values) => {
+      const errs = {}
+      if (!values.nombre) errs.nombre = 'El nombre es requerido'
+      if (!values.apellido) errs.apellido = 'El apellido es requerido'
+      if (!values.idRol) errs.idRol = 'Debe seleccionar un rol'
+      return errs
+    }
+  )
+
+  useEffect(() => {
+    getAllParishRol({ page: 1, limit: 20 })
+  }, [])
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    if (!validate()) return
+
+    try {
+      console.log('Enviando al backend:', formData)
+      // await createPersonal(formData)
+      closeModal()
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
   return (
     <ModalForm onAfterClose={resetForm}>
@@ -54,8 +62,8 @@ export const ParishModal = () => {
           placeholder='Nombre'
           value={formData.nombre}
           onChange={handleChange}
-          required
         />
+        <ErrorMessage $show={!!errors.nombre}>{errors.nombre}</ErrorMessage>
 
         <InputField
           icon={FaRegAddressCard}
@@ -64,8 +72,8 @@ export const ParishModal = () => {
           placeholder='Apellido'
           value={formData.apellido}
           onChange={handleChange}
-          required
         />
+        <ErrorMessage $show={!!errors.apellido}>{errors.apellido}</ErrorMessage>
 
         <InputField
           icon={MdOutlineHome}
@@ -94,16 +102,18 @@ export const ParishModal = () => {
           onChange={handleChange}
         />
 
-        <Select
-          name='idRol'
-          value={formData.idRol}
-          onChange={handleChange}
-          required>
+        <Select name='idRol' value={formData.idRol} onChange={handleChange}>
           <option value=''>Seleccione un rol</option>
-          <option value='1'>Sacerdote</option>
+          {/* <option value='1'>Sacerdote</option>
           <option value='2'>Catequista</option>
-          <option value='3'>Administrador</option>
+          <option value='3'>Administrador</option> */}
+          {role?.map((rol) => (
+            <option key={rol.id_rol} value={rol.id_rol}>
+              {rol.nombre}
+            </option>
+          ))}
         </Select>
+        <ErrorMessage $show={!!errors.idRol}>{errors.idRol}</ErrorMessage>
 
         <Actions>
           <CancelButton type='button' onClick={closeModal}>
@@ -214,4 +224,15 @@ const SubmitButton = styled.button`
   &:hover {
     transform: scale(1.05);
   }
+`
+
+const ErrorMessage = styled.p`
+  color: #e74c3c; /* rojo moderno */
+  font-size: 0.85rem;
+  margin: -8px 0 5px 5px;
+  min-height: 18px; /* mantiene espacio aunque no haya error */
+  display: flex;
+  align-items: center;
+  opacity: ${({ $show }) => ($show ? 1 : 0)};
+  transition: opacity 0.2s ease-in-out;
 `

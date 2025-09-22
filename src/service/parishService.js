@@ -60,3 +60,25 @@ export const getAllParishService = async ({ page, limit }) => {
     throw new Error(error.message || 'Error desconocido')
   }
 }
+
+export const getAllParishRolService = async ({ page = 1, limit = 10 }) => {
+  try {
+    const res = await parishApi.get('/personal-role', {
+      params: {
+        page,
+        limit,
+      },
+    })
+
+    if (res.status !== 200) return
+
+    return res.data
+  } catch (error) {
+    console.log(error)
+    if (error.response && error.response.data && error.response.data.error) {
+      throw new Error(error.response.data.error)
+    }
+
+    throw new Error(error.message || 'Error desconocido')
+  }
+}
