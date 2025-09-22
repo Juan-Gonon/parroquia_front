@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import {
+  createParishServie,
   getAllParishRolService,
   getAllParishService,
 } from '../service/parishService'
@@ -19,10 +20,17 @@ export const useParishService = () => {
       .then((res) => setRole(res.data))
       .catch((error) => console.log(error.messgae))
   }
+
+  const createParishS = ({ data }) => {
+    createParishServie({ data })
+      .then((res) => console.log(res))
+      .catch((error) => console.log(error))
+  }
   return {
     parish,
     role,
     getAllParish,
     getAllParishRol,
+    createParishS,
   }
 }

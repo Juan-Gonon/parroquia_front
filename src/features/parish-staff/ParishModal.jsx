@@ -14,7 +14,7 @@ import { useForm } from '../../hook/useForm'
 export const ParishModal = () => {
   // const { theme } = useThemeStore()
   const { closeModal } = useUiModal()
-  const { role, getAllParishRol } = useParishService()
+  const { role, getAllParishRol, createParishS } = useParishService()
   const { formData, errors, handleChange, validate, resetForm } = useForm(
     {
       nombre: '',
@@ -41,13 +41,8 @@ export const ParishModal = () => {
     e.preventDefault()
     if (!validate()) return
 
-    try {
-      console.log('Enviando al backend:', formData)
-      // await createPersonal(formData)
-      closeModal()
-    } catch (err) {
-      console.log(err)
-    }
+    createParishS({ data: formData })
+    closeModal()
   }
 
   return (

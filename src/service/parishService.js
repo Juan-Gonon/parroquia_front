@@ -74,7 +74,24 @@ export const getAllParishRolService = async ({ page = 1, limit = 10 }) => {
 
     return res.data
   } catch (error) {
-    console.log(error)
+    if (error.response && error.response.data && error.response.data.error) {
+      throw new Error(error.response.data.error)
+    }
+
+    throw new Error(error.message || 'Error desconocido')
+  }
+}
+
+export const createParishServie = async ({ data }) => {
+  try {
+    console.log(data)
+    const res = await parishApi.post('/parish-staff', data)
+    console.log(res)
+
+    if (res.status !== 200) return
+
+    return res.data
+  } catch (error) {
     if (error.response && error.response.data && error.response.data.error) {
       throw new Error(error.response.data.error)
     }
