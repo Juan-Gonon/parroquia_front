@@ -9,6 +9,7 @@ import { ModalForm } from '../../components/ModalForm'
 import { InputField } from '../../components/inputField'
 import { useParishService } from '../../hook/useParishService'
 import { useForm } from '../../hook/useForm'
+import Swal from 'sweetalert2'
 // import { useThemeStore } from '../../hook/useThemeStore'
 
 export const ParishModal = () => {
@@ -40,9 +41,17 @@ export const ParishModal = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (!validate()) return
-
-    createParishS({ data: formData })
     closeModal()
+
+    const res = await createParishS({ data: formData })
+
+    if (res) {
+      Swal.fire({
+        title: 'Personal parroquial creado correctamente',
+        icon: 'success',
+        draggable: true,
+      })
+    }
   }
 
   return (

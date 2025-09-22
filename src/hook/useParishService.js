@@ -35,6 +35,8 @@ export const useParishService = () => {
       console.log('Parish created:', res)
 
       await getAllParish({ page: 1, limit: 10 })
+
+      return res
     } catch (error) {
       console.log(error)
     }
