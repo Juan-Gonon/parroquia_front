@@ -21,16 +21,25 @@ export const useParishService = () => {
       .catch((error) => console.log(error.messgae))
   }
 
-  const createParishS = ({ data }) => {
-    createParishServie({ data })
-      .then((res) => console.log(res))
-      .catch((error) => console.log(error))
+  const createParishS = async ({ data }) => {
+    const { nombre, apellido, direccion, email, telefono, idRol } = data
 
-    getAllParish({
-      page: 1,
-      limit: 10,
-    })
+    const newData = { nombre, apellido, idRol }
+
+    if (direccion?.length) newData.direccion = direccion
+    if (email?.length) newData.email = email
+    if (telefono?.length) newData.telefono = telefono
+
+    try {
+      const res = await createParishServie({ data: newData })
+      console.log('Parish created:', res)
+
+      await getAllParish({ page: 1, limit: 10 })
+    } catch (error) {
+      console.log(error)
+    }
   }
+
   return {
     parish,
     role,
