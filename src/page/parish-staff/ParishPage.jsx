@@ -2,11 +2,14 @@ import React from 'react'
 import styled from 'styled-components'
 import { Navbar } from '../../layout/Navbar'
 import { ParishTable } from '../../features/parish-staff/parishTable'
+import { ParishModal } from '../../features/parish-staff/ParishModal'
 
 export const ParishPage = () => {
   return (
     <Container>
-      <Navbar />
+      <Navbar>
+        <ParishModal />
+      </Navbar>
       <ParishTable />
     </Container>
   )

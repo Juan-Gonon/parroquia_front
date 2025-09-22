@@ -2,33 +2,37 @@ import styled from 'styled-components'
 import { useThemeStore } from '../hook/useThemeStore'
 import { MdAdd } from 'react-icons/md'
 import { Search } from '../components/Search'
+import { useUiModal } from '../hook/useUiModal'
 
-export const Navbar = () => {
+export const Navbar = ({ children }) => {
   const { theme } = useThemeStore()
+  const { openModal } = useUiModal()
+
   return (
     <Container $themeUse={theme}>
       <Search />
       <ActionsSection>
-        <AddButton>
+        <AddButton onClick={openModal}>
           <MdAdd />
           <span>Agregar</span>
         </AddButton>
       </ActionsSection>
+      {children}
     </Container>
   )
 }
 
 const Container = styled.main`
   position: absolute;
-  top: 15px;
+  top: 5px;
   left: 0;
   width: 100%;
-  padding: 5px 30px;
-  height: ${({ $themeUse }) => $themeUse.navHeight};
+  padding: 0 30px;
+  height: ${({ theme }) => theme.navHeight};
   display: flex;
   justify-content: space-around;
   align-items: center;
-  background-color: ${({ $themeUse }) => $themeUse.bgtgderecha};
+  background-color: ${({ theme }) => theme.bgtgderecha};
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
   z-index: 100;
   /* background: red; */
