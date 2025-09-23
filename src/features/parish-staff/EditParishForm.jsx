@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // EditParishForm.jsx
 import { useEffect } from 'react'
 import Swal from 'sweetalert2'
@@ -7,6 +8,7 @@ import { InputField } from '../../components/inputField'
 import { AiOutlineMail, AiOutlinePhone, AiOutlineUser } from 'react-icons/ai'
 import { FaRegAddressCard } from 'react-icons/fa'
 import { MdOutlineHome } from 'react-icons/md'
+import { useParishService } from '../../hook/useParishService'
 
 export const EditParishForm = ({ initialData, onSaved, onDeleted }) => {
   // inicializa con initialData vacío para no romper
@@ -27,22 +29,30 @@ export const EditParishForm = ({ initialData, onSaved, onDeleted }) => {
       return errs
     }
   )
+  const { role, getAllParishRol } = useParishService()
 
   // cuando cambie initialData, lo cargamos en el form
   useEffect(() => {
     if (initialData) {
       // asegúrate que las keys coincidan con tu form (id, nombre, apellido, ...)
+      const foundRole = role.find((r) => r.nombre === initialData.rol)
       setFormData({
         nombre: initialData.nombre ?? '',
         apellido: initialData.apellido ?? '',
         direccion: initialData.direccion ?? '',
         email: initialData.email ?? '',
         telefono: initialData.telefono ?? '',
-        idRol: initialData.idRol ?? initialData.rol ?? '',
+        idRol: foundRole?.id_rol ?? '',
         id: initialData.id ?? null,
       })
     }
-  }, [initialData, setFormData])
+  }, [initialData, setFormData, role])
+
+  // console.log(formData)
+
+  useEffect(() => {
+    getAllParishRol({ page: 1, limit: 20 })
+  }, [])
 
   const handleSave = async (e) => {
     e.preventDefault()
@@ -130,7 +140,16 @@ export const EditParishForm = ({ initialData, onSaved, onDeleted }) => {
         onChange={handleChange}
       />
 
-      {/* si quieres mostrar rol como select, hazlo igual que tu modal de crear */}
+      <Select name='idRol' value={formData.idRol || ''} onChange={handleChange}>
+        {!formData.idRol && <option value=''>Seleccione un rol</option>}
+
+        {role?.map((rol) => (
+          <option key={rol.id_rol} value={rol.id_rol}>
+            {rol.nombre}
+          </option>
+        ))}
+      </Select>
+
       <Actions>
         <DangerBtn type='button' onClick={handleDelete}>
           Eliminar
@@ -175,4 +194,19 @@ const SaveBtn = styled.button`
   padding: 8px 12px;
   border-radius: 8px;
   cursor: pointer;
+`
+
+const Select = styled.select`
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: none;
+  background-color: ${({ theme }) => theme.bg2};
+  color: ${({ theme }) => theme.text};
+  font-size: ${({ theme }) => theme.fontsm};
+  outline: none;
+  cursor: pointer;
+
+  &:focus {
+    border: 2px solid ${({ theme }) => theme.bg4};
+  }
 `
