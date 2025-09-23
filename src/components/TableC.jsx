@@ -7,7 +7,7 @@ import { useMemo } from 'react'
 import { useThemeStore } from '../hook/useThemeStore'
 import styled from 'styled-components'
 
-export const TableC = ({ data }) => {
+export const TableC = ({ data, onRowClick }) => {
   const { theme } = useThemeStore()
   const columns = useMemo(() => {
     if (!data || data.length === 0) {
@@ -17,10 +17,12 @@ export const TableC = ({ data }) => {
     const firstItem = data[0]
     const keys = Object.keys(firstItem)
 
-    return keys.map((key) => ({
-      header: key.charAt(0).toUpperCase() + key.slice(1),
-      accessorKey: key,
-    }))
+    return keys
+      .filter((key) => key !== 'id')
+      .map((key) => ({
+        header: key.charAt(0).toUpperCase() + key.slice(1),
+        accessorKey: key,
+      }))
   }, [data])
 
   const table = useReactTable({
@@ -48,7 +50,7 @@ export const TableC = ({ data }) => {
 
       <tbody>
         {table.getRowModel().rows.map((row) => (
-          <tr key={row.id}>
+          <tr key={row.id} onClick={() => onRowClick?.(row.original)}>
             {row.getVisibleCells().map((cell) => (
               <td key={cell.id}>
                 {flexRender(cell.column.columnDef.cell, cell.getContext())}

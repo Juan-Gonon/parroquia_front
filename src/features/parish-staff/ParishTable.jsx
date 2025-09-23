@@ -22,7 +22,10 @@ export const ParishTable = () => {
     <Container $themeUse={theme}>
       <section className='table-content'>
         <div className='table-body'>
-          <TableC data={parish} />
+          <TableC
+            data={parish}
+            onRowClick={(rowData) => console.log('Fila clickeada:', rowData)}
+          />
         </div>
         <div className='table-footer'>
           <h1>Footer</h1>

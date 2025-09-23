@@ -15,7 +15,7 @@ export const getAllParishService = async ({ page, limit }) => {
 
     const newData = res.data.data.map((parish) => {
       const {
-        // id_personal,
+        id_personal,
         nombre,
         apellido,
         email,
@@ -33,7 +33,7 @@ export const getAllParishService = async ({ page, limit }) => {
       }
 
       return {
-        // id_personal,
+        id: id_personal,
         nombre,
         apellido,
         email,
