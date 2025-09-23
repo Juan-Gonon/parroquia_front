@@ -32,13 +32,12 @@ export const useParishService = () => {
 
     try {
       const res = await createParishServie({ data: newData })
-      console.log('Parish created:', res)
 
       await getAllParish({ page: 1, limit: 10 })
 
       return res
     } catch (error) {
-      console.log(error)
+      return error || { message: 'Error inesperado' }
     }
   }
 

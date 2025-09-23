@@ -45,11 +45,39 @@ export const ParishModal = () => {
 
     const res = await createParishS({ data: formData })
 
-    if (res) {
+    if (res?.message) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: res.message || 'Ocurrió un error inesperado.',
+        confirmButtonText: 'Reintentar',
+        confirmButtonColor: '#d33',
+        background: '#fff',
+        color: '#333',
+        iconColor: '#d33',
+        showClass: {
+          popup: 'animate__animated animate__shakeX',
+        },
+        hideClass: {
+          popup: 'animate__animated animate__fadeOutUp',
+        },
+      })
+    } else {
       Swal.fire({
         title: 'Personal parroquial creado correctamente',
+        text: 'El registro fue exitoso.',
         icon: 'success',
-        draggable: true,
+        confirmButtonText: 'Aceptar',
+        confirmButtonColor: '#4CAF50', // verde moderno
+        background: '#f9f9f9',
+        color: '#333',
+        iconColor: '#4CAF50',
+        showClass: {
+          popup: 'animate__animated animate__fadeInDown',
+        },
+        hideClass: {
+          popup: 'animate__animated animate__fadeOutUp',
+        },
       })
     }
   }
