@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import {
   createParishServie,
+  deleteParishService,
   getAllParishRolService,
   getAllParishService,
 } from '../service/parishService'
@@ -33,7 +34,7 @@ export const useParishService = () => {
     try {
       const res = await createParishServie({ data: newData })
 
-      await getAllParish({ page: 1, limit: 10 })
+      // await getAllParish({ page: 1, limit: 10 })
 
       return res
     } catch (error) {
@@ -41,11 +42,14 @@ export const useParishService = () => {
     }
   }
 
+  const onDeleteParish = (id) => deleteParishService(id)
+
   return {
     parish,
     role,
     getAllParish,
     getAllParishRol,
     createParishS,
+    onDeleteParish,
   }
 }

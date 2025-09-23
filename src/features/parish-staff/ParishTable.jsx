@@ -23,7 +23,7 @@ export const ParishTable = () => {
       limit: 10,
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [parish])
 
   const handleRowClick = (rowData) => {
     setSelected(rowData)

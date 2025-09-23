@@ -29,7 +29,7 @@ export const EditParishForm = ({ initialData, onSaved, onDeleted }) => {
       return errs
     }
   )
-  const { role, getAllParishRol } = useParishService()
+  const { role, getAllParishRol, onDeleteParish } = useParishService()
 
   // cuando cambie initialData, lo cargamos en el form
   useEffect(() => {
@@ -79,16 +79,27 @@ export const EditParishForm = ({ initialData, onSaved, onDeleted }) => {
       text: 'Esta acción es irreversible',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'Eliminar',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: '#e74c3c',
     })
 
     if (!isConfirmed) return
 
     try {
-      // await deleteParishService(formData.id)
-      // await deleteParishService(formData.id) // <-- implementa esto
-      console.log(formData.id)
-      Swal.fire('Eliminado', 'Registro eliminado', 'success')
+      await onDeleteParish(formData.id)
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Eliminado',
+        text: 'Registro eliminado correctamente',
+        showConfirmButton: false,
+        timer: 1800,
+        timerProgressBar: true,
+        position: 'top-end',
+        toast: true,
+      })
+
       onDeleted?.()
     } catch (err) {
       Swal.fire('Error', err.message || 'No se pudo eliminar', 'error')
