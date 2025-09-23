@@ -7,10 +7,10 @@ export const drawSlice = createSlice({
   },
   reducers: {
     onOpenDraw: (state) => {
-      state.isModelOpen = true
+      state.isDrawOpen = true
     },
     onCloseDraw: (state) => {
-      state.isModelOpen = false
+      state.isDrawOpen = false
     },
   },
 })

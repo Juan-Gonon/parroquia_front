@@ -2,6 +2,8 @@
 import Modal from 'react-modal'
 import { createGlobalStyle } from 'styled-components'
 import styled from 'styled-components'
+import { useUIdraw } from '../hook/useUIdraw'
+import { IoCloseCircleOutline } from 'react-icons/io5'
 
 // accesibilidad (asegúrate que #root exista)
 Modal.setAppElement('#root')
@@ -14,7 +16,7 @@ const DrawerGlobalStyle = createGlobalStyle`
     inset: 0;
     background: rgba(0,0,0,0.45);
     opacity: 0;
-    transition: opacity 200ms ease;
+    transition: opacity .8s ease;
     z-index: 999;
     pointer-events: none;
   }
@@ -46,7 +48,7 @@ const DrawerGlobalStyle = createGlobalStyle`
     margin-left: auto; /* lo pone pegado a la derecha */
     box-shadow: -18px 0 40px rgba(0,0,0,0.35);
     transform: translateX(100%);
-    transition: transform 300ms cubic-bezier(.2,.9,.2,1);
+    transition: transform 2s cubic-bezier(.2,.9,.2,1);
     display: flex;
     flex-direction: column;
     border-radius: 10px;
@@ -74,29 +76,27 @@ const CloseBtn = styled.button`
   background: transparent;
   border: none;
   cursor: pointer;
-  font-size: 18px;
+  font-size: 25px;
 `
 
-export const RightDrawer = ({
-  isOpen,
-  onClose,
-  children,
-  closeTimeoutMS = 300,
-}) => {
+export const RightDrawer = ({ children, closeTimeoutMS = 300 }) => {
+  const { isDrawOpen, closeDraw } = useUIdraw()
   return (
     <>
       <DrawerGlobalStyle />
       <Modal
-        isOpen={isOpen}
-        onRequestClose={onClose}
+        isOpen={isDrawOpen}
+        onRequestClose={closeDraw}
         overlayClassName='drawerOverlay'
         className='drawerContent'
         closeTimeoutMS={closeTimeoutMS}
         shouldCloseOnOverlayClick={true}>
         <div className='drawerInner'>
           <DrawerInner>
-            <CloseBtn onClick={onClose} aria-label='Cerrar'>
-              ✕
+            <CloseBtn onClick={closeDraw} aria-label='Cerrar'>
+              <IconWrapper>
+                <IoCloseCircleOutline />
+              </IconWrapper>
             </CloseBtn>
             {children}
           </DrawerInner>
@@ -105,3 +105,8 @@ export const RightDrawer = ({
     </>
   )
 }
+
+const IconWrapper = styled.span`
+  color: ${({ theme }) => theme.texttertiary};
+  font-size: 1.2em;
+`

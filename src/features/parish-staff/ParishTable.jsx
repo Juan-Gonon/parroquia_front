@@ -5,13 +5,15 @@ import { useParishService } from '../../hook/useParishService'
 import { TableC } from '../../components/TableC'
 import { RightDrawer } from '../../layout/RightDrawer'
 import { EditParishForm } from './EditParishForm'
+import { useUIdraw } from '../../hook/useUIdraw'
 
 export const ParishTable = () => {
   const { theme } = useThemeStore()
   const { getAllParish, parish } = useParishService()
 
   const [selected, setSelected] = useState(null)
-  const [openDrawer, setOpenDrawer] = useState(false)
+  // const [openDrawer, setOpenDrawer] = useState(false)
+  const { closeDraw, openDraw } = useUIdraw()
 
   // console.log(parish)
 
@@ -25,11 +27,11 @@ export const ParishTable = () => {
 
   const handleRowClick = (rowData) => {
     setSelected(rowData)
-    setOpenDrawer(true)
+    openDraw()
   }
 
   const handleClose = () => {
-    setOpenDrawer(false)
+    closeDraw()
     // optional: limpiar selected después de un delay para la animación
     setTimeout(() => setSelected(null), 320)
   }
@@ -47,7 +49,7 @@ export const ParishTable = () => {
         </div>
       </section>
 
-      <RightDrawer isOpen={openDrawer} onClose={handleClose}>
+      <RightDrawer onClose={handleClose}>
         {selected && (
           <EditParishForm
             initialData={selected}
