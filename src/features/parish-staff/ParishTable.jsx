@@ -1,15 +1,14 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import styled from 'styled-components'
 import { useThemeStore } from '../../hook/useThemeStore'
 import { useEffect, useState } from 'react'
-import { useParishService } from '../../hook/useParishService'
 import { TableC } from '../../components/TableC'
 import { RightDrawer } from '../../layout/RightDrawer'
 import { EditParishForm } from './EditParishForm'
 import { useUIdraw } from '../../hook/useUIdraw'
 
-export const ParishTable = () => {
+export const ParishTable = ({ refresh, data }) => {
   const { theme } = useThemeStore()
-  const { getAllParish, parish } = useParishService()
 
   const [selected, setSelected] = useState(null)
   // const [openDrawer, setOpenDrawer] = useState(false)
@@ -18,12 +17,8 @@ export const ParishTable = () => {
   // console.log(parish)
 
   useEffect(() => {
-    getAllParish({
-      page: 1,
-      limit: 10,
-    })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [parish])
+    refresh()
+  }, [])
 
   const handleRowClick = (rowData) => {
     setSelected(rowData)
@@ -36,13 +31,11 @@ export const ParishTable = () => {
     setTimeout(() => setSelected(null), 320)
   }
 
-  const refresh = () => getAllParish({ page: 1, limit: 10 })
-
   return (
     <Container $themeUse={theme}>
       <section className='table-content'>
         <div className='table-body'>
-          <TableC data={parish} onRowClick={handleRowClick} />
+          <TableC data={data} onRowClick={handleRowClick} />
         </div>
         <div className='table-footer'>
           <h1>Footer</h1>

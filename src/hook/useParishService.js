@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-catch */
 import React, { useState } from 'react'
 import {
   createParishServie,
@@ -10,16 +11,20 @@ export const useParishService = () => {
   const [parish, setParish] = useState([])
   const [role, setRole] = useState([])
 
-  const getAllParish = ({ page = 1, limit = 10 }) => {
-    getAllParishService({ page, limit })
-      .then((res) => setParish(res.data))
-      .catch((error) => console.log(error.message))
+  const getAllParish = async ({ page = 1, limit = 10 }) => {
+    try {
+      const res = await getAllParishService({ page, limit })
+      setParish(res.data)
+      return res.data
+    } catch (error) {
+      throw error
+    }
   }
 
   const getAllParishRol = ({ page, limit }) => {
     getAllParishRolService({ page, limit })
       .then((res) => setRole(res.data))
-      .catch((error) => console.log(error.messgae))
+      .catch((error) => error)
   }
 
   const createParishS = async ({ data }) => {

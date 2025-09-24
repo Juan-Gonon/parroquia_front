@@ -12,7 +12,7 @@ import { useForm } from '../../hook/useForm'
 import Swal from 'sweetalert2'
 // import { useThemeStore } from '../../hook/useThemeStore'
 
-export const ParishModal = () => {
+export const ParishModal = ({ onCreated }) => {
   // const { theme } = useThemeStore()
   const { closeModal } = useUiModal()
   const { role, getAllParishRol, createParishS } = useParishService()
@@ -79,6 +79,8 @@ export const ParishModal = () => {
           popup: 'animate__animated animate__fadeOutUp',
         },
       })
+
+      onCreated?.()
     }
   }
 
