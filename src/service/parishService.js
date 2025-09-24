@@ -86,7 +86,9 @@ export const createParishServie = async ({ data }) => {
   try {
     const res = await parishApi.post('/parish-staff', data)
 
-    if (res.status !== 200) return
+    if (res.status !== 200) {
+      throw new Error('No se pudo crear el registro')
+    }
 
     return res.data
   } catch (error) {
@@ -103,6 +105,24 @@ export const deleteParishService = async (id) => {
     const res = await parishApi.delete(`/parish-staff/${id}`)
     if (res.status !== 200) {
       throw new Error('No se pudo eliminar el registro')
+    }
+
+    return res.data
+  } catch (error) {
+    if (error.response && error.response.data && error.response.data.error) {
+      throw new Error(error.response.data.error)
+    }
+
+    throw new Error(error.message || 'Error desconocido')
+  }
+}
+
+export const updateParishService = async ({ data, id }) => {
+  try {
+    const res = await parishApi.put(`/parish-staff/${id}`, data)
+
+    if (res.status !== 200) {
+      throw new Error('No se pudo editar el registro')
     }
 
     return res.data

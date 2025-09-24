@@ -11,7 +11,6 @@ import { MdOutlineHome } from 'react-icons/md'
 import { useParishService } from '../../hook/useParishService'
 
 export const EditParishForm = ({ initialData, onSaved, onDeleted }) => {
-  // inicializa con initialData vacío para no romper
   const { formData, setFormData, handleChange, validate } = useForm(
     {
       nombre: '',
@@ -29,12 +28,11 @@ export const EditParishForm = ({ initialData, onSaved, onDeleted }) => {
       return errs
     }
   )
-  const { role, getAllParishRol, onDeleteParish } = useParishService()
+  const { role, getAllParishRol, onDeleteParish, updateParishS } =
+    useParishService()
 
-  // cuando cambie initialData, lo cargamos en el form
   useEffect(() => {
     if (initialData) {
-      // asegúrate que las keys coincidan con tu form (id, nombre, apellido, ...)
       const foundRole = role.find((r) => r.nombre === initialData.rol)
       setFormData({
         nombre: initialData.nombre ?? '',
@@ -58,15 +56,18 @@ export const EditParishForm = ({ initialData, onSaved, onDeleted }) => {
     e.preventDefault()
     if (!validate()) return
     try {
-      // llama a tu servicio de update
-      // await updateParishService(formData.id, formData)
-      // Simulación: si usas useParishService, llama al método correspondiente aquí
-      // await updateParishService(formData.id, formData) // <-- implementa esto en tus servicios
-      console.log({
-        id: formData.id,
-        formData,
+      await updateParishS({ data: formData, id: formData.id })
+      // Swal.fire('Guardado', 'Datos actualizados correctamente', 'success'
+      Swal.fire({
+        icon: 'success',
+        title: 'Actualizado',
+        text: 'Registro actualizados correctamente',
+        showConfirmButton: false,
+        timer: 1800,
+        timerProgressBar: true,
+        position: 'top-end',
+        toast: true,
       })
-      Swal.fire('Guardado', 'Datos actualizados correctamente', 'success')
       onSaved?.()
     } catch (err) {
       Swal.fire('Error', err.message || 'No se pudo guardar', 'error')

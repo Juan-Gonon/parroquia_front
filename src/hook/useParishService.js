@@ -5,6 +5,7 @@ import {
   deleteParishService,
   getAllParishRolService,
   getAllParishService,
+  updateParishService,
 } from '../service/parishService'
 
 export const useParishService = () => {
@@ -47,6 +48,27 @@ export const useParishService = () => {
     }
   }
 
+  const updateParishS = async ({ data, id }) => {
+    const { nombre, apellido, direccion, email, telefono, idRol } = data
+
+    const newData = { nombre, apellido, idRol }
+
+    if (direccion?.length) newData.direccion = direccion
+    if (email?.length) newData.email = email
+    if (telefono?.length) newData.telefono = telefono
+    try {
+      if (!id) {
+        throw new Error('El id del personal es requerido')
+      }
+
+      const res = await updateParishService({ data: newData, id })
+
+      return res
+    } catch (error) {
+      throw error || { message: 'Error inesperado' }
+    }
+  }
+
   const onDeleteParish = (id) => deleteParishService(id)
 
   return {
@@ -56,5 +78,6 @@ export const useParishService = () => {
     getAllParishRol,
     createParishS,
     onDeleteParish,
+    updateParishS,
   }
 }
