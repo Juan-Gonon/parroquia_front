@@ -62,9 +62,7 @@ export const ParishTable = ({ refresh, data }) => {
             <MinistryParticipationForm
               parishStaffId={selected?.id}
               onSaved={() => {
-                // Aquí podrías mostrar un mensaje de éxito, pero no necesariamente
-                // refrescar la tabla ni cerrar el drawer
-                console.log('Participación en ministerio guardada con éxito')
+                handleClose()
               }}
             />
           </>

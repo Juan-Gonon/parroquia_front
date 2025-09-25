@@ -1,13 +1,14 @@
 /* eslint-disable prettier/prettier */
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useForm } from '../../hook/useForm'
 import { AiOutlineUser } from 'react-icons/ai'
-import { FaRegAddressCard } from 'react-icons/fa'
+import Swal from 'sweetalert2'
 import styled from 'styled-components'
 import { InputField } from '../../components/inputField'
 import { useMinistryService } from '../../hook/useMinistryService'
+import { useMinistryPart } from '../../hook/useMinistryPart'
 
-export const MinistryParticipationForm = ({ parishStaffId }) => {
+export const MinistryParticipationForm = ({ parishStaffId, onSaved }) => {
   const { formData, handleChange, validate } = useForm(
     {
       idPersonal: parishStaffId | null,
@@ -29,6 +30,7 @@ export const MinistryParticipationForm = ({ parishStaffId }) => {
   )
   const { ministry, role, getAllMinistryS, getAllRoleDMinistryS } =
     useMinistryService()
+  const { onCreateMinistyParS } = useMinistryPart()
 
   useEffect(() => {
     return async () => {
@@ -38,10 +40,28 @@ export const MinistryParticipationForm = ({ parishStaffId }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const handleSave = (e) => {
+  const handleSave = async (e) => {
     e.preventDefault()
     if (!validate()) return
-    console.log(formData)
+
+    try {
+      await onCreateMinistyParS({ data: formData })
+
+      onSaved()
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Registro exitoso',
+        text: 'Participacion asignada correctamente',
+        showConfirmButton: false,
+        timer: 1800,
+        timerProgressBar: true,
+        position: 'top-end',
+        toast: true,
+      })
+    } catch (err) {
+      Swal.fire('Error', err.message || 'No se pudo guardar', 'error')
+    }
   }
   const handleDelete = () => {
     console.log(formData)
