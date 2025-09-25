@@ -8,7 +8,7 @@ import { InputField } from '../../components/inputField'
 import { useMinistryService } from '../../hook/useMinistryService'
 
 export const MinistryParticipationForm = ({ parishStaffId }) => {
-  const { formData, handleChange } = useForm(
+  const { formData, handleChange, validate } = useForm(
     {
       idPersonal: parishStaffId | null,
       idMinisterio: '',
@@ -17,20 +17,30 @@ export const MinistryParticipationForm = ({ parishStaffId }) => {
     },
     (values) => {
       const errs = {}
-      if (!values.nombre) errs.nombre = 'El nombre es requerido'
-      if (!values.apellido) errs.apellido = 'El apellido es requerido'
+      if (!values.idPersonal)
+        errs.idPersonal = 'El id del personal es requerido'
+      if (!values.idMinisterio)
+        errs.idMinisterio = 'El id del ministerio es requerido'
+      if (!values.idRol)
+        errs.idRol = 'El id del Rol dentro del ministerio es requerido'
+      if (!values.fechaIni) errs.fechaIni = 'La fecha es requerido'
       return errs
     }
   )
-  const { ministry, getAllMinistryS } = useMinistryService()
+  const { ministry, role, getAllMinistryS, getAllRoleDMinistryS } =
+    useMinistryService()
 
   useEffect(() => {
-    return async () => await getAllMinistryS({ page: 1, limit: 20 })
+    return async () => {
+      await getAllMinistryS({ page: 1, limit: 20 })
+      await getAllRoleDMinistryS({ page: 1, limit: 20 })
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleSave = (e) => {
     e.preventDefault()
+    if (!validate()) return
     console.log(formData)
   }
   const handleDelete = () => {
@@ -54,16 +64,13 @@ export const MinistryParticipationForm = ({ parishStaffId }) => {
         ))}
       </Select>
 
-      <Select
-        name='idMinisterio'
-        value={formData.idMinisterio || ''}
-        onChange={handleChange}>
-        {!formData.idMinisterio && (
-          <option value=''>Seleccione un ministerio</option>
-        )}
-        {ministry?.map((minis) => (
-          <option key={minis.id_ministerio} value={minis.id_ministerio}>
-            {minis.nombre}
+      <Select name='idRol' value={formData.idRol || ''} onChange={handleChange}>
+        {!formData.idRol && <option value=''>Seleccione un rol</option>}
+        {role?.map((rol) => (
+          <option
+            key={rol.id_roldentroministerio}
+            value={rol.id_roldentroministerio}>
+            {rol.nombre}
           </option>
         ))}
       </Select>
