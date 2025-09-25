@@ -6,6 +6,7 @@ import { TableC } from '../../components/TableC'
 import { RightDrawer } from '../../layout/RightDrawer'
 import { EditParishForm } from './EditParishForm'
 import { useUIdraw } from '../../hook/useUIdraw'
+import { MinistryParticipationForm } from './MinistryParticipationForm'
 
 export const ParishTable = ({ refresh, data }) => {
   const { theme } = useThemeStore()
@@ -44,17 +45,29 @@ export const ParishTable = ({ refresh, data }) => {
 
       <RightDrawer onClose={handleClose}>
         {selected && (
-          <EditParishForm
-            initialData={selected}
-            onSaved={() => {
-              refresh()
-              handleClose()
-            }}
-            onDeleted={() => {
-              refresh()
-              handleClose()
-            }}
-          />
+          <>
+            <EditParishForm
+              initialData={selected}
+              onSaved={() => {
+                refresh()
+                handleClose()
+              }}
+              onDeleted={() => {
+                refresh()
+                handleClose()
+              }}
+            />
+            <br />
+            <hr />
+            <MinistryParticipationForm
+              parishStaffId={selected?.id}
+              onSaved={() => {
+                // Aquí podrías mostrar un mensaje de éxito, pero no necesariamente
+                // refrescar la tabla ni cerrar el drawer
+                console.log('Participación en ministerio guardada con éxito')
+              }}
+            />
+          </>
         )}
       </RightDrawer>
     </Container>
