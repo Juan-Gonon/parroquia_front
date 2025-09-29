@@ -1,12 +1,12 @@
 /* eslint-disable prettier/prettier */
 import { useEffect } from 'react'
 import { useForm } from '../../hook/useForm'
-import { AiOutlineUser } from 'react-icons/ai'
 import Swal from 'sweetalert2'
 import styled from 'styled-components'
 import { InputField } from '../../components/inputField'
 import { useMinistryService } from '../../hook/useMinistryService'
 import { useMinistryPart } from '../../hook/useMinistryPart'
+import { CiCalendarDate } from 'react-icons/ci'
 
 export const MinistryParticipationForm = ({ parishStaffId, onSaved }) => {
   const { formData, handleChange, validate } = useForm(
@@ -63,9 +63,7 @@ export const MinistryParticipationForm = ({ parishStaffId, onSaved }) => {
       Swal.fire('Error', err.message || 'No se pudo guardar', 'error')
     }
   }
-  const handleDelete = () => {
-    console.log(formData)
-  }
+
   return (
     <FormContainer onSubmit={handleSave}>
       <Title>¿Quires participar en un Ministerio?</Title>
@@ -96,7 +94,7 @@ export const MinistryParticipationForm = ({ parishStaffId, onSaved }) => {
       </Select>
 
       <InputField
-        icon={AiOutlineUser}
+        icon={CiCalendarDate}
         type='date'
         name='fechaIni'
         placeholder='Fecha de Inicio'
@@ -105,9 +103,6 @@ export const MinistryParticipationForm = ({ parishStaffId, onSaved }) => {
       />
 
       <Actions>
-        <DangerBtn type='button' onClick={handleDelete}>
-          Eliminar
-        </DangerBtn>
         <SaveBtn type='submit'>Guardar</SaveBtn>
       </Actions>
     </FormContainer>

@@ -4,7 +4,7 @@ import { useUiModal } from '../hook/useUiModal'
 
 const customStyles = {
   overlay: {
-    backgroundColor: 'rgba(0, 0, 0, 0.6)', // desvanecido
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
     zIndex: 1000,
   },
   content: {
@@ -15,9 +15,9 @@ const customStyles = {
     marginRight: '-50%',
     transform: 'translate(-50%, -50%)',
     borderRadius: '12px',
-    padding: 0, // 👈 importante, el padding lo maneja tu form
-    border: 'none', // 👈 quitar borde blanco
-    background: 'transparent', // 👈 eliminar fondo blanco
+    padding: 0,
+    border: 'none',
+    background: 'transparent',
   },
 }
 

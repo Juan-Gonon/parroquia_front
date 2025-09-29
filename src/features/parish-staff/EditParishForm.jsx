@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import { useForm } from '../../hook/useForm'
 import { InputField } from '../../components/inputField'
 import { AiOutlineMail, AiOutlinePhone, AiOutlineUser } from 'react-icons/ai'
-import { FaRegAddressCard } from 'react-icons/fa'
+import { FaRegAddressCard, FaRegUserCircle } from 'react-icons/fa'
 import { MdOutlineHome } from 'react-icons/md'
 import { useParishService } from '../../hook/useParishService'
 
@@ -109,7 +109,10 @@ export const EditParishForm = ({ initialData, onSaved, onDeleted }) => {
 
   return (
     <FormContainer onSubmit={handleSave}>
-      <Title>Editar Personal</Title>
+      <Title>
+        <FaRegUserCircle />
+        <h1>Actualizar datos de {`${formData?.nombre}`}</h1>
+      </Title>
 
       <InputField
         icon={AiOutlineUser}
@@ -179,9 +182,14 @@ const FormContainer = styled.form`
   padding-top: 6px;
 `
 
-const Title = styled.h3`
+const Title = styled.div`
   margin: 6px 0 8px;
   color: ${({ theme }) => theme.textprimary};
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
 `
 
 const Actions = styled.div`

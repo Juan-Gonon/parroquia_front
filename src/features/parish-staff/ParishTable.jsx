@@ -28,7 +28,6 @@ export const ParishTable = ({ refresh, data }) => {
 
   const handleClose = () => {
     closeDraw()
-    // optional: limpiar selected después de un delay para la animación
     setTimeout(() => setSelected(null), 320)
   }
 
