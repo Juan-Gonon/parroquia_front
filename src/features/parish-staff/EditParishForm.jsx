@@ -208,12 +208,18 @@ const DangerBtn = styled.button`
   cursor: pointer;
 `
 const SaveBtn = styled.button`
-  background: ${({ theme }) => theme.bg4};
-  color: ${({ theme }) => theme.textsecondary};
-  border: none;
-  padding: 8px 12px;
+  padding: 10px 20px;
   border-radius: 8px;
+  border: none;
+  background-color: ${({ theme }) => theme.bg4};
+  color: ${({ theme }) => theme.textsecondary};
+  font-weight: 600;
   cursor: pointer;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.05);
+  }
 `
 
 const Select = styled.select`
