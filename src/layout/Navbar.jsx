@@ -10,14 +10,13 @@ export const Navbar = ({ children }) => {
 
   return (
     <Container $themeUse={theme}>
-      <Search />
+      {children}
       <ActionsSection>
         <AddButton onClick={openModal}>
           <MdAdd />
           <span>Agregar</span>
         </AddButton>
       </ActionsSection>
-      {children}
     </Container>
   )
 }

@@ -15,6 +15,8 @@ export const ParishTable = ({
   pagination,
   onNextPage,
   onPrevPage,
+  filteringValue,
+  setFiltering,
 }) => {
   const { theme } = useThemeStore()
 
@@ -42,7 +44,12 @@ export const ParishTable = ({
     <Container $themeUse={theme}>
       <section className='table-content'>
         <div className='table-body'>
-          <TableC data={data} onRowClick={handleRowClick} />
+          <TableC
+            data={data}
+            onRowClick={handleRowClick}
+            filteringValue={filteringValue}
+            setFiltering={setFiltering}
+          />
         </div>
         <div className='table-footer'>
           <Footer

@@ -2,12 +2,13 @@ import {
   flexRender,
   getCoreRowModel,
   useReactTable,
+  getFilteredRowModel,
 } from '@tanstack/react-table'
 import { useMemo } from 'react'
 import { useThemeStore } from '../hook/useThemeStore'
 import styled from 'styled-components'
 
-export const TableC = ({ data, onRowClick }) => {
+export const TableC = ({ data, onRowClick, filteringValue, setFiltering }) => {
   const { theme } = useThemeStore()
   const columns = useMemo(() => {
     if (!data || data.length === 0) {
@@ -29,6 +30,11 @@ export const TableC = ({ data, onRowClick }) => {
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    state: {
+      globalFilter: filteringValue,
+    },
+    onGlobalFilterChange: setFiltering,
   })
 
   return (
@@ -69,7 +75,7 @@ const StyledTable = styled.table`
 
   thead {
     position: sticky;
-    top: 0;
+    top: -20px;
     background-color: ${({ theme }) => theme.bg2};
     z-index: 10;
 

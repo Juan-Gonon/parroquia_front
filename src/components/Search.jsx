@@ -1,12 +1,17 @@
 import { IoIosSearch } from 'react-icons/io'
 import styled from 'styled-components'
 
-export const Search = () => {
+export const Search = ({ inputChange, handelChangeInpt }) => {
   return (
     <SearchSection>
       <SearchInputContainer>
         <IoIosSearch />
-        <input type='text' placeholder='Buscar personal...' />
+        <input
+          type='text'
+          placeholder='Buscar personal...'
+          value={inputChange}
+          onChange={handelChangeInpt}
+        />
       </SearchInputContainer>
     </SearchSection>
   )

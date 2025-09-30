@@ -1,12 +1,14 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import styled from 'styled-components'
 import { Navbar } from '../../layout/Navbar'
 import { ParishTable } from '../../features/parish-staff/parishTable'
 import { ParishModal } from '../../features/parish-staff/ParishModal'
 import { useParishService } from '../../hook/useParishService'
+import { Search } from '../../components/Search'
 
 export const ParishPage = () => {
   const { getAllParish, parish, pagination } = useParishService()
+  const [inputChange, setInputChange] = useState('')
 
   const refresh = useCallback(async () => {
     const res = await getAllParish({ page: 1, limit: 10 })
@@ -25,9 +27,14 @@ export const ParishPage = () => {
     }
   }
 
+  const handelChangeInpt = (e) => {
+    setInputChange(e.target.value)
+  }
+
   return (
     <Container>
       <Navbar>
+        <Search value={inputChange} handelChangeInpt={handelChangeInpt} />
         <ParishModal onCreated={refresh} />
       </Navbar>
       <ParishTable
@@ -36,6 +43,8 @@ export const ParishPage = () => {
         pagination={pagination}
         onNextPage={handleNextPage}
         onPrevPage={handlePrevPage}
+        filteringValue={inputChange}
+        setFiltering={setInputChange}
       />
     </Container>
   )

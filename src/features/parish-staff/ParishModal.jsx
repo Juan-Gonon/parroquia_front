@@ -85,78 +85,82 @@ export const ParishModal = ({ onCreated }) => {
   }
 
   return (
-    <ModalForm onAfterClose={resetForm}>
-      <FormContainer onSubmit={handleSubmit}>
-        <Title>Registrar Personal Parroquial</Title>
+    <>
+      <ModalForm onAfterClose={resetForm}>
+        <FormContainer onSubmit={handleSubmit}>
+          <Title>Registrar Personal Parroquial</Title>
 
-        <InputField
-          icon={AiOutlineUser}
-          type='text'
-          name='nombre'
-          placeholder='Nombre'
-          value={formData.nombre}
-          onChange={handleChange}
-        />
-        <ErrorMessage $show={!!errors.nombre}>{errors.nombre}</ErrorMessage>
+          <InputField
+            icon={AiOutlineUser}
+            type='text'
+            name='nombre'
+            placeholder='Nombre'
+            value={formData.nombre}
+            onChange={handleChange}
+          />
+          <ErrorMessage $show={!!errors.nombre}>{errors.nombre}</ErrorMessage>
 
-        <InputField
-          icon={FaRegAddressCard}
-          type='text'
-          name='apellido'
-          placeholder='Apellido'
-          value={formData.apellido}
-          onChange={handleChange}
-        />
-        <ErrorMessage $show={!!errors.apellido}>{errors.apellido}</ErrorMessage>
+          <InputField
+            icon={FaRegAddressCard}
+            type='text'
+            name='apellido'
+            placeholder='Apellido'
+            value={formData.apellido}
+            onChange={handleChange}
+          />
+          <ErrorMessage $show={!!errors.apellido}>
+            {errors.apellido}
+          </ErrorMessage>
 
-        <InputField
-          icon={MdOutlineHome}
-          type='text'
-          name='direccion'
-          placeholder='Dirección'
-          value={formData.direccion}
-          onChange={handleChange}
-        />
+          <InputField
+            icon={MdOutlineHome}
+            type='text'
+            name='direccion'
+            placeholder='Dirección'
+            value={formData.direccion}
+            onChange={handleChange}
+          />
 
-        <InputField
-          icon={AiOutlineMail}
-          type='email'
-          name='email'
-          placeholder='Correo electrónico'
-          value={formData.email}
-          onChange={handleChange}
-        />
+          <InputField
+            icon={AiOutlineMail}
+            type='email'
+            name='email'
+            placeholder='Correo electrónico'
+            value={formData.email}
+            onChange={handleChange}
+          />
 
-        <InputField
-          icon={AiOutlinePhone}
-          type='text'
-          name='telefono'
-          placeholder='Teléfono'
-          value={formData.telefono}
-          onChange={handleChange}
-        />
+          <InputField
+            icon={AiOutlinePhone}
+            type='text'
+            name='telefono'
+            placeholder='Teléfono'
+            value={formData.telefono}
+            onChange={handleChange}
+          />
 
-        <Select name='idRol' value={formData.idRol} onChange={handleChange}>
-          <option value=''>Seleccione un rol</option>
-          {/* <option value='1'>Sacerdote</option>
+          <Select name='idRol' value={formData.idRol} onChange={handleChange}>
+            <option value=''>Seleccione un rol</option>
+            {/* <option value='1'>Sacerdote</option>
           <option value='2'>Catequista</option>
           <option value='3'>Administrador</option> */}
-          {role?.map((rol) => (
-            <option key={rol.id_rol} value={rol.id_rol}>
-              {rol.nombre}
-            </option>
-          ))}
-        </Select>
-        <ErrorMessage $show={!!errors.idRol}>{errors.idRol}</ErrorMessage>
+            {role?.map((rol) => (
+              <option key={rol.id_rol} value={rol.id_rol}>
+                {rol.nombre}
+              </option>
+            ))}
+          </Select>
+          <ErrorMessage $show={!!errors.idRol}>{errors.idRol}</ErrorMessage>
 
-        <Actions>
-          <CancelButton type='button' onClick={closeModal}>
-            Cancelar
-          </CancelButton>
-          <SubmitButton type='submit'>Guardar</SubmitButton>
-        </Actions>
-      </FormContainer>
-    </ModalForm>
+          <Actions>
+            <CancelButton type='button' onClick={closeModal}>
+              Cancelar
+            </CancelButton>
+            <SubmitButton type='submit'>Guardar</SubmitButton>
+          </Actions>
+        </FormContainer>
+      </ModalForm>
+    </>
   )
 }
 
