@@ -6,19 +6,37 @@ import { ParishModal } from '../../features/parish-staff/ParishModal'
 import { useParishService } from '../../hook/useParishService'
 
 export const ParishPage = () => {
-  const { getAllParish, parish } = useParishService()
+  const { getAllParish, parish, pagination } = useParishService()
 
   const refresh = useCallback(async () => {
     const res = await getAllParish({ page: 1, limit: 10 })
     return res
-  }, [getAllParish]) // depende solo de getAllParish
+  }, [getAllParish])
+
+  const handleNextPage = () => {
+    if (pagination.next) {
+      getAllParish({ page: pagination.page + 1, limit: pagination.limit })
+    }
+  }
+
+  const handlePrevPage = () => {
+    if (pagination.prev) {
+      getAllParish({ page: pagination.page - 1, limit: pagination.limit })
+    }
+  }
 
   return (
     <Container>
       <Navbar>
         <ParishModal onCreated={refresh} />
       </Navbar>
-      <ParishTable refresh={refresh} data={parish} />
+      <ParishTable
+        refresh={refresh}
+        data={parish}
+        pagination={pagination}
+        onNextPage={handleNextPage}
+        onPrevPage={handlePrevPage}
+      />
     </Container>
   )
 }

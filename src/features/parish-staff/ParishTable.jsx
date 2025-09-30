@@ -7,8 +7,15 @@ import { RightDrawer } from '../../layout/RightDrawer'
 import { EditParishForm } from './EditParishForm'
 import { useUIdraw } from '../../hook/useUIdraw'
 import { MinistryParticipationForm } from './MinistryParticipationForm'
+import { Footer } from '../../components/Footer'
 
-export const ParishTable = ({ refresh, data }) => {
+export const ParishTable = ({
+  refresh,
+  data,
+  pagination,
+  onNextPage,
+  onPrevPage,
+}) => {
   const { theme } = useThemeStore()
 
   const [selected, setSelected] = useState(null)
@@ -38,7 +45,11 @@ export const ParishTable = ({ refresh, data }) => {
           <TableC data={data} onRowClick={handleRowClick} />
         </div>
         <div className='table-footer'>
-          <h1>Footer</h1>
+          <Footer
+            pagination={pagination}
+            onNextPage={onNextPage}
+            onPrevPage={onPrevPage}
+          />
         </div>
       </section>
 

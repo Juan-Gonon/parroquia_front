@@ -11,11 +11,29 @@ import {
 export const useParishService = () => {
   const [parish, setParish] = useState([])
   const [role, setRole] = useState([])
+  const [pagination, setPagination] = useState({
+    page: 1,
+    limit: 10,
+    total: 0,
+    next: null,
+    prev: null,
+  })
 
-  const getAllParish = async ({ page = 1, limit = 10 }) => {
+  const getAllParish = async ({
+    page = pagination.page,
+    limit = pagination.limit,
+  }) => {
     try {
       const res = await getAllParishService({ page, limit })
       setParish(res.data)
+
+      setPagination({
+        page: res.page,
+        limit: res.limit,
+        total: res.total,
+        next: res.next,
+        prev: res.prev,
+      })
       return res.data
     } catch (error) {
       throw error
@@ -74,6 +92,7 @@ export const useParishService = () => {
   return {
     parish,
     role,
+    pagination,
     getAllParish,
     getAllParishRol,
     createParishS,
