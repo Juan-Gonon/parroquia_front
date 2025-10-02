@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable prettier/prettier */
 
 import React, { useEffect } from 'react'
@@ -30,7 +31,7 @@ export const EditCommunityForm = ({ initialData, onSaved, onDeleted }) => {
       return errs
     }
   )
-  const { updateCommunityS } = useCommunity()
+  const { updateCommunityS, deleteCommnityS } = useCommunity()
 
   // 3. Efecto para Cargar Datos Iniciales
   useEffect(() => {
@@ -65,49 +66,41 @@ export const EditCommunityForm = ({ initialData, onSaved, onDeleted }) => {
       })
       onSaved?.()
     } catch (err) {
-      Swal.fire(
-        'Error',
-        err.message || 'No se pudo guardar la comunidad',
-        'error'
-      )
+      Swal.fire('Error', 'No se pudo guardar la comunidad', 'error')
     }
   }
 
-  // const handleDelete = async () => {
-  //   const { isConfirmed } = await Swal.fire({
-  //     title: '¿Eliminar Comunidad?',
-  //     text: 'Esta acción eliminará la comunidad y es irreversible. ¿Deseas continuar?',
-  //     icon: 'warning',
-  //     showCancelButton: true,
-  //     confirmButtonText: 'Sí, eliminar',
-  //     cancelButtonText: 'Cancelar',
-  //     confirmButtonColor: '#e74c3c',
-  //   })
+  const handleDelete = async () => {
+    const { isConfirmed } = await Swal.fire({
+      title: '¿Eliminar Comunidad?',
+      text: 'Esta acción eliminará la comunidad y es irreversible. ¿Deseas continuar?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: '#e74c3c',
+    })
 
-  //   if (!isConfirmed) return
+    if (!isConfirmed) return
 
-  //   try {
-  //     await onDeleteCommunity(formData.id)
+    try {
+      await deleteCommnityS({ id: initialData?.id_comunidad })
 
-  //     Swal.fire({
-  //       icon: 'success',
-  //       title: 'Eliminado',
-  //       text: 'Comunidad eliminada correctamente',
-  //       showConfirmButton: false,
-  //       timer: 1800,
-  //       timerProgressBar: true,
-  //       position: 'top-end',
-  //       toast: true,
-  //     })
-  //     onDeleted?.()
-  //   } catch (err) {
-  //     Swal.fire(
-  //       'Error',
-  //       err.message || 'No se pudo eliminar la comunidad',
-  //       'error'
-  //     )
-  //   }
-  // }
+      Swal.fire({
+        icon: 'success',
+        title: 'Eliminado',
+        text: 'Comunidad eliminada correctamente',
+        showConfirmButton: false,
+        timer: 1800,
+        timerProgressBar: true,
+        position: 'top-end',
+        toast: true,
+      })
+      onDeleted?.()
+    } catch (err) {
+      Swal.fire('Error', 'No se pudo eliminar la comunidad', 'error')
+    }
+  }
 
   // --- RENDERIZADO ---
 
@@ -190,7 +183,9 @@ export const EditCommunityForm = ({ initialData, onSaved, onDeleted }) => {
 
         {/* Botones de acción */}
         <Actions>
-          <DangerBtn type='button'>Eliminar</DangerBtn>
+          <DangerBtn type='button' onClick={handleDelete}>
+            Eliminar
+          </DangerBtn>
           <SaveBtn type='submit'>
             <AiOutlineMail size={18} style={{ margin: '0' }} /> Guardar Cambios
           </SaveBtn>

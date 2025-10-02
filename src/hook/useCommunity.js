@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import {
   createCommunityService,
+  deleteCommunityService,
   getAllCommunityService,
   updateCommunityService,
 } from '../service/communityService'
@@ -57,10 +58,25 @@ export const useCommunity = () => {
       throw error || { message: 'Error inesperado' }
     }
   }
+
+  const deleteCommnityS = async ({ id }) => {
+    try {
+      if (!id) {
+        throw new Error('El id del personal es requerido')
+      }
+
+      const res = await deleteCommunityService({ id })
+
+      return res
+    } catch (error) {
+      throw error || { message: 'Error inesperado' }
+    }
+  }
   return {
     community,
     getAllCommunityS,
     createCommunityS,
     updateCommunityS,
+    deleteCommnityS,
   }
 }

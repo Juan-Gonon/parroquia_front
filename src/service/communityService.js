@@ -77,7 +77,25 @@ export const updateCommunityService = async ({ id, data }) => {
     const res = await parishApi.put(`/communities/${id}`, data)
 
     if (res.status !== 200) {
-      throw new Error('No se pudo crear el registro')
+      throw new Error('No se pudo actualizar el registro')
+    }
+
+    return res.data
+  } catch (error) {
+    if (error.response && error.response.data && error.response.data.error) {
+      throw new Error(error.response.data.error)
+    }
+
+    throw new Error(error.message || 'Error desconocido')
+  }
+}
+
+export const deleteCommunityService = async ({ id }) => {
+  try {
+    const res = await parishApi.delete(`/communities/${id}`)
+
+    if (res.status !== 200) {
+      throw new Error('No se pudo eliminar el registro')
     }
 
     return res.data
