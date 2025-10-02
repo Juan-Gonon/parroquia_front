@@ -33,7 +33,7 @@ export const ParishPage = () => {
 
   return (
     <Container>
-      <Navbar>
+      <Navbar textBtn='Crear nuevo personal'>
         <Search value={inputChange} handelChangeInpt={handelChangeInpt} />
         <ParishModal onCreated={refresh} />
       </Navbar>

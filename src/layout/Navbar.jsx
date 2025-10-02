@@ -4,7 +4,7 @@ import { MdAdd } from 'react-icons/md'
 import { Search } from '../components/Search'
 import { useUiModal } from '../hook/useUiModal'
 
-export const Navbar = ({ children }) => {
+export const Navbar = ({ children, textBtn }) => {
   const { theme } = useThemeStore()
   const { openModal } = useUiModal()
 
@@ -14,7 +14,7 @@ export const Navbar = ({ children }) => {
       <ActionsSection>
         <AddButton onClick={openModal}>
           <MdAdd />
-          <span>Agregar</span>
+          <span>{textBtn}</span>
         </AddButton>
       </ActionsSection>
     </Container>
@@ -25,7 +25,7 @@ const Container = styled.main`
   position: absolute;
   top: 5px;
   left: 0;
-  width: 100%;
+  width: 99%;
   padding: 0 30px;
   height: ${({ theme }) => theme.navHeight};
   display: flex;

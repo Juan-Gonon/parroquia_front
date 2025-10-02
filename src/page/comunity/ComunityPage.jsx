@@ -16,12 +16,14 @@ export const ComunityPage = () => {
 
   return (
     <Container>
-      <Navbar>
-        <h1>Comunidad de Fe</h1>
-        <p>
-          Donde dos o tres se reúnen en mi nombre, alli estoy yo en medio de
-          ellos <br /> Mateo 18:20
-        </p>
+      <Navbar textBtn='Crear nueva comunidad'>
+        <ContentContainer>
+          <Title>Comunidades de Fe</Title>
+          <Citation>
+            "Donde dos o tres se reúnen en mi nombre, allí estoy yo en medio de
+            ellos." <br /> (Mateo 18:20)
+          </Citation>
+        </ContentContainer>
         <CommunityModal onCreated={refresh} />
       </Navbar>
       <ComunitySection refresh={refresh} data={community} />
@@ -32,6 +34,33 @@ export const ComunityPage = () => {
 const Container = styled.section`
   min-height: 100vh;
   height: 100%;
-  background: aquamarine;
+  /* background: aquamarine; */
   position: relative;
+`
+
+const ContentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-right: auto;
+  padding: 0 10px;
+  align-items: center;
+`
+
+const Title = styled.h1`
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: ${({ theme }) => theme.text};
+  margin: 0;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  /* font-style: italic; */
+`
+
+const Citation = styled.p`
+  font-size: 0.7rem;
+  color: ${({ theme }) => theme.gray400};
+  margin: 0;
+  padding-top: 5px;
+  font-weight: 600;
+  font-style: italic;
 `
