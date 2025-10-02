@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import { CommunityCard } from '../../components/CommunityCard'
 import { useUIdraw } from '../../hook/useUIdraw'
 import { RightDrawer } from '../../layout/RightDrawer'
+import { EditCommunityForm } from './EditCommunityForm'
 
 export const ComunitySection = ({ refresh, data }) => {
   const { theme } = useThemeStore()
@@ -42,7 +43,23 @@ export const ComunitySection = ({ refresh, data }) => {
         </div>
       </section>
 
-      <RightDrawer onClose={handleClose} />
+      <RightDrawer onClose={handleClose}>
+        {selected && (
+          <>
+            <EditCommunityForm
+              initialData={selected}
+              onSaved={() => {
+                refresh()
+                handleClose()
+              }}
+              onDeleted={() => {
+                refresh()
+                handleClose()
+              }}
+            />
+          </>
+        )}
+      </RightDrawer>
     </Container>
   )
 }

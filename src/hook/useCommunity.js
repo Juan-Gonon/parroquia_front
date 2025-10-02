@@ -2,6 +2,7 @@ import { useState } from 'react'
 import {
   createCommunityService,
   getAllCommunityService,
+  updateCommunityService,
 } from '../service/communityService'
 
 export const useCommunity = () => {
@@ -35,9 +36,31 @@ export const useCommunity = () => {
       return error || { message: 'Error inesperado' }
     }
   }
+
+  const updateCommunityS = async ({ id, data }) => {
+    const { telefono, email, ...resData } = data
+
+    const newData = resData
+
+    if (telefono?.length) newData.telefono = telefono
+    if (email?.length) newData.email = email
+
+    try {
+      if (!id) {
+        throw new Error('El id del personal es requerido')
+      }
+
+      const res = await updateCommunityService({ id, data: newData })
+
+      return res
+    } catch (error) {
+      throw error || { message: 'Error inesperado' }
+    }
+  }
   return {
     community,
     getAllCommunityS,
     createCommunityS,
+    updateCommunityS,
   }
 }
