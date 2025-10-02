@@ -12,6 +12,10 @@ export const ComunitySection = ({ refresh, data }) => {
     refresh()
   }, [])
 
+  const handleSelectedClick = (community) => {
+    console.log(community)
+  }
+
   return (
     <Container $theme={theme}>
       <section className='table-content'>
@@ -21,6 +25,7 @@ export const ComunitySection = ({ refresh, data }) => {
               <CommunityCard
                 key={community.id_comunidad}
                 community={community}
+                handleSelectedClick={handleSelectedClick}
               />
             ))}
           </CardsGrid>

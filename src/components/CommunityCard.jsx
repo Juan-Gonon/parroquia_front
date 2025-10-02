@@ -4,13 +4,12 @@ import { FaChurch } from 'react-icons/fa'
 import { AiOutlineMail, AiOutlinePhone } from 'react-icons/ai'
 import { MdLocationOn } from 'react-icons/md'
 
-export const CommunityCard = ({ community }) => {
+export const CommunityCard = ({ community, handleSelectedClick }) => {
   const { nombre, direccion, telefono, email, parroquia } = community
   const theme = useTheme()
 
   const handleDetailsClick = () => {
-    // Lógica para navegar a los detalles
-    console.log(`Ver detalles de la comunidad: ${nombre}`)
+    handleSelectedClick(community)
   }
 
   return (
