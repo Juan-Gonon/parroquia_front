@@ -9,6 +9,7 @@ import { ThemeProvider } from 'styled-components'
 import { useThemeStore } from '../hook/useThemeStore'
 import { Home } from '../page/home/Home'
 import { ParishPage } from '../page/parish-staff/ParishPage'
+import Swal from 'sweetalert2'
 
 export const AppRouter = () => {
   const { status, renewLogin } = useAuthStore()
@@ -25,9 +26,21 @@ export const AppRouter = () => {
   //   }
   // }, [status])
 
-  if (status === 'checking') {
-    return <h3>Cargando...</h3>
-  }
+  useEffect(() => {
+    if (status === 'checking') {
+      Swal.fire({
+        title: 'Verificando sesión...',
+        text: 'Por favor espera un momento',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        didOpen: () => {
+          Swal.showLoading()
+        },
+      })
+    } else {
+      Swal.close()
+    }
+  }, [status])
   return (
     <Routes>
       {status === 'not-authenticated' ? (
