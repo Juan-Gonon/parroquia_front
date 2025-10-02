@@ -4,7 +4,7 @@ import { AiOutlineMail, AiOutlinePhone } from 'react-icons/ai'
 import { MdLocationOn } from 'react-icons/md'
 
 export const CommunityCard = ({ community }) => {
-  const { nombre, direccion, telefono, email } = community
+  const { nombre, direccion, telefono, email, parroquia } = community
   const theme = useTheme()
 
   return (
@@ -18,7 +18,7 @@ export const CommunityCard = ({ community }) => {
 
       <InfoContainer>
         <Header>
-          <ParishText>SANTA CATALINA DE ALEJANDRíA</ParishText>
+          <ParishText>{parroquia}</ParishText>
           <ChurchIcon>
             <FaChurch size='1.2em' color={theme.primary} />
           </ChurchIcon>

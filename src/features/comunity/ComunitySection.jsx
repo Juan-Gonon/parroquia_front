@@ -1,15 +1,25 @@
 import styled from 'styled-components'
 import { useThemeStore } from '../../hook/useThemeStore'
 import { ContentComunity } from './ContentComunity'
+import { useEffect } from 'react'
+import { useCommunity } from '../../hook/useCommunity'
 
 export const ComunitySection = () => {
   const { theme } = useThemeStore()
+  const { getAllCommunityS, community } = useCommunity()
+
+  useEffect(() => {
+    return async () => {
+      await getAllCommunityS({ page: 1, limit: 20 })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <Container $theme={theme}>
       <section className='table-content'>
         <div className='table-body'>
-          <ContentComunity />
+          <ContentComunity data={community} />
         </div>
       </section>
     </Container>
