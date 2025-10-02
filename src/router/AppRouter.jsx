@@ -10,6 +10,7 @@ import { useThemeStore } from '../hook/useThemeStore'
 import { Home } from '../page/home/Home'
 import { ParishPage } from '../page/parish-staff/ParishPage'
 import Swal from 'sweetalert2'
+import { ComunityPage } from '../page/comunity/ComunityPage'
 
 export const AppRouter = () => {
   const { status, renewLogin } = useAuthStore()
@@ -62,7 +63,7 @@ export const AppRouter = () => {
             <Route index element={<Home />} />
             <Route path='home' element={<Home />} />
             <Route path='parish-staff' element={<ParishPage />} />
-            <Route path='communities' element={<h1>comunidad</h1>} />
+            <Route path='communities' element={<ComunityPage />} />
             <Route path='event' element={<h1>Eventos</h1>} />
             <Route path='comunity-leader' element={<h1>Lider</h1>} />
             <Route path='feligreses' element={<h1>Feligres</h1>} />
