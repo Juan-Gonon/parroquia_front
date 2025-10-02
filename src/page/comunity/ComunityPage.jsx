@@ -1,7 +1,14 @@
 import styled from 'styled-components'
+import { Navbar } from '../../layout/Navbar'
+import { ComunitySection } from '../../features/comunity/ComunitySection'
 
 export const ComunityPage = () => {
-  return <Container>ComunityPage</Container>
+  return (
+    <Container>
+      <Navbar></Navbar>
+      <ComunitySection></ComunitySection>
+    </Container>
+  )
 }
 
 const Container = styled.section`
