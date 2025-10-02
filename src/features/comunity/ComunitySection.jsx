@@ -2,18 +2,28 @@
 import styled from 'styled-components'
 import { useThemeStore } from '../../hook/useThemeStore'
 import { ContentComunity } from './ContentComunity'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { CommunityCard } from '../../components/CommunityCard'
+import { useUIdraw } from '../../hook/useUIdraw'
+import { RightDrawer } from '../../layout/RightDrawer'
 
 export const ComunitySection = ({ refresh, data }) => {
   const { theme } = useThemeStore()
+  const [selected, setSelected] = useState(null)
+  const { closeDraw, openDraw } = useUIdraw()
 
   useEffect(() => {
     refresh()
   }, [])
 
   const handleSelectedClick = (community) => {
-    console.log(community)
+    setSelected(community)
+    openDraw()
+  }
+
+  const handleClose = () => {
+    closeDraw()
+    setTimeout(() => setSelected(null), 320)
   }
 
   return (
@@ -31,6 +41,8 @@ export const ComunitySection = ({ refresh, data }) => {
           </CardsGrid>
         </div>
       </section>
+
+      <RightDrawer onClose={handleClose} />
     </Container>
   )
 }
