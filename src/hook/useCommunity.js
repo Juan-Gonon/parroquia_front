@@ -1,5 +1,8 @@
 import { useState } from 'react'
-import { getAllCommunityService } from '../service/communityService'
+import {
+  createCommunityService,
+  getAllCommunityService,
+} from '../service/communityService'
 
 export const useCommunity = () => {
   const [community, setCommunity] = useState([])
@@ -12,11 +15,30 @@ export const useCommunity = () => {
 
       return res
     } catch (error) {
-      throw error | { error: '' }
+      return error || { message: 'Error inesperado' }
+    }
+  }
+
+  const createCommunityS = async ({ data }) => {
+    const { telefono, email, ...resData } = data
+
+    const newData = resData
+
+    if (telefono?.length) newData.telefono = telefono
+    if (email?.length) newData.email = email
+
+    try {
+      const res = await createCommunityService({ data: newData })
+
+      console.log(res)
+      return res
+    } catch (error) {
+      return error || { message: 'Error inesperado' }
     }
   }
   return {
     community,
     getAllCommunityS,
+    createCommunityS,
   }
 }

@@ -1,6 +1,8 @@
 import styled from 'styled-components'
 import { Navbar } from '../../layout/Navbar'
 import { ComunitySection } from '../../features/comunity/ComunitySection'
+import { ParishModal } from '../../features/parish-staff/ParishModal'
+import { CommunityModal } from '../../features/comunity/CommunityModal'
 
 export const ComunityPage = () => {
   return (
@@ -11,6 +13,7 @@ export const ComunityPage = () => {
           Donde dos o tres se reúnen en mi nombre, alli estoy yo en medio de
           ellos <br /> Mateo 18:20
         </p>
+        <CommunityModal />
       </Navbar>
       <ComunitySection></ComunitySection>
     </Container>
