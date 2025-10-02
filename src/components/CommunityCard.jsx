@@ -1,3 +1,4 @@
+import React from 'react'
 import styled, { useTheme } from 'styled-components'
 import { FaChurch } from 'react-icons/fa'
 import { AiOutlineMail, AiOutlinePhone } from 'react-icons/ai'
@@ -6,6 +7,11 @@ import { MdLocationOn } from 'react-icons/md'
 export const CommunityCard = ({ community }) => {
   const { nombre, direccion, telefono, email, parroquia } = community
   const theme = useTheme()
+
+  const handleDetailsClick = () => {
+    // Lógica para navegar a los detalles
+    console.log(`Ver detalles de la comunidad: ${nombre}`)
+  }
 
   return (
     <CardContainer>
@@ -24,55 +30,48 @@ export const CommunityCard = ({ community }) => {
           </ChurchIcon>
         </Header>
 
-        {/* Nombre de la Comunidad */}
         <CommunityName>{nombre}</CommunityName>
 
-        <Details>
-          {/* Dirección */}
-          <DetailItem>
-            <IconWrapper>
-              <MdLocationOn size='1.1em' />
-            </IconWrapper>
-            <div>
-              <Label>Dirección</Label>
+        <ContentWrapper>
+          <Details>
+            <DetailItem>
+              <IconWrapper>
+                <MdLocationOn size='1.4em' />
+              </IconWrapper>
               <Value>{direccion}</Value>
-            </div>
-          </DetailItem>
+            </DetailItem>
 
-          {/* Teléfono */}
-          <DetailItem>
-            <IconWrapper>
-              <AiOutlinePhone size='1.1em' />
-            </IconWrapper>
-            <div>
-              <Label>Teléfono</Label>
+            <DetailItem>
+              <IconWrapper>
+                <AiOutlinePhone size='1.4em' />
+              </IconWrapper>
               <Value>{telefono ?? 'Sin número'}</Value>
-            </div>
-          </DetailItem>
+            </DetailItem>
 
-          {/* Email */}
-          <DetailItem>
-            <IconWrapper>
-              <AiOutlineMail size='1.1em' />
-            </IconWrapper>
-            <div>
-              <Label>Email</Label>
+            <DetailItem>
+              <IconWrapper>
+                <AiOutlineMail size='1.4em' />
+              </IconWrapper>
               <Value>{email ?? 'Sin correo'}</Value>
-            </div>
-          </DetailItem>
-        </Details>
+            </DetailItem>
+          </Details>
+
+          <CardFooter>
+            <DetailsButton onClick={handleDetailsClick}>
+              Ver Detalles
+            </DetailsButton>
+          </CardFooter>
+        </ContentWrapper>
       </InfoContainer>
     </CardContainer>
   )
 }
 
-// --- Styled Components ---
-
 const CardContainer = styled.div`
   display: flex;
   background-color: ${({ theme }) => theme.bgtgderecha};
   border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   overflow: hidden;
   transition: transform 0.2s;
   height: 280px;
@@ -103,6 +102,8 @@ const InfoContainer = styled.div`
   padding: 20px;
   flex-grow: 1;
   width: 60%;
+  display: flex;
+  flex-direction: column;
 `
 
 const Header = styled.div`
@@ -119,39 +120,36 @@ const ParishText = styled.span`
   text-transform: uppercase;
 `
 
-const ChurchIcon = styled.div`
-  /* El ícono de la iglesia ya tiene el color primary */
-`
+const ChurchIcon = styled.div``
 
 const CommunityName = styled.h2`
   font-size: ${({ theme }) => theme.fontlg};
   color: ${({ theme }) => theme.textprimary || theme.text};
-  margin: 0 0 20px 0;
+  margin: 0 0 10px 0;
   font-weight: 700;
+`
+
+const ContentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: space-between;
 `
 
 const Details = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 10px;
 `
 
 const DetailItem = styled.div`
   display: flex;
-  align-items: flex-start;
+  align-items: center;
 `
 
 const IconWrapper = styled.div`
   margin-right: 15px;
-  color: ${({ theme }) => theme.gray500};
-  padding-top: 3px;
-`
-
-const Label = styled.p`
-  font-size: ${({ theme }) => theme.fontsm};
-  color: ${({ theme }) => theme.gray500};
-  margin: 0;
-  line-height: 1.2;
+  color: ${({ theme }) => theme.primary};
 `
 
 const Value = styled.p`
@@ -160,4 +158,27 @@ const Value = styled.p`
   margin: 0;
   font-weight: 500;
   word-break: break-word;
+`
+
+const CardFooter = styled.div`
+  padding-top: 15px;
+  border-top: 1px solid ${({ theme }) => theme.bg3};
+  display: flex;
+  justify-content: flex-end;
+`
+
+const DetailsButton = styled.button`
+  background: none;
+  border: none;
+  color: ${({ theme }) => theme.primary};
+  font-size: ${({ theme }) => theme.fontmd};
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s;
+
+  &:hover {
+    color: ${({ theme }) => theme.primary}cc;
+    text-decoration: underline;
+  }
 `
