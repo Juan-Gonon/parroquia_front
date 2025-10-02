@@ -46,7 +46,7 @@ export const CommunityCard = ({ community }) => {
             </IconWrapper>
             <div>
               <Label>Teléfono</Label>
-              <Value>{telefono}</Value>
+              <Value>{telefono ?? 'Sin número'}</Value>
             </div>
           </DetailItem>
 
@@ -57,7 +57,7 @@ export const CommunityCard = ({ community }) => {
             </IconWrapper>
             <div>
               <Label>Email</Label>
-              <Value>{email}</Value>
+              <Value>{email ?? 'Sin correo'}</Value>
             </div>
           </DetailItem>
         </Details>
