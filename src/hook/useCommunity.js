@@ -30,7 +30,6 @@ export const useCommunity = () => {
     try {
       const res = await createCommunityService({ data: newData })
 
-      console.log(res)
       return res
     } catch (error) {
       return error || { message: 'Error inesperado' }

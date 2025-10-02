@@ -58,8 +58,6 @@ export const createCommunityService = async ({ data }) => {
   try {
     const res = await parishApi.post('/communities', data)
 
-    console.log(res)
-
     if (res.status !== 200) {
       throw new Error('No se pudo crear el registro')
     }

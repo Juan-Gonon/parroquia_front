@@ -1,25 +1,29 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import styled from 'styled-components'
 import { useThemeStore } from '../../hook/useThemeStore'
 import { ContentComunity } from './ContentComunity'
 import { useEffect } from 'react'
-import { useCommunity } from '../../hook/useCommunity'
+import { CommunityCard } from '../../components/CommunityCard'
 
-export const ComunitySection = () => {
+export const ComunitySection = ({ refresh, data }) => {
   const { theme } = useThemeStore()
-  const { getAllCommunityS, community } = useCommunity()
 
   useEffect(() => {
-    return async () => {
-      await getAllCommunityS({ page: 1, limit: 20 })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    refresh()
   }, [])
 
   return (
     <Container $theme={theme}>
       <section className='table-content'>
         <div className='table-body'>
-          <ContentComunity data={community} />
+          <CardsGrid>
+            {data.map((community) => (
+              <CommunityCard
+                key={community.id_comunidad}
+                community={community}
+              />
+            ))}
+          </CardsGrid>
         </div>
       </section>
     </Container>
@@ -59,4 +63,11 @@ const Container = styled.main`
       border-top: 1px solid ${({ theme }) => theme.bg3};
     }
   }
+`
+
+const CardsGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(550px, 1fr));
+  gap: 20px;
+  justify-content: center;
 `
