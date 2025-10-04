@@ -1,9 +1,17 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import styled from 'styled-components'
 import { Navbar } from '../../layout/Navbar'
 import { EventSection } from '../../features/event/EventSection'
+import { useEvent } from '../../hook/useEvent'
 
 export const EventPage = () => {
+  const { events, getAllEventsS } = useEvent()
+
+  const refresh = useCallback(async () => {
+    const res = await getAllEventsS()
+    return res
+  }, [getAllEventsS])
+
   return (
     <Container>
       <Navbar textBtn='Crear nuevo evento'>
@@ -14,7 +22,7 @@ export const EventPage = () => {
           </Citation>
         </ContentContainer>
       </Navbar>
-      <EventSection />
+      <EventSection refresh={refresh} data={events} />
     </Container>
   )
 }

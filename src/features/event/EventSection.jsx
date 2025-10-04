@@ -1,15 +1,21 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import styled from 'styled-components'
 
 import { useThemeStore } from '../../hook/useThemeStore'
 import { CalendarPage } from './CalendarPage'
+import { useEffect } from 'react'
 
-export const EventSection = () => {
+export const EventSection = ({ refresh, data }) => {
   const { theme } = useThemeStore()
+
+  useEffect(() => {
+    refresh()
+  }, [])
   return (
     <Container $theme={theme}>
       <section className='table-content'>
         <div className='table-body'>
-          <CalendarPage />
+          <CalendarPage data={data} />
         </div>
       </section>
     </Container>
