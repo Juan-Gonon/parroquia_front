@@ -1,13 +1,16 @@
 import styled from 'styled-components'
 
 import { useThemeStore } from '../../hook/useThemeStore'
+import { CalendarPage } from './CalendarPage'
 
 export const EventSection = () => {
   const { theme } = useThemeStore()
   return (
     <Container $theme={theme}>
       <section className='table-content'>
-        <div className='table-body'></div>
+        <div className='table-body'>
+          <CalendarPage />
+        </div>
       </section>
     </Container>
   )
@@ -33,6 +36,8 @@ const Container = styled.main`
     .table-body {
       overflow-y: auto;
       padding: 20px;
+      background-color: ${({ theme }) => theme.bgtgderecha};
+      color: ${({ theme }) => theme.text};
     }
 
     .table-footer {
