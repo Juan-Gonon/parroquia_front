@@ -12,6 +12,7 @@ import { CiCalendarDate } from 'react-icons/ci'
 import { MdEventAvailable } from 'react-icons/md'
 import { useEffect } from 'react'
 import { useEvent } from '../../hook/useEvent'
+import { useParishService } from '../../hook/useParishService'
 // import { useEventType } from '../../hook/useEventType'
 // import { useCelebrant } from '../../hook/useCelebrant'
 
@@ -43,6 +44,7 @@ export const EventModal = ({ onCreated }) => {
     }
   )
 
+  const { parish, getAllParish } = useParishService()
   const { evType, getAllEventTypeS, createEventS } = useEvent()
 
   useEffect(() => {
@@ -54,6 +56,12 @@ export const EventModal = ({ onCreated }) => {
   useEffect(() => {
     return async () => {
       await getAllEventTypeS()
+    }
+  }, [])
+
+  useEffect(() => {
+    return async () => {
+      await getAllParish({ page: 1, limit: 50 })
     }
   }, [])
 
@@ -92,6 +100,8 @@ export const EventModal = ({ onCreated }) => {
     //   onCreated?.()
     // }
   }
+
+  console.log(parish)
 
   return (
     <ModalForm onAfterClose={resetForm}>
@@ -218,8 +228,14 @@ export const EventModal = ({ onCreated }) => {
           value={formData.idCelebrante}
           onChange={handleChange}>
           <option value=''>Seleccionar celebrante</option>
-          <option value='1'>P. Juan Pérez</option>
-          <option value='2'>P. Carlos Gómez</option>
+          {/* <option value='1'>P. Juan Pérez</option>
+          <option value='2'>P. Carlos Gómez</option> */}
+
+          {parish?.map((pari) => (
+            <option key={pari.id} value={pari.id}>
+              {`${pari.nombre} ${pari.apellido} --  (${pari.rol})`}
+            </option>
+          ))}
         </Select>
 
         <Actions>
