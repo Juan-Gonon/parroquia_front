@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { Navbar } from '../../layout/Navbar'
 import { EventSection } from '../../features/event/EventSection'
 import { useEvent } from '../../hook/useEvent'
+import { EventModal } from '../../features/event/EventModal'
 
 export const EventPage = () => {
   const { events, getAllEventsS } = useEvent()
@@ -21,6 +22,7 @@ export const EventPage = () => {
             "El señor es mi pastor, name me falta." <br /> (Salmo 23:1)
           </Citation>
         </ContentContainer>
+        <EventModal onCreated={refresh} />
       </Navbar>
       <EventSection refresh={refresh} data={events} />
     </Container>
