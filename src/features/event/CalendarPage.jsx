@@ -27,6 +27,8 @@ export const CalendarPage = ({ data }) => {
     localStorage.getItem('lastView') || 'month'
   )
 
+  const [currentDate, setCurrentDate] = useState(new Date())
+
   const onViewChanged = (e) => {
     // console.log(e)
     localStorage.setItem('lastView', e)
@@ -34,6 +36,8 @@ export const CalendarPage = ({ data }) => {
   }
 
   // console.log(data)
+
+  const onNavigate = (newDate /*action */) => setCurrentDate(newDate)
 
   return (
     <Calendar
@@ -49,6 +53,8 @@ export const CalendarPage = ({ data }) => {
       onView={onViewChanged}
       defaultView={lastView}
       view={lastView}
+      date={currentDate}
+      onNavigate={onNavigate}
     />
   )
 }
