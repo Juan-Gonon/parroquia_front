@@ -33,10 +33,24 @@ export const useEvent = () => {
       return error || { message: 'Error inesperado' }
     }
   }
+
+  const createEventS = async ({ data }) => {
+    const { descripcion, fechaFin, nombre_celebrante_externo, ...rest } = data
+
+    const newData = rest
+
+    if (descripcion?.length) newData.descripcion = descripcion
+    if (fechaFin?.length) newData.fechaFin = fechaFin
+    if (nombre_celebrante_externo?.length)
+      newData.nombrecelebranteexterno = nombre_celebrante_externo
+
+    console.log(newData)
+  }
   return {
     events,
     evType,
     getAllEventsS,
     getAllEventTypeS,
+    createEventS,
   }
 }

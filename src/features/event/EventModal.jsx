@@ -43,7 +43,7 @@ export const EventModal = ({ onCreated }) => {
     }
   )
 
-  const { evType, getAllEventTypeS } = useEvent()
+  const { evType, getAllEventTypeS, createEventS } = useEvent()
 
   useEffect(() => {
     return async () => {
@@ -62,7 +62,7 @@ export const EventModal = ({ onCreated }) => {
 
     if (!validate()) return
 
-    console.log(formData)
+    await createEventS({ data: formData })
 
     closeModal()
 
