@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import {
+  createEventService,
   getAllEventService,
   getAllEventTypeService,
 } from '../service/eventService'
@@ -44,7 +45,15 @@ export const useEvent = () => {
     if (nombre_celebrante_externo?.length)
       newData.nombrecelebranteexterno = nombre_celebrante_externo
 
-    console.log(newData)
+    try {
+      const res = await createEventService({ data: newData })
+
+      // await getAllParish({ page: 1, limit: 10 })
+
+      return res
+    } catch (error) {
+      return error || { message: 'Error inesperado' }
+    }
   }
   return {
     events,

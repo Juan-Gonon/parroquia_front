@@ -70,38 +70,34 @@ export const EventModal = ({ onCreated }) => {
 
     if (!validate()) return
 
-    await createEventS({ data: formData })
-
     closeModal()
 
-    // const res = await createEvent({ data: formData })
-    // if (res?.message) {
-    //   Swal.fire({
-    //     icon: 'error',
-    //     title: 'Oops...',
-    //     text: res.message || 'Ocurrió un error inesperado.',
-    //     confirmButtonText: 'Reintentar',
-    //     confirmButtonColor: '#d33',
-    //     background: '#fff',
-    //     color: '#333',
-    //     iconColor: '#d33',
-    //   })
-    // } else {
-    //   Swal.fire({
-    //     title: 'Evento creado correctamente',
-    //     text: 'El registro fue exitoso.',
-    //     icon: 'success',
-    //     confirmButtonText: 'Aceptar',
-    //     confirmButtonColor: '#4CAF50',
-    //     background: '#f9f9f9',
-    //     color: '#333',
-    //     iconColor: '#4CAF50',
-    //   })
-    //   onCreated?.()
-    // }
+    const res = await createEventS({ data: formData })
+    if (res?.message) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Ocurrió un error inesperado.',
+        confirmButtonText: 'Reintentar',
+        confirmButtonColor: '#d33',
+        background: '#fff',
+        color: '#333',
+        iconColor: '#d33',
+      })
+    } else {
+      Swal.fire({
+        title: 'Evento creado correctamente',
+        text: 'El registro fue exitoso.',
+        icon: 'success',
+        confirmButtonText: 'Aceptar',
+        confirmButtonColor: '#4CAF50',
+        background: '#f9f9f9',
+        color: '#333',
+        iconColor: '#4CAF50',
+      })
+      onCreated?.()
+    }
   }
-
-  console.log(parish)
 
   return (
     <ModalForm onAfterClose={resetForm}>
