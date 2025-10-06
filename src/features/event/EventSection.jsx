@@ -3,21 +3,62 @@ import styled from 'styled-components'
 
 import { useThemeStore } from '../../hook/useThemeStore'
 import { CalendarPage } from './CalendarPage'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { useUIdraw } from '../../hook/useUIdraw'
+import { RightDrawer } from '../../layout/RightDrawer'
+import { EditEventForm } from './EditEventForm'
 
 export const EventSection = ({ refresh, data }) => {
   const { theme } = useThemeStore()
+  const [selected, setSelected] = useState(null)
+  const { closeDraw, openDraw } = useUIdraw()
+
+  const handleSelectedClick = (event) => {
+    setSelected(event)
+  }
+
+  const handleClose = () => {
+    closeDraw()
+    setTimeout(() => setSelected(null), 320)
+  }
+
+  const onDoubleClickOpenDraw = () => {
+    openDraw()
+  }
 
   useEffect(() => {
     refresh()
   }, [])
+
+  console.log(selected)
   return (
     <Container $theme={theme}>
       <section className='table-content'>
         <div className='table-body'>
-          <CalendarPage data={data} />
+          <CalendarPage
+            data={data}
+            handleSelectedClick={handleSelectedClick}
+            onDoubleClick={onDoubleClickOpenDraw}
+          />
         </div>
       </section>
+      <RightDrawer onClose={handleClose}>
+        {selected && (
+          <>
+            <EditEventForm
+              initialData={selected}
+              onSaved={() => {
+                refresh()
+                handleClose()
+              }}
+              onDeleted={() => {
+                refresh()
+                handleClose()
+              }}
+            />
+          </>
+        )}
+      </RightDrawer>
     </Container>
   )
 }

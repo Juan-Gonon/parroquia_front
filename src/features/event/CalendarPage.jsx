@@ -22,7 +22,7 @@ const eventStyleGetter = (event) => {
 }
 
 // const newEvents = convertEventsToDateEvents(myEventsList)
-export const CalendarPage = ({ data }) => {
+export const CalendarPage = ({ data, handleSelectedClick, onDoubleClick }) => {
   const [lastView, setLastView] = useState(
     localStorage.getItem('lastView') || 'month'
   )
@@ -55,6 +55,8 @@ export const CalendarPage = ({ data }) => {
       view={lastView}
       date={currentDate}
       onNavigate={onNavigate}
+      onSelectEvent={handleSelectedClick}
+      onDoubleClickEvent={onDoubleClick}
     />
   )
 }
