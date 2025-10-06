@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import styled from 'styled-components'
 import { useThemeStore } from '../../hook/useThemeStore'
 import { useEffect, useState } from 'react'
@@ -23,9 +24,9 @@ export const MinistersTable = ({
 
   // console.log(parish)
 
-  // useEffect(() => {
-  //   refresh()
-  // }, [])
+  useEffect(() => {
+    refresh()
+  }, [])
 
   const handleRowClick = (rowData) => {
     setSelected(rowData)
@@ -37,16 +38,18 @@ export const MinistersTable = ({
     setTimeout(() => setSelected(null), 320)
   }
 
+  // console.log(selected)
+
   return (
     <Container $themeUse={theme}>
       <section className='table-content'>
         <div className='table-body'>
-          {/* <TableC
+          <TableC
             data={data}
             onRowClick={handleRowClick}
             filteringValue={filteringValue}
             setFiltering={setFiltering}
-          /> */}
+          />
         </div>
         <div className='table-footer'>
           <Footer
