@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import {
   createEventService,
+  deleteEventService,
   getAllEventService,
   getAllEventTypeService,
   updateEventService,
@@ -79,6 +80,20 @@ export const useEvent = () => {
       throw error || { message: 'Error inesperado' }
     }
   }
+
+  const deleteEventS = async ({ id }) => {
+    try {
+      if (!id) {
+        throw new Error('El id del personal es requerido')
+      }
+
+      const res = await deleteEventService({ id })
+
+      return res
+    } catch (error) {
+      throw error || { message: 'Error inesperado' }
+    }
+  }
   return {
     events,
     evType,
@@ -86,5 +101,6 @@ export const useEvent = () => {
     getAllEventTypeS,
     createEventS,
     updateEventS,
+    deleteEventS,
   }
 }

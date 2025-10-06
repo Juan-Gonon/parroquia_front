@@ -71,3 +71,21 @@ export const updateEventService = async ({ data, id }) => {
     throw new Error(error.message || 'Error desconocido')
   }
 }
+
+export const deleteEventService = async ({ id }) => {
+  try {
+    const res = await parishApi.delete(`/event/${id}`)
+
+    if (res.status !== 200) {
+      throw new Error('No se pudo eliminar el evento')
+    }
+
+    return res.data
+  } catch (error) {
+    if (error.response && error.response.data && error.response.data.error) {
+      throw new Error(error.response.data.error)
+    }
+
+    throw new Error(error.message || 'Error desconocido')
+  }
+}
