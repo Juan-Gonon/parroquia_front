@@ -3,15 +3,12 @@ import parishApi from '../api/api'
 export const getAllParishService = async ({ page, limit }) => {
   try {
     const res = await parishApi.get('/parish-staff', {
-      params: {
-        page,
-        limit,
-      },
+      params: { page, limit },
     })
 
-    if (res.status !== 200) return
-
-    // const { data, limit, next, page, prev, total } = res.data
+    if (res.status !== 200) {
+      throw new Error(`Error: ${res.status}`)
+    }
 
     const newData = res.data.data.map((parish) => {
       const {
@@ -22,15 +19,18 @@ export const getAllParishService = async ({ page, limit }) => {
         direccion,
         telefono,
         personal_rol,
+        participacionministerio,
       } = parish
-      let rol = null
-      let descripcion = null
 
-      if (personal_rol.length > 0) {
-        const { rolpersonal } = personal_rol[0]
-        rol = rolpersonal.nombre
-        descripcion = rolpersonal.descripcion
-      }
+      const rol = personal_rol[0]?.rolpersonal?.nombre || null
+      const descripcion = personal_rol[0]?.rolpersonal?.descripcion || null
+
+      const ministerio = participacionministerio.length
+        ? participacionministerio
+            .map((p) => p?.ministerio?.nombre)
+            .filter(Boolean)
+            .join(', ')
+        : null
 
       return {
         id: id_personal,
@@ -41,6 +41,7 @@ export const getAllParishService = async ({ page, limit }) => {
         telefono,
         rol,
         descripcion,
+        ministerio,
       }
     })
 
@@ -53,11 +54,9 @@ export const getAllParishService = async ({ page, limit }) => {
       total: res.data.total,
     }
   } catch (error) {
-    if (error.response && error.response.data && error.response.data.error) {
-      throw new Error(error.response.data.error)
-    }
-
-    throw new Error(error.message || 'Error desconocido')
+    const message =
+      error.response?.data?.error || error.message || 'Error desconocido'
+    throw new Error(message)
   }
 }
 
