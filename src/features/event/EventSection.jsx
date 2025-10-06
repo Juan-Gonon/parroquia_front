@@ -30,7 +30,7 @@ export const EventSection = ({ refresh, data }) => {
     refresh()
   }, [])
 
-  console.log(selected)
+  // console.log(selected)
   return (
     <Container $theme={theme}>
       <section className='table-content'>

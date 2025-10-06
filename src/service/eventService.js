@@ -53,3 +53,21 @@ export const createEventService = async ({ data }) => {
     throw new Error(error.message || 'Error desconocido')
   }
 }
+
+export const updateEventService = async ({ data, id }) => {
+  try {
+    const res = await parishApi.put(`/event/${id}`, data)
+
+    if (res.status !== 200) {
+      throw new Error('No se pudo actualizar el evento')
+    }
+
+    return res.data
+  } catch (error) {
+    if (error.response && error.response.data && error.response.data.error) {
+      throw new Error(error.response.data.error)
+    }
+
+    throw new Error(error.message || 'Error desconocido')
+  }
+}
