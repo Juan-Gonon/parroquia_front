@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import {
   createCommunityLeadersService,
+  deleteCommunityLeadersService,
   getAllCommunityLeadersService,
+  updateCommunityLeadersService,
 } from '../service/ministersService'
 
 export const useMinisters = () => {
@@ -56,14 +58,31 @@ export const useMinisters = () => {
   }
 
   const updateMinistersS = async ({ data, id }) => {
-    console.log({
-      data,
-      id,
-    })
+    const { fechaFin, ...rest } = data
+
+    const newData = rest
+
+    if (fechaFin?.length) newData.fechaFin = fechaFin
+
+    try {
+      const res = await updateCommunityLeadersService({ data: newData, id })
+
+      return res.data
+    } catch (error) {
+      throw error || { message: 'No se puede actualizar el registro' }
+    }
   }
 
   const deleteMinistersS = async ({ id }) => {
-    console.log(id)
+    try {
+      if (!id) new Error('Se requiere el id para completar la accion')
+
+      const res = await deleteCommunityLeadersService({ id })
+
+      return res.data
+    } catch (error) {
+      throw error || { message: 'No se puede actualizar el registro' }
+    }
   }
   return {
     ministers,

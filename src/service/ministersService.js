@@ -70,3 +70,39 @@ export const createCommunityLeadersService = async ({ data }) => {
     throw new Error(error.message || 'Error desconocido')
   }
 }
+
+export const updateCommunityLeadersService = async ({ data, id }) => {
+  try {
+    const res = await parishApi.put(`/comunity-leader/${id}`, data)
+
+    if (res.status !== 200 && res.status !== 201) {
+      throw new Error('No se pudo actualizar el registro')
+    }
+
+    return res.data
+  } catch (error) {
+    if (error.response && error.response.data && error.response.data.error) {
+      throw new Error(error.response.data.error)
+    }
+
+    throw new Error(error.message || 'Error desconocido')
+  }
+}
+
+export const deleteCommunityLeadersService = async ({ id }) => {
+  try {
+    const res = await parishApi.delete(`/comunity-leader/${id}`)
+
+    if (res.status !== 200 && res.status !== 201) {
+      throw new Error('No se pudo actualizar el registro')
+    }
+
+    return res.data
+  } catch (error) {
+    if (error.response && error.response.data && error.response.data.error) {
+      throw new Error(error.response.data.error)
+    }
+
+    throw new Error(error.message || 'Error desconocido')
+  }
+}
