@@ -7,12 +7,29 @@ import { useMinisters } from '../../hook/useMinisters'
 import { MinistersModal } from '../../features/ministers/MinistersModal'
 
 export const MinistersPage = () => {
-  const { ministers, getAllMinisters } = useMinisters()
+  const { ministers, getAllMinisters, pagination } = useMinisters()
+  const [inputChange, setInputChange] = useState('')
 
   const refresh = useCallback(async () => {
     const res = await getAllMinisters({ page: 1, limit: 10 })
     return res
   }, [getAllMinisters])
+
+  const handleNextPage = () => {
+    if (pagination.next) {
+      getAllMinisters({ page: pagination.page + 1, limit: pagination.limit })
+    }
+  }
+
+  const handlePrevPage = () => {
+    if (pagination.prev) {
+      getAllMinisters({ page: pagination.page - 1, limit: pagination.limit })
+    }
+  }
+
+  const handelChangeInpt = (e) => {
+    setInputChange(e.target.value)
+  }
   return (
     <Container>
       <Navbar textBtn='Crear nuevo Ministro'>
@@ -22,10 +39,18 @@ export const MinistersPage = () => {
             "El señor es mi pastor, name me falta." <br /> (Salmo 23:1)
           </Citation>
         </ContentContainer>
-        <Search />
+        <Search value={inputChange} handelChangeInpt={handelChangeInpt} />
         <MinistersModal onCreated={refresh} />
       </Navbar>
-      <MinistersTable refresh={refresh} data={ministers} />
+      <MinistersTable
+        refresh={refresh}
+        data={ministers}
+        pagination={pagination}
+        onNextPage={handleNextPage}
+        onPrevPage={handlePrevPage}
+        filteringValue={inputChange}
+        setFiltering={setInputChange}
+      />
     </Container>
   )
 }

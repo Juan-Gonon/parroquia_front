@@ -45,7 +45,6 @@ export const useMinisters = () => {
     const newData = rest
 
     if (fechaFin?.length) newData.fechaFin = fechaFin
-
     try {
       const res = await createCommunityLeadersService({ data: newData })
 
@@ -86,6 +85,7 @@ export const useMinisters = () => {
   }
   return {
     ministers,
+    pagination,
     getAllMinisters,
     createLeaderS,
     updateMinistersS,
