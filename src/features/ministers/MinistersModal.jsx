@@ -12,10 +12,11 @@ import { CiCalendarDate } from 'react-icons/ci'
 import { useCommunity } from '../../hook/useCommunity'
 import { useParishService } from '../../hook/useParishService'
 import { useEffect } from 'react'
+import { useMinisters } from '../../hook/useMinisters'
+import { FaChurch } from 'react-icons/fa'
 
 export const MinistersModal = ({ onCreated }) => {
   const { closeModal } = useUiModal()
-  // const { createLider } = useLider()
   const { formData, errors, handleChange, validate, resetForm } = useForm(
     {
       idPersonal: '',
@@ -39,6 +40,7 @@ export const MinistersModal = ({ onCreated }) => {
   )
   const { getAllCommunityS, community } = useCommunity()
   const { parish, getAllParish } = useParishService()
+  const { createLeaderS } = useMinisters()
 
   useEffect(() => {
     return async () => {
@@ -58,37 +60,46 @@ export const MinistersModal = ({ onCreated }) => {
 
     closeModal()
 
-    // const res = await createLider({ data: formData })
-    // if (res?.message) {
-    //   Swal.fire({
-    //     icon: 'error',
-    //     title: 'Oops...',
-    //     text: res.message || 'Ocurrió un error inesperado.',
-    //     confirmButtonText: 'Reintentar',
-    //     confirmButtonColor: '#d33',
-    //     background: '#fff',
-    //     color: '#333',
-    //     iconColor: '#d33',
-    //   })
-    // } else {
-    //   Swal.fire({
-    //     title: 'Líder registrado correctamente',
-    //     text: 'El registro fue exitoso.',
-    //     icon: 'success',
-    //     confirmButtonText: 'Aceptar',
-    //     confirmButtonColor: '#4CAF50',
-    //     background: '#f9f9f9',
-    //     color: '#333',
-    //     iconColor: '#4CAF50',
-    //   })
-    //   onCreated?.()
-    // }
+    const res = await createLeaderS({ data: formData })
+
+    if (res?.message) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: res.message || 'Ocurrió un error inesperado.',
+        confirmButtonText: 'Reintentar',
+        confirmButtonColor: '#d33',
+        background: '#fff',
+        color: '#333',
+        iconColor: '#d33',
+      })
+    } else {
+      Swal.fire({
+        title: 'Líder registrado correctamente',
+        text: 'El registro fue exitoso.',
+        icon: 'success',
+        confirmButtonText: 'Aceptar',
+        confirmButtonColor: '#4CAF50',
+        background: '#f9f9f9',
+        color: '#333',
+        iconColor: '#4CAF50',
+      })
+      onCreated?.()
+    }
   }
 
   return (
     <ModalForm onAfterClose={resetForm}>
       <FormContainer onSubmit={handleSubmit}>
-        <Title>Registrar Ministro o Líder</Title>
+        <Header>
+          <TitleIconContainer>
+            <MdOutlineLeaderboard size='2em' color='#3498db' />
+          </TitleIconContainer>
+          <HeaderContent>
+            <h2>Crea un nuevo Ministro</h2>
+            <p> "El Señor es mi pastor, nada me falta." - (Salmo 23:1)</p>
+          </HeaderContent>
+        </Header>
 
         <Select
           name='idPersonal'
@@ -278,4 +289,40 @@ const ErrorMessage = styled.p`
   align-items: center;
   opacity: ${({ $show }) => ($show ? 1 : 0)};
   transition: opacity 0.2s ease-in-out;
+`
+
+const Header = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 15px 20px;
+  border-bottom: 1px solid #eee;
+  /* background-color: #fcfcfc; */
+  gap: 15px;
+`
+
+const TitleIconContainer = styled.div`
+  background-color: ${({ theme }) => theme.bg3};
+  padding: 8px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+
+const HeaderContent = styled.div`
+  flex-grow: 1;
+
+  h2 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: ${({ theme }) => theme.textprimary || '#333'};
+    margin: 0;
+  }
+
+  p {
+    font-size: 0.8rem;
+    color: ${({ theme }) => theme.gray500};
+    margin: 0;
+    font-weight: 400;
+  }
 `

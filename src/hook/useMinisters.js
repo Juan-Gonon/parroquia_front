@@ -1,5 +1,8 @@
 import { useState } from 'react'
-import { getAllCommunityLeadersService } from '../service/ministersService'
+import {
+  createCommunityLeadersService,
+  getAllCommunityLeadersService,
+} from '../service/ministersService'
 
 export const useMinisters = () => {
   const [ministers, setMinisters] = useState([])
@@ -33,8 +36,27 @@ export const useMinisters = () => {
       throw error || { message: 'Error inesperado' }
     }
   }
+
+  const createLeaderS = async ({ data }) => {
+    const { fechaFin, ...rest } = data
+
+    const newData = rest
+
+    if (fechaFin?.length) newData.fechaFin = fechaFin
+
+    try {
+      const res = await createCommunityLeadersService({ data: newData })
+
+      // await getAllParish({ page: 1, limit: 10 })
+
+      return res
+    } catch (error) {
+      return error || { message: 'Error inesperado' }
+    }
+  }
   return {
     ministers,
     getAllMinisters,
+    createLeaderS,
   }
 }
