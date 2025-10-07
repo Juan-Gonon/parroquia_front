@@ -19,7 +19,7 @@ export const TableC = ({ data, onRowClick, filteringValue, setFiltering }) => {
     const keys = Object.keys(firstItem)
 
     return keys
-      .filter((key) => key !== 'id')
+      .filter((key) => !key.startsWith('id'))
       .map((key) => ({
         header: key.charAt(0).toUpperCase() + key.slice(1),
         accessorKey: key,
