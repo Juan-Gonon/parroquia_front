@@ -13,7 +13,7 @@ import { useCommunity } from '../../hook/useCommunity'
 import { useParishService } from '../../hook/useParishService'
 import { useEffect } from 'react'
 import { useMinisters } from '../../hook/useMinisters'
-import { FaChurch } from 'react-icons/fa'
+import { FaChurch, FaUserTie } from 'react-icons/fa'
 
 export const MinistersModal = ({ onCreated }) => {
   const { closeModal } = useUiModal()
@@ -93,7 +93,7 @@ export const MinistersModal = ({ onCreated }) => {
       <FormContainer onSubmit={handleSubmit}>
         <Header>
           <TitleIconContainer>
-            <MdOutlineLeaderboard size='2em' color='#3498db' />
+            <FaUserTie size='2em' color='#3498db' />
           </TitleIconContainer>
           <HeaderContent>
             <h2>Crea un nuevo Ministro</h2>

@@ -6,6 +6,7 @@ import { TableC } from '../../components/TableC'
 import { RightDrawer } from '../../layout/RightDrawer'
 import { useUIdraw } from '../../hook/useUIdraw'
 import { Footer } from '../../components/Footer'
+import { EditLiderForm } from './EditMinistersForm'
 
 export const MinistersTable = ({
   refresh,
@@ -63,7 +64,19 @@ export const MinistersTable = ({
       <RightDrawer onClose={handleClose}>
         {selected && (
           <>
-            <h1>Ministers seleccionado</h1>
+            <EditLiderForm
+              initialData={selected}
+              onSaved={() => {
+                refresh()
+                handleClose()
+              }}
+              onDeleted={() => {
+                refresh()
+                handleClose()
+              }}
+            />
+
+            {/* <h1>Hola</h1> */}
           </>
         )}
       </RightDrawer>

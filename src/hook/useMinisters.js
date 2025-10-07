@@ -54,9 +54,22 @@ export const useMinisters = () => {
       return error || { message: 'Error inesperado' }
     }
   }
+
+  const updateMinistersS = async ({ data, id }) => {
+    console.log({
+      data,
+      id,
+    })
+  }
+
+  const deleteMinistersS = async ({ id }) => {
+    console.log(id)
+  }
   return {
     ministers,
     getAllMinisters,
     createLeaderS,
+    updateMinistersS,
+    deleteMinistersS,
   }
 }
