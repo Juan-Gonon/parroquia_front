@@ -4,6 +4,8 @@ import { useThemeStore } from '../../hook/useThemeStore'
 import { useEffect, useState } from 'react'
 import { useUIdraw } from '../../hook/useUIdraw'
 import { MinistryCard } from '../../components/MinistryCard'
+import { RightDrawer } from '../../layout/RightDrawer'
+import { EditMinistryFrom } from './EditMinistryForm'
 
 export const MinistrySection = ({ refresh, data }) => {
   const { theme } = useThemeStore()
@@ -24,6 +26,8 @@ export const MinistrySection = ({ refresh, data }) => {
     setTimeout(() => setSelected(null), 320)
   }
 
+  // console.log(selected)
+
   return (
     <Container $theme={theme}>
       <section className='table-content'>
@@ -40,10 +44,10 @@ export const MinistrySection = ({ refresh, data }) => {
         </div>
       </section>
 
-      {/* <RightDrawer onClose={handleClose}>
+      <RightDrawer onClose={handleClose}>
         {selected && (
           <>
-            <EditCommunityForm
+            <EditMinistryFrom
               initialData={selected}
               onSaved={() => {
                 refresh()
@@ -56,7 +60,7 @@ export const MinistrySection = ({ refresh, data }) => {
             />
           </>
         )}
-      </RightDrawer> */}
+      </RightDrawer>
     </Container>
   )
 }
