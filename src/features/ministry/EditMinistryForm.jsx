@@ -49,7 +49,7 @@ export const EditMinistryFrom = ({ initialData, onSaved, onDeleted }) => {
       await updateMinistryS({ data: formData, id: initialData?.id_ministerio })
       Swal.fire({
         icon: 'success',
-        title: 'Líder actualizado',
+        title: 'Ministerio actualizado',
         text: 'Los cambios se guardaron correctamente',
         showConfirmButton: false,
         timer: 1800,
@@ -58,15 +58,15 @@ export const EditMinistryFrom = ({ initialData, onSaved, onDeleted }) => {
       })
       onSaved?.()
     } catch (err) {
-      Swal.fire('Error', 'No se pudo actualizar el líder', 'error')
+      Swal.fire('Error', 'No se pudo actualizar el Ministerio', 'error')
     }
   }
 
   // --- eliminar
   const handleDelete = async () => {
     const { isConfirmed } = await Swal.fire({
-      title: '¿Eliminar líder?',
-      text: 'Esta acción eliminará el registro del líder permanentemente.',
+      title: '¿Eliminar Ministerio?',
+      text: 'Esta acción eliminará el registro del Ministerio permanentemente.',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Sí, eliminar',
@@ -77,11 +77,11 @@ export const EditMinistryFrom = ({ initialData, onSaved, onDeleted }) => {
     if (!isConfirmed) return
 
     try {
-      await deleteMinistryS({ id: initialData?.id })
+      await deleteMinistryS({ id: initialData?.id_ministerio })
       Swal.fire({
         icon: 'success',
         title: 'Eliminado',
-        text: 'Líder eliminado correctamente',
+        text: 'Ministerio eliminado correctamente',
         showConfirmButton: false,
         timer: 1800,
         toast: true,
@@ -89,7 +89,7 @@ export const EditMinistryFrom = ({ initialData, onSaved, onDeleted }) => {
       })
       onDeleted?.()
     } catch (err) {
-      Swal.fire('Error', 'No se pudo eliminar el líder', 'error')
+      Swal.fire('Error', 'No se pudo eliminar el Ministerio', 'error')
     }
   }
 

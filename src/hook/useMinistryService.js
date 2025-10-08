@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import {
+  deleteMinistryService,
   getAllMinistryService,
   getAllRoleMinistryService,
   updateMinistryService,
@@ -48,11 +49,24 @@ export const useMinistryService = () => {
       throw error || { message: 'Error al actualizar' }
     }
   }
+
+  const deleteMinistryS = async ({ id }) => {
+    try {
+      if (!id) throw new Error('Error al eliminar el ministerio')
+
+      const res = await deleteMinistryService({ id })
+
+      return res.data
+    } catch (error) {
+      throw error || { message: 'Error al eliminar ministerio' }
+    }
+  }
   return {
     ministry,
     role,
     getAllMinistryS,
     getAllRoleDMinistryS,
     updateMinistryS,
+    deleteMinistryS,
   }
 }
