@@ -1,8 +1,9 @@
 import styled from 'styled-components'
 import { Navbar } from '../../layout/Navbar'
-import { useCallback, useEffect } from 'react'
+import { useCallback } from 'react'
 import { MinistrySection } from '../../features/ministry/MinistrySection'
 import { useMinistryService } from '../../hook/useMinistryService'
+import { MinistryModal } from '../../features/ministry/MinistryModal'
 
 export const MinistryPage = () => {
   const { ministry, getAllMinistryS } = useMinistryService()
@@ -22,6 +23,7 @@ export const MinistryPage = () => {
             ellos." <br /> (Mateo 18:20)
           </Citation>
         </ContentContainer>
+        <MinistryModal onCreated={refresh} />
       </Navbar>
       <MinistrySection refresh={refresh} data={ministry} />
       {/* <MinistrySection /> */}

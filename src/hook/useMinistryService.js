@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import {
+  createMinistryService,
   deleteMinistryService,
   getAllMinistryService,
   getAllRoleMinistryService,
@@ -61,6 +62,22 @@ export const useMinistryService = () => {
       throw error || { message: 'Error al eliminar ministerio' }
     }
   }
+
+  const createMinistryS = async ({ data }) => {
+    const { descripcion, fechafundacion, ...rest } = data
+    const newData = rest
+
+    if (descripcion?.length) newData.descripcion = descripcion
+    if (fechafundacion?.length) newData.fechafundacion = fechafundacion
+
+    try {
+      const res = await createMinistryService({ data: newData })
+
+      return res
+    } catch (error) {
+      return error || { message: 'Error inesperado' }
+    }
+  }
   return {
     ministry,
     role,
@@ -68,5 +85,6 @@ export const useMinistryService = () => {
     getAllRoleDMinistryS,
     updateMinistryS,
     deleteMinistryS,
+    createMinistryS,
   }
 }
