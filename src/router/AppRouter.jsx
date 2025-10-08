@@ -13,6 +13,7 @@ import Swal from 'sweetalert2'
 import { ComunityPage } from '../page/comunity/ComunityPage'
 import { EventPage } from '../page/event/EventPage'
 import { MinistersPage } from '../page/ministers/MinistersPage'
+import { MinistryPage } from '../page/ministry/MinistryPage'
 
 export const AppRouter = () => {
   const { status, renewLogin } = useAuthStore()
@@ -70,7 +71,7 @@ export const AppRouter = () => {
             <Route path='comunity-leader' element={<MinistersPage />} />
             <Route path='feligreses' element={<h1>Feligres</h1>} />
             <Route path='intention' element={<h1>intencion</h1>} />
-            <Route path='ministry' element={<h1>ministerio</h1>} />
+            <Route path='ministry' element={<MinistryPage />} />
             <Route path='liturgy-turns' element={<h1>liturgia</h1>} />
             <Route path='service-group' element={<h1>grupos</h1>} />
 
