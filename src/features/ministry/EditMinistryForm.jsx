@@ -46,7 +46,7 @@ export const EditMinistryFrom = ({ initialData, onSaved, onDeleted }) => {
     if (!validate()) return
 
     try {
-      await updateMinistryS({ data: formData, id: initialData?.id })
+      await updateMinistryS({ data: formData, id: initialData?.id_ministerio })
       Swal.fire({
         icon: 'success',
         title: 'Líder actualizado',

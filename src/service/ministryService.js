@@ -45,3 +45,21 @@ export const getAllRoleMinistryService = async ({ page, limit }) => {
     throw new Error(error.message || 'Error desconocido')
   }
 }
+
+export const updateMinistryService = async ({ data, id }) => {
+  try {
+    const res = await parishApi.put(`/ministry/${id}`, data)
+
+    if (res.status !== 200 && res.status !== 201) {
+      throw new Error('No se puede actualizar el ministerio')
+    }
+
+    return res.data
+  } catch (error) {
+    if (error.response && error.response.data && error.response.data.error) {
+      throw new Error(error.response.data.error)
+    }
+
+    throw new Error(error.message || 'Error desconocido')
+  }
+}
