@@ -36,6 +36,9 @@ export const GrupoServicioSection = ({ refresh, data }) => {
                 key={grupo.id_grupo}
                 grupo={grupo}
                 handleSelect={handleSelect}
+                onDeleted={() => {
+                  refresh()
+                }}
               />
             ))}
           </CardsGrid>

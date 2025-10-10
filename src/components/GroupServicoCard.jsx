@@ -4,7 +4,7 @@ import { FaHandsHelping } from 'react-icons/fa'
 import Swal from 'sweetalert2'
 import { useGrupoServicioService } from '../hook/useGrupoService'
 
-export const GrupoServicioCard = ({ grupo, handleSelect }) => {
+export const GrupoServicioCard = ({ grupo, handleSelect, onDeleted }) => {
   const theme = useTheme()
   const { deleteGrupoS } = useGrupoServicioService()
   const { id_grupo, nombre, descripcion, activo, ministerio } = grupo
@@ -24,6 +24,7 @@ export const GrupoServicioCard = ({ grupo, handleSelect }) => {
       try {
         await deleteGrupoS({ id: id_grupo })
         Swal.fire('Eliminado', 'Grupo eliminado correctamente', 'success')
+        onDeleted()
       } catch {
         Swal.fire('Error', 'No se pudo eliminar el grupo', 'error')
       }
