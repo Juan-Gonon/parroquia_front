@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useUIdraw } from '../../hook/useUIdraw'
 import { RightDrawer } from '../../layout/RightDrawer'
 import { GrupoServicioCard } from '../../components/GroupServicoCard'
+import { EditGrupoServiceForm } from './EditGrupoServiceForm'
 // import { EditGrupoServicioForm } from './EditGrupoServicioForm'
 
 export const GrupoServicioSection = ({ refresh, data }) => {
@@ -46,8 +47,8 @@ export const GrupoServicioSection = ({ refresh, data }) => {
       </div>
 
       <RightDrawer onClose={handleClose}>
-        {/* {selected && (
-          <EditGrupoServicioForm
+        {selected && (
+          <EditGrupoServiceForm
             initialData={selected}
             onSaved={() => {
               refresh()
@@ -58,7 +59,7 @@ export const GrupoServicioSection = ({ refresh, data }) => {
               handleClose()
             }}
           />
-        )} */}
+        )}
       </RightDrawer>
     </Container>
   )
