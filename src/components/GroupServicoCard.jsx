@@ -7,7 +7,7 @@ import { useGrupoServicioService } from '../hook/useGrupoService'
 export const GrupoServicioCard = ({ grupo, handleSelect }) => {
   const theme = useTheme()
   const { deleteGrupoS } = useGrupoServicioService()
-  const { id_grupo, nombre, descripcion, activo } = grupo
+  const { id_grupo, nombre, descripcion, activo, ministerio } = grupo
 
   const handleDelete = async () => {
     const confirm = await Swal.fire({
@@ -31,11 +31,13 @@ export const GrupoServicioCard = ({ grupo, handleSelect }) => {
   }
 
   return (
-    <Card>
+    <Card $theme={theme}>
+      <ParishText>{ministerio}</ParishText>
       <Header>
         <FaHandsHelping color={theme.primary} size='1.4em' />
         <h2>{nombre}</h2>
       </Header>
+
       <Body>
         <p>{descripcion || 'Sin descripción'}</p>
         <Status $active={activo}>{activo ? 'Activo' : 'Inactivo'}</Status>
@@ -52,12 +54,30 @@ export const GrupoServicioCard = ({ grupo, handleSelect }) => {
   )
 }
 
+const ParishText = styled.span`
+  font-size: ${({ theme }) => theme.fontsm};
+  color: ${({ theme }) => theme.primary};
+  font-weight: 600;
+  text-transform: uppercase;
+  text-align: end;
+  /* background: red; */
+  display: block;
+`
+
 /* STYLES */
 const Card = styled.div`
   background: ${({ theme }) => theme.bgtgderecha};
   border-radius: 10px;
   padding: 15px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+
+  h3 {
+    /* background: red; */
+    text-align: end;
+    /* display: inline-block; */
+    color: ${({ theme }) => theme.textprimary};
+    text-transform: uppercase;
+  }
 `
 
 const Header = styled.div`
@@ -75,13 +95,20 @@ const Body = styled.div`
   margin-top: 10px;
   color: ${({ theme }) => theme.text};
   font-size: 0.9rem;
+  padding: 10px 5px;
 `
 
 const Status = styled.span`
   display: inline-block;
   margin-top: 10px;
-  color: ${({ $active }) => ($active ? '#2ecc71' : '#e74c3c')};
   font-weight: 600;
+  padding: 5px 20px;
+  border-radius: 10px;
+  background-color: ${({ $active }) =>
+    $active ? 'rgba(46, 204, 113, 0.6)' : 'rgba(231, 76, 60, 0.6)'};
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px); /* soporte para Safari */
+  border: 1px solid rgba(255, 255, 255, 0.3); /* opcional, para darle un borde suave */
 `
 
 const Footer = styled.div`

@@ -10,7 +10,29 @@ export const getAllGruposService = async ({ page, limit }) => {
       throw new Error('No se pudieron obtener los grupos')
     }
 
-    return res.data
+    const newData = res.data.data?.map((group) => {
+      const { nombre, descripcion, id_grupo, id_ministerio, activo } = group
+
+      const ministerio = group.ministerio.nombre
+
+      return {
+        nombre,
+        descripcion,
+        activo,
+        id_grupo,
+        id_ministerio,
+        ministerio,
+      }
+    })
+
+    return {
+      data: newData,
+      limit: res.data.limit,
+      next: res.data.next,
+      page: res.data.page,
+      prev: res.data.prev,
+      total: res.data.total,
+    }
   } catch (error) {
     const message =
       error.response?.data?.error || error.message || 'Error desconocido'
