@@ -1,3 +1,5 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable react-hooks/exhaustive-deps */
 import styled from 'styled-components'
 import { useUiModal } from '../../hook/useUiModal'
 import { ModalForm } from '../../components/ModalForm'
@@ -7,10 +9,13 @@ import Swal from 'sweetalert2'
 import { MdDriveFileRenameOutline } from 'react-icons/md'
 import { FaHandsHelping } from 'react-icons/fa'
 import { useGrupoServicioService } from '../../hook/useGrupoService'
+import { useMinistryService } from '../../hook/useMinistryService'
+import { useEffect } from 'react'
 
 export const GrupoServicioModal = ({ onCreated }) => {
   const { closeModal } = useUiModal()
   const { createGrupoS } = useGrupoServicioService()
+  const { ministry, getAllMinistryS } = useMinistryService()
 
   const { formData, errors, handleChange, validate, resetForm } = useForm(
     {
@@ -27,6 +32,12 @@ export const GrupoServicioModal = ({ onCreated }) => {
       return errs
     }
   )
+
+  useEffect(() => {
+    return async () => {
+      await getAllMinistryS({ page: 1, limit: 20 })
+    }
+  }, [])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -58,10 +69,10 @@ export const GrupoServicioModal = ({ onCreated }) => {
           <IconBox>
             <FaHandsHelping size='2em' color='#3498db' />
           </IconBox>
-          <div>
+          <HeaderContent>
             <h2>Nuevo Grupo de Servicio</h2>
             <p>“El que quiera ser grande, que sirva a los demás.”</p>
-          </div>
+          </HeaderContent>
         </Header>
 
         <InputField
@@ -80,14 +91,19 @@ export const GrupoServicioModal = ({ onCreated }) => {
           onChange={handleChange}
         />
 
-        <InputField
-          icon={MdDriveFileRenameOutline}
+        <Select
           name='idMinisterio'
-          type='number'
-          placeholder='ID del Ministerio asociado'
-          value={formData.idMinisterio}
-          onChange={handleChange}
-        />
+          value={formData.idMinisterio || ''}
+          onChange={handleChange}>
+          {!formData.idMinisterio && (
+            <option value=''>Seleccione un misterio</option>
+          )}
+          {ministry?.map((minis) => (
+            <option key={minis.id_ministerio} value={minis.id_ministerio}>
+              {minis.nombre}
+            </option>
+          ))}
+        </Select>
         <ErrorMessage $show={!!errors.idMinisterio}>
           {errors.idMinisterio}
         </ErrorMessage>
@@ -165,4 +181,37 @@ const IconBox = styled.div`
   background: ${({ theme }) => theme.bg3};
   padding: 10px;
   border-radius: 8px;
+`
+
+const HeaderContent = styled.div`
+  flex-grow: 1;
+
+  h2 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: ${({ theme }) => theme.textprimary || '#333'};
+    margin: 0;
+  }
+
+  p {
+    font-size: 0.8rem;
+    color: ${({ theme }) => theme.gray500};
+    margin: 0;
+    font-weight: 400;
+  }
+`
+
+const Select = styled.select`
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: none;
+  background-color: ${({ theme }) => theme.bg2};
+  color: ${({ theme }) => theme.text};
+  font-size: ${({ theme }) => theme.fontsm};
+  outline: none;
+  cursor: pointer;
+
+  &:focus {
+    border: 2px solid ${({ theme }) => theme.bg4};
+  }
 `
