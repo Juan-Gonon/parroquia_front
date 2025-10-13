@@ -2,10 +2,13 @@ import styled from 'styled-components'
 import { GroupDetails } from '../../features/groupDetails/GroupDetails'
 import { MembersGroup } from '../../features/groupDetails/MembersGroup'
 import { FcPrevious } from 'react-icons/fc'
-import { Navbar } from '../../layout/Navbar'
 import { AddButtonC } from '../../components/AddButton'
+import { useParams } from 'react-router-dom'
 
 export const GroupDetailsPage = () => {
+  const { id } = useParams()
+  // console.log(id)
+
   return (
     <Container>
       <Header>
