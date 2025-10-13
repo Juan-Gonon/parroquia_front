@@ -4,6 +4,7 @@ import {
   createGrupoService,
   deleteGrupoService,
   getAllGruposService,
+  getByIdGrupoServicio,
   updateGrupoService,
 } from '../service/grupoServicioService'
 
@@ -81,6 +82,18 @@ export const useGrupoServicioService = () => {
     }
   }
 
+  const getByIdGrupoS = async ({ id }) => {
+    try {
+      if (!id) throw new Error('Se requiere el id para eliminar el grupo')
+
+      const res = await getByIdGrupoServicio({ id })
+
+      setGrupos(res)
+      return res
+    } catch (error) {
+      throw error || { message: 'Error al encontrar grupo' }
+    }
+  }
   return {
     grupos,
     pagination,
@@ -88,5 +101,6 @@ export const useGrupoServicioService = () => {
     createGrupoS,
     updateGrupoS,
     deleteGrupoS,
+    getByIdGrupoS,
   }
 }

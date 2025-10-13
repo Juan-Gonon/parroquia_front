@@ -93,3 +93,30 @@ export const deleteGrupoService = async ({ id }) => {
     throw new Error(error.message || 'Error desconocido')
   }
 }
+
+export const getByIdGrupoServicio = async ({ id }) => {
+  try {
+    const res = await parishApi.get(`/service-group/${id}`)
+
+    if (res.status !== 200 && res.status !== 201) {
+      throw new Error('No se encontro ningun grupo')
+    }
+
+    const { nombre, descripcion, id_grupo, id_ministerio, activo } = res.data
+
+    return {
+      nombre,
+      descripcion,
+      id_grupo,
+      id_ministerio,
+      activo,
+      ministerio: res.data?.ministerio.nombre,
+    }
+  } catch (error) {
+    if (error.response?.data?.error) {
+      throw new Error(error.response.data.error)
+    }
+
+    throw new Error(error.message || 'Error desconocido')
+  }
+}

@@ -1,13 +1,31 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
 import styled from 'styled-components'
 import { GroupDetails } from '../../features/groupDetails/GroupDetails'
 import { MembersGroup } from '../../features/groupDetails/MembersGroup'
 import { FcPrevious } from 'react-icons/fc'
 import { AddButtonC } from '../../components/AddButton'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
+import { useGrupoServicioService } from '../../hook/useGrupoService'
+import { useEffect } from 'react'
 
 export const GroupDetailsPage = () => {
   const { id } = useParams()
+  const { grupos, getByIdGrupoS } = useGrupoServicioService()
+  const navigate = useNavigate()
   // console.log(id)
+
+  useEffect(() => {
+    return async () => {
+      try {
+        await getByIdGrupoS({ id })
+      } catch (error) {
+        navigate('/home')
+      }
+    }
+  }, [])
+
+  // console.log(grupos)
 
   return (
     <Container>
