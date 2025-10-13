@@ -15,6 +15,7 @@ import { EventPage } from '../page/event/EventPage'
 import { MinistersPage } from '../page/ministers/MinistersPage'
 import { MinistryPage } from '../page/ministry/MinistryPage'
 import { GrupoServicioPage } from '../page/groupService/GrupoServicioPage'
+import { GroupDetailsPage } from '../page/groupDetails/GroupDetailsPage'
 
 export const AppRouter = () => {
   const { status, renewLogin } = useAuthStore()
@@ -75,10 +76,7 @@ export const AppRouter = () => {
             <Route path='ministry' element={<MinistryPage />} />
             <Route path='liturgy-turns' element={<h1>liturgia</h1>} />
             <Route path='service-group' element={<GrupoServicioPage />} />
-            <Route
-              path='service-group/:id'
-              element={<h1>Detalles del grupo</h1>}
-            />
+            <Route path='service-group/:id' element={<GroupDetailsPage />} />
 
             {/* Redirección por defecto */}
             <Route path='/*' element={<Navigate to='/' />} />
