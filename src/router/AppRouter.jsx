@@ -75,6 +75,10 @@ export const AppRouter = () => {
             <Route path='ministry' element={<MinistryPage />} />
             <Route path='liturgy-turns' element={<h1>liturgia</h1>} />
             <Route path='service-group' element={<GrupoServicioPage />} />
+            <Route
+              path='service-group/:id'
+              element={<h1>Detalles del grupo</h1>}
+            />
 
             {/* Redirección por defecto */}
             <Route path='/*' element={<Navigate to='/' />} />

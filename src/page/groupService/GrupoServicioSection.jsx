@@ -5,11 +5,14 @@ import { useUIdraw } from '../../hook/useUIdraw'
 import { RightDrawer } from '../../layout/RightDrawer'
 import { GrupoServicioCard } from '../../components/GroupServicoCard'
 import { EditGrupoServiceForm } from './EditGrupoServiceForm'
+import { useLocation, useNavigate } from 'react-router-dom'
 // import { EditGrupoServicioForm } from './EditGrupoServicioForm'
 
 export const GrupoServicioSection = ({ refresh, data }) => {
   const [selected, setSelected] = useState(null)
   const { openDraw, closeDraw } = useUIdraw()
+  const navigate = useNavigate()
+  const location = useLocation()
 
   useEffect(() => {
     refresh()
@@ -18,6 +21,10 @@ export const GrupoServicioSection = ({ refresh, data }) => {
   const handleSelect = (grupo) => {
     setSelected(grupo)
     openDraw()
+  }
+
+  const handleSelectDetail = (grupo) => {
+    navigate(`${location.pathname}/${grupo?.id_grupo}`)
   }
 
   const handleClose = () => {
@@ -37,6 +44,7 @@ export const GrupoServicioSection = ({ refresh, data }) => {
                 key={grupo.id_grupo}
                 grupo={grupo}
                 handleSelect={handleSelect}
+                handleSelectDetail={handleSelectDetail}
                 onDeleted={() => {
                   refresh()
                 }}

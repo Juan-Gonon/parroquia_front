@@ -3,8 +3,14 @@ import { MdOutlineDescription, MdDelete, MdEdit } from 'react-icons/md'
 import { FaHandsHelping } from 'react-icons/fa'
 import Swal from 'sweetalert2'
 import { useGrupoServicioService } from '../hook/useGrupoService'
+import { IoEyeSharp } from 'react-icons/io5'
 
-export const GrupoServicioCard = ({ grupo, handleSelect, onDeleted }) => {
+export const GrupoServicioCard = ({
+  grupo,
+  handleSelect,
+  onDeleted,
+  handleSelectDetail,
+}) => {
   const theme = useTheme()
   const { deleteGrupoS } = useGrupoServicioService()
   const { id_grupo, nombre, descripcion, activo, ministerio } = grupo
@@ -44,6 +50,9 @@ export const GrupoServicioCard = ({ grupo, handleSelect, onDeleted }) => {
         <Status $active={activo}>{activo ? 'Activo' : 'Inactivo'}</Status>
       </Body>
       <Footer>
+        <IconButton onClick={() => handleSelectDetail(grupo)}>
+          <IoEyeSharp size='1.4em' />
+        </IconButton>
         <IconButton onClick={() => handleSelect(grupo)}>
           <MdEdit size='1.4em' />
         </IconButton>
@@ -115,7 +124,7 @@ const Status = styled.span`
 const Footer = styled.div`
   display: flex;
   justify-content: flex-end;
-  gap: 10px;
+  gap: 18px;
   padding-top: 10px;
   border-top: 1px solid ${({ theme }) => theme.bg3};
 `
