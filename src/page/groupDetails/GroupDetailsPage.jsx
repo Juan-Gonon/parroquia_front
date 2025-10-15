@@ -25,17 +25,21 @@ export const GroupDetailsPage = () => {
     }
   }, [])
 
+  const handleBack = () => {
+    navigate(-1)
+  }
+
   // console.log(grupos)
 
   return (
     <Container>
       <Header>
-        <FcPrevious size='1.8em' />
+        <FcPrevious size='1.8em' onClick={handleBack} cursor='pointer' />
         <HeaderContent>
-          <Title>Coro Parroquial "Voces de Fe"</Title>
+          <Title>{grupos?.nombre}</Title>
         </HeaderContent>
       </Header>
-      <GroupDetails />
+      <GroupDetails data={grupos} />
       <Header>
         <HeaderContent>
           <Title>Miembros del Grupo</Title>
