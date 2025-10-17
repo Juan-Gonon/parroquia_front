@@ -7,7 +7,7 @@ import { FcPrevious } from 'react-icons/fc'
 import { AddButtonC } from '../../components/AddButton'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useGrupoServicioService } from '../../hook/useGrupoService'
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useGroupMembers } from '../../hook/useGroupMembers'
 
 export const GroupDetailsPage = () => {
@@ -21,7 +21,6 @@ export const GroupDetailsPage = () => {
     return async () => {
       try {
         await getByIdGrupoS({ id })
-        await getByIdMembersGrupoS({ id })
       } catch (error) {
         navigate('/home')
       }
@@ -35,6 +34,30 @@ export const GroupDetailsPage = () => {
   }
 
   // console.log(grupos)
+
+  const refreshMembers = useCallback(async () => {
+    await getByIdMembersGrupoS({ id })
+  }, [getByIdMembersGrupoS])
+
+  // const handleNextPage = () => {
+  //   if (pagination.next) {
+  //     getByIdMembersGrupoS({
+  //       id,
+  //       page: pagination.page + 1,
+  //       limit: pagination.limit,
+  //     })
+  //   }
+  // }
+
+  // const handlePrevPage = () => {
+  //   if (pagination.prev) {
+  //     getByIdMembersGrupoS({
+  //       id,
+  //       page: pagination.page - 1,
+  //       limit: pagination.limit,
+  //     })
+  //   }
+  // }
 
   return (
     <Container>
@@ -51,7 +74,7 @@ export const GroupDetailsPage = () => {
         </HeaderContent>
         <AddButtonC textBtn='Añadir Miembro' />
       </Header>
-      <MembersGroup />
+      <MembersGroup refresh={refreshMembers} data={members} />
     </Container>
   )
 }
