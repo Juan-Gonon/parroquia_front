@@ -1,5 +1,8 @@
 import { useState } from 'react'
-import { getMiembrosByGrupoService } from '../service/groupMemberService'
+import {
+  createMemberGroupService,
+  getMiembrosByGrupoService,
+} from '../service/groupMemberService'
 
 export const useGroupMembers = () => {
   const [members, setMembers] = useState([])
@@ -16,8 +19,22 @@ export const useGroupMembers = () => {
       throw error || { message: 'Error al encontrar grupo' }
     }
   }
+
+  const createMemberS = async ({ data }) => {
+    const { fechaFin, ...restMembers } = data
+    const newData = restMembers
+
+    if (fechaFin?.length) newData.fechaFin = fechaFin
+    try {
+      const res = await createMemberGroupService({ data: newData })
+      return res
+    } catch (error) {
+      throw error || { message: 'Error inesperado' }
+    }
+  }
   return {
     members,
     getByIdMembersGrupoS,
+    createMemberS,
   }
 }

@@ -17,7 +17,6 @@ export const GroupDetailsPage = () => {
   const { id } = useParams()
   const { grupos, getByIdGrupoS } = useGrupoServicioService()
   const { members, getByIdMembersGrupoS } = useGroupMembers()
-  const { parishPart, getByMinistryParticipationS } = useMinistryPart()
   const { openModal } = useUiModal()
   const navigate = useNavigate()
   // console.log(id)

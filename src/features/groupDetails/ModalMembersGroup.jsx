@@ -11,6 +11,7 @@ import { FaUserPlus } from 'react-icons/fa'
 import { MdOutlineLeaderboard } from 'react-icons/md'
 import { InputField } from '../../components/inputField'
 import { CiCalendarDate } from 'react-icons/ci'
+import { useGroupMembers } from '../../hook/useGroupMembers'
 // import { ModalForm } from '../../components/ModalForm'
 // import { InputField } from '../../components/inputField'
 // import { useForm } from '../../hook/useForm'
@@ -24,7 +25,7 @@ import { CiCalendarDate } from 'react-icons/ci'
 export const ModalMembersGroup = ({ grupo, onCreated }) => {
   const { closeModal } = useUiModal()
   const { parishPart, getByMinistryParticipationS } = useMinistryPart()
-  // const { createMemberS } = useMembersGroup()
+  const { createMemberS } = useGroupMembers()
 
   const { formData, errors, handleChange, validate, resetForm, setFormData } =
     useForm(
@@ -64,36 +65,36 @@ export const ModalMembersGroup = ({ grupo, onCreated }) => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (!validate()) return
-    console.log(formData)
 
     closeModal()
 
-    // const res = await createMemberS({ data: formData })
+    try {
+      await createMemberS({ data: formData })
 
-    // if (res?.message) {
-    //   Swal.fire({
-    //     icon: 'error',
-    //     title: 'Oops...',
-    //     text: res.message || 'Ocurrió un error inesperado.',
-    //     confirmButtonText: 'Reintentar',
-    //     confirmButtonColor: '#d33',
-    //     background: '#fff',
-    //     color: '#333',
-    //     iconColor: '#d33',
-    //   })
-    // } else {
-    //   Swal.fire({
-    //     title: 'Miembro añadido correctamente',
-    //     text: 'El registro fue exitoso.',
-    //     icon: 'success',
-    //     confirmButtonText: 'Aceptar',
-    //     confirmButtonColor: '#4CAF50',
-    //     background: '#f9f9f9',
-    //     color: '#333',
-    //     iconColor: '#4CAF50',
-    //   })
-    //   onCreated?.()
-    // }
+      Swal.fire({
+        title: 'Miembro añadido correctamente',
+        text: 'El registro fue exitoso.',
+        icon: 'success',
+        confirmButtonText: 'Aceptar',
+        confirmButtonColor: '#4CAF50',
+        background: '#f9f9f9',
+        color: '#333',
+        iconColor: '#4CAF50',
+      })
+
+      onCreated?.()
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: error.message || 'Ocurrió un error inesperado.',
+        confirmButtonText: 'Reintentar',
+        confirmButtonColor: '#d33',
+        background: '#fff',
+        color: '#333',
+        iconColor: '#d33',
+      })
+    }
   }
 
   return (
