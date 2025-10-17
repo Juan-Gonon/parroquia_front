@@ -10,12 +10,15 @@ import { useGrupoServicioService } from '../../hook/useGrupoService'
 import { useCallback, useEffect } from 'react'
 import { useGroupMembers } from '../../hook/useGroupMembers'
 import { useMinistryPart } from '../../hook/useMinistryPart'
+import { useUiModal } from '../../hook/useUiModal'
+import { ModalMembersGroup } from '../../features/groupDetails/ModalMembersGroup'
 
 export const GroupDetailsPage = () => {
   const { id } = useParams()
   const { grupos, getByIdGrupoS } = useGrupoServicioService()
   const { members, getByIdMembersGrupoS } = useGroupMembers()
   const { parishPart, getByMinistryParticipationS } = useMinistryPart()
+  const { openModal } = useUiModal()
   const navigate = useNavigate()
   // console.log(id)
 
@@ -61,8 +64,9 @@ export const GroupDetailsPage = () => {
   //   }
   // }
 
-  const handleOpenModal = async () => {
-    await getByMinistryParticipationS({ id: grupos?.id_ministerio })
+  const handleOpenModal = () => {
+    // await getByMinistryParticipationS({ id: grupos?.id_ministerio })
+    openModal()
   }
 
   // console.log(parishPart)
@@ -81,6 +85,7 @@ export const GroupDetailsPage = () => {
           <Title>Miembros del Grupo</Title>
         </HeaderContent>
         <AddButtonC textBtn='Añadir Miembro' handleClick={handleOpenModal} />
+        <ModalMembersGroup grupo={grupos} onCreated={refreshMembers} />
       </Header>
       <MembersGroup refresh={refreshMembers} data={members} />
     </Container>
