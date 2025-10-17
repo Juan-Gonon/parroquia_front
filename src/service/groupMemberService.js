@@ -35,6 +35,10 @@ export const getMiembrosByGrupoService = async ({ id }) => {
       const { nombre: rol } = roldentroministerio || {}
 
       return {
+        nombre: nombrePersonal || null,
+        apellido: apellido || null,
+        email: email || null,
+        direccion: direccion || null,
         id_miembrogrupo,
         id_gruposervicio,
         id_part_min,
@@ -42,10 +46,6 @@ export const getMiembrosByGrupoService = async ({ id }) => {
         activo,
         nombre_grupo: gruposervicio?.nombre || null,
         fecha_ini_part: fecha_ini_part || null,
-        nombre_personal: nombrePersonal || null,
-        apellido_personal: apellido || null,
-        email_personal: email || null,
-        direccion_personal: direccion || null,
         rol_ministerio: rol || null,
       }
     })
