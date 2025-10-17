@@ -8,10 +8,12 @@ import { AddButtonC } from '../../components/AddButton'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useGrupoServicioService } from '../../hook/useGrupoService'
 import { useEffect } from 'react'
+import { useGroupMembers } from '../../hook/useGroupMembers'
 
 export const GroupDetailsPage = () => {
   const { id } = useParams()
   const { grupos, getByIdGrupoS } = useGrupoServicioService()
+  const { members, getByIdMembersGrupoS } = useGroupMembers()
   const navigate = useNavigate()
   // console.log(id)
 
@@ -19,11 +21,14 @@ export const GroupDetailsPage = () => {
     return async () => {
       try {
         await getByIdGrupoS({ id })
+        await getByIdMembersGrupoS({ id })
       } catch (error) {
         navigate('/home')
       }
     }
   }, [])
+
+  // console.log(members)
 
   const handleBack = () => {
     navigate(-1)
