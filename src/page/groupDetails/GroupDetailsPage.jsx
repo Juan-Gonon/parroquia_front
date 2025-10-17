@@ -9,11 +9,13 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useGrupoServicioService } from '../../hook/useGrupoService'
 import { useCallback, useEffect } from 'react'
 import { useGroupMembers } from '../../hook/useGroupMembers'
+import { useMinistryPart } from '../../hook/useMinistryPart'
 
 export const GroupDetailsPage = () => {
   const { id } = useParams()
   const { grupos, getByIdGrupoS } = useGrupoServicioService()
   const { members, getByIdMembersGrupoS } = useGroupMembers()
+  const { parishPart, getByMinistryParticipationS } = useMinistryPart()
   const navigate = useNavigate()
   // console.log(id)
 
@@ -59,6 +61,12 @@ export const GroupDetailsPage = () => {
   //   }
   // }
 
+  const handleOpenModal = async () => {
+    await getByMinistryParticipationS({ id: grupos?.id_ministerio })
+  }
+
+  // console.log(parishPart)
+
   return (
     <Container>
       <Header>
@@ -72,7 +80,7 @@ export const GroupDetailsPage = () => {
         <HeaderContent>
           <Title>Miembros del Grupo</Title>
         </HeaderContent>
-        <AddButtonC textBtn='Añadir Miembro' />
+        <AddButtonC textBtn='Añadir Miembro' handleClick={handleOpenModal} />
       </Header>
       <MembersGroup refresh={refreshMembers} data={members} />
     </Container>
