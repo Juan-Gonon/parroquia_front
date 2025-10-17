@@ -78,3 +78,20 @@ export const createMemberGroupService = async ({ data }) => {
     throw new Error(error.message || 'Error desconocido')
   }
 }
+
+export const deleteMemberGroupService = async ({ id }) => {
+  try {
+    const res = await parishApi.delete(`/group-member/${id}`)
+
+    if (res.status !== 200 && res.status !== 201) {
+      throw new Error('No se pudo eliminar el miembro del grupo')
+    }
+
+    return res
+  } catch (error) {
+    if (error.response?.data?.error) {
+      throw new Error(error.response.data.error)
+    }
+    throw new Error(error.message || 'Error desconocido')
+  }
+}

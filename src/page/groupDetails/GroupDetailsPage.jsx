@@ -43,26 +43,6 @@ export const GroupDetailsPage = () => {
     await getByIdMembersGrupoS({ id })
   }, [getByIdMembersGrupoS])
 
-  // const handleNextPage = () => {
-  //   if (pagination.next) {
-  //     getByIdMembersGrupoS({
-  //       id,
-  //       page: pagination.page + 1,
-  //       limit: pagination.limit,
-  //     })
-  //   }
-  // }
-
-  // const handlePrevPage = () => {
-  //   if (pagination.prev) {
-  //     getByIdMembersGrupoS({
-  //       id,
-  //       page: pagination.page - 1,
-  //       limit: pagination.limit,
-  //     })
-  //   }
-  // }
-
   const handleOpenModal = () => {
     // await getByMinistryParticipationS({ id: grupos?.id_ministerio })
     openModal()

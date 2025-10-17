@@ -41,7 +41,7 @@ const Container = styled.main`
   /* top: 10px; */
   /* left: 0; */
   width: 99%;
-  padding: 0 20px 10px;
+  padding: 0 20px 15px;
   min-height: ${({ theme }) => theme.navHeight};
   /* display: flex;
   justify-content: space-around;

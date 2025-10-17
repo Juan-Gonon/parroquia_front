@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import {
   createMemberGroupService,
+  deleteMemberGroupService,
   getMiembrosByGrupoService,
 } from '../service/groupMemberService'
 
@@ -32,9 +33,20 @@ export const useGroupMembers = () => {
       throw error || { message: 'Error inesperado' }
     }
   }
+
+  const deleteMemberS = async ({ id }) => {
+    try {
+      if (!id) throw new Error('Se requiere el id para eliminar el miembro')
+      const res = await deleteMemberGroupService({ id })
+      return res.data
+    } catch (error) {
+      throw error || { message: 'No se pudo eliminar el registro' }
+    }
+  }
   return {
     members,
     getByIdMembersGrupoS,
     createMemberS,
+    deleteMemberS,
   }
 }
