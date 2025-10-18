@@ -55,6 +55,9 @@ export const EventSection = ({ refresh, data }) => {
                 refresh()
                 handleClose()
               }}
+              onCloseNextPage={() => {
+                handleClose()
+              }}
             />
           </>
         )}

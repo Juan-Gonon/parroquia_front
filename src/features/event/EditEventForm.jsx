@@ -16,9 +16,14 @@ import { InputField } from '../../components/inputField'
 import { MdEventAvailable, MdNavigateNext } from 'react-icons/md'
 import { CiCalendarDate } from 'react-icons/ci'
 import { FaChurch } from 'react-icons/fa'
-import { LuNavigation } from 'react-icons/lu'
+import { useLocation, useNavigate } from 'react-router-dom'
 
-export const EditEventForm = ({ initialData, onSaved, onDeleted }) => {
+export const EditEventForm = ({
+  initialData,
+  onSaved,
+  onDeleted,
+  onCloseNextPage,
+}) => {
   const { formData, setFormData, handleChange, validate } = useForm(
     {
       nombre: '',
@@ -47,6 +52,8 @@ export const EditEventForm = ({ initialData, onSaved, onDeleted }) => {
   const { updateEventS, deleteEventS, evType, getAllEventTypeS } = useEvent()
   const { community, getAllCommunityS } = useCommunity()
   const { parish, getAllParish } = useParishService()
+  const navigate = useNavigate()
+  const location = useLocation()
 
   // --- cargar datos iniciales
   useEffect(() => {
@@ -131,6 +138,12 @@ export const EditEventForm = ({ initialData, onSaved, onDeleted }) => {
     }
   }
 
+  const handleClickNextPage = () => {
+    // console.log(initialData?.id_evento)
+    onCloseNextPage?.()
+    navigate(`${location.pathname}/${initialData?.id_evento}`)
+  }
+
   // --- render
   return (
     <FormWrapper onSubmit={handleSave}>
@@ -143,7 +156,11 @@ export const EditEventForm = ({ initialData, onSaved, onDeleted }) => {
           <p>Editando: {formData.nombre || '...'}</p>
         </HeaderContent>
         <TitleIconContainer>
-          <MdNavigateNext size='1em' cursor='pointer' />
+          <MdNavigateNext
+            size='1em'
+            cursor='pointer'
+            onClick={handleClickNextPage}
+          />
         </TitleIconContainer>
       </Header>
 
