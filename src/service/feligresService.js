@@ -16,8 +16,12 @@ export const createFeligresService = async ({ data }) => {
   try {
     const res = await parishApi.post('/feligres', data)
     return res.data
-  } catch (err) {
-    return err.response?.data || { message: 'Error al crear feligrés' }
+  } catch (error) {
+    if (error.response && error.response.data && error.response.data.error) {
+      throw new Error(error.response.data.error)
+    }
+
+    throw new Error(error.message || 'Error desconocido')
   }
 }
 
@@ -25,8 +29,12 @@ export const updateFeligresService = async ({ id, data }) => {
   try {
     const res = await parishApi.put(`/feligres/${id}`, data)
     return res.data
-  } catch (err) {
-    return err.response?.data || { message: 'Error al actualizar feligrés' }
+  } catch (error) {
+    if (error.response && error.response.data && error.response.data.error) {
+      throw new Error(error.response.data.error)
+    }
+
+    throw new Error(error.message || 'Error desconocido')
   }
 }
 
@@ -34,7 +42,11 @@ export const deleteFeligresService = async ({ id }) => {
   try {
     const res = await parishApi.delete(`/feligres/${id}`)
     return res.data
-  } catch (err) {
-    return err.response?.data || { message: 'Error al eliminar feligrés' }
+  } catch (error) {
+    if (error.response && error.response.data && error.response.data.error) {
+      throw new Error(error.response.data.error)
+    }
+
+    throw new Error(error.message || 'Error desconocido')
   }
 }
