@@ -1,18 +1,19 @@
 /* eslint-disable no-unused-vars */
 import { useNavigate, useParams } from 'react-router-dom'
 import { useEvent } from '../../hook/useEvent'
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 import styled from 'styled-components'
 import { FcPrevious } from 'react-icons/fc'
 import { useUiModal } from '../../hook/useUiModal'
 import { AddButtonC } from '../../components/AddButton'
+import { useIntentionService } from '../../hook/useIntentionService'
 
 export const EventDetailsPage = () => {
   const { id } = useParams()
   const { events, getEventByIdS } = useEvent()
   const navigate = useNavigate()
   const { openModal } = useUiModal()
-  // console.log(id)
+  const { intention, getIntentionByEventS } = useIntentionService()
 
   useEffect(() => {
     return async () => {
@@ -26,20 +27,25 @@ export const EventDetailsPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  // console.log({
-  //   id,
-  //   events,
-  // })
+  const refreshMembers = useCallback(async () => {
+    await getIntentionByEventS({ id })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [getIntentionByEventS])
 
   const handleBack = () => {
     navigate(-1)
   }
 
   const handleOpenModal = () => {
-    // await getByMinistryParticipationS({ id: grupos?.id_ministerio })
     openModal()
   }
 
+  useEffect(() => {
+    refreshMembers()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  // console.log(intention)
   return (
     <Container>
       <Header>
