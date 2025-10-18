@@ -89,3 +89,21 @@ export const deleteEventService = async ({ id }) => {
     throw new Error(error.message || 'Error desconocido')
   }
 }
+
+export const getEventByIdService = async ({ id }) => {
+  try {
+    const res = await parishApi.get(`/event/${id}`)
+
+    if (res.status !== 200) {
+      throw new Error('El evento no existe')
+    }
+
+    return res.data
+  } catch (error) {
+    if (error.response && error.response.data && error.response.data.error) {
+      throw new Error(error.response.data.error)
+    }
+
+    throw new Error(error.message || 'Error desconocido')
+  }
+}

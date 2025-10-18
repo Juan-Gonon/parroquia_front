@@ -4,6 +4,7 @@ import {
   deleteEventService,
   getAllEventService,
   getAllEventTypeService,
+  getEventByIdService,
   updateEventService,
 } from '../service/eventService'
 import { convertEventsToDateEvents } from '../helpers'
@@ -94,6 +95,21 @@ export const useEvent = () => {
       throw error || { message: 'Error inesperado' }
     }
   }
+
+  const getEventByIdS = async ({ id }) => {
+    try {
+      if (!id) {
+        throw new Error('El id del evento es requerido')
+      }
+
+      const res = await getEventByIdService({ id })
+
+      setEvents(res)
+      return res
+    } catch (error) {
+      throw error || { message: 'Error inesperado' }
+    }
+  }
   return {
     events,
     evType,
@@ -102,5 +118,6 @@ export const useEvent = () => {
     createEventS,
     updateEventS,
     deleteEventS,
+    getEventByIdS,
   }
 }
