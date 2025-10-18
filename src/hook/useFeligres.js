@@ -11,23 +11,62 @@ export const useFeligres = () => {
   const [pagination, setPagination] = useState({
     page: 1,
     limit: 10,
-    next: false,
-    prev: false,
+    total: 0,
+    next: null,
+    prev: null,
   })
 
-  const getAllFeligres = useCallback(async ({ page = 1, limit = 10 }) => {
-    const res = await getAllFeligresService({ page, limit })
-    if (res?.data) {
-      setFeligreses(res.data)
-      setPagination(res.pagination || { page, limit })
-    }
-    return res
-  }, [])
+  const getAllFeligres = useCallback(
+    async ({ page = pagination.page, limit = pagination.limit }) => {
+      const res = await getAllFeligresService({ page, limit })
+      if (res?.feligreses) {
+        setFeligreses(res.feligreses)
+        setPagination({
+          page: res.page,
+          limit: res.limit,
+          total: res.total,
+          next: res.next,
+          prev: res.prev,
+        })
+      }
+      return res
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  )
 
-  const createFeligres = async ({ data }) =>
-    await createFeligresService({ data })
-  const updateFeligres = async ({ id, data }) =>
-    await updateFeligresService({ id, data })
+  const createFeligres = async ({ data }) => {
+    const { telefono, email, ...rest } = data
+
+    const newData = { ...rest }
+
+    if (telefono?.length) newData.telefono = telefono
+    if (email?.length) newData.email = email
+
+    try {
+      const res = await createFeligresService({ data: newData })
+      return res
+    } catch (error) {
+      return error || { message: 'Error inesperado' }
+    }
+  }
+
+  const updateFeligres = async ({ id, data }) => {
+    const { telefono, email, ...rest } = data
+
+    const newData = { ...rest }
+
+    if (telefono?.length) newData.telefono = telefono
+    if (email?.length) newData.email = email
+
+    try {
+      const res = await updateFeligresService({ id, data: newData })
+      return res.data
+    } catch (error) {
+      throw error || { message: 'No se puede actualizar el registro' }
+    }
+  }
+
   const deleteFeligres = async ({ id }) => await deleteFeligresService({ id })
 
   return {

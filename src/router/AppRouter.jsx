@@ -16,6 +16,7 @@ import { MinistersPage } from '../page/ministers/MinistersPage'
 import { MinistryPage } from '../page/ministry/MinistryPage'
 import { GrupoServicioPage } from '../page/groupService/GrupoServicioPage'
 import { GroupDetailsPage } from '../page/groupDetails/GroupDetailsPage'
+import { FeligresPage } from '../page/feligres/FeligresPage'
 
 export const AppRouter = () => {
   const { status, renewLogin } = useAuthStore()
@@ -71,7 +72,7 @@ export const AppRouter = () => {
             <Route path='communities' element={<ComunityPage />} />
             <Route path='event' element={<EventPage />} />
             <Route path='comunity-leader' element={<MinistersPage />} />
-            <Route path='feligreses' element={<h1>Feligres</h1>} />
+            <Route path='feligreses' element={<FeligresPage />} />
             <Route path='intention' element={<h1>intencion</h1>} />
             <Route path='ministry' element={<MinistryPage />} />
             <Route path='liturgy-turns' element={<h1>liturgia</h1>} />

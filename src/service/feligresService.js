@@ -2,8 +2,9 @@ import parishApi from '../api/api'
 
 export const getAllFeligresService = async ({ page = 1, limit = 10 }) => {
   try {
-    const res = await parishApi.get('/feligres', { params: { page, limit } })
+    const res = await parishApi.get('/feligreses', { params: { page, limit } })
     if (res.status !== 200) throw new Error('Error al obtener feligreses')
+
     return res.data
   } catch (error) {
     const message =
@@ -14,7 +15,7 @@ export const getAllFeligresService = async ({ page = 1, limit = 10 }) => {
 
 export const createFeligresService = async ({ data }) => {
   try {
-    const res = await parishApi.post('/feligres', data)
+    const res = await parishApi.post('/feligreses', data)
     return res.data
   } catch (error) {
     if (error.response && error.response.data && error.response.data.error) {
@@ -27,7 +28,7 @@ export const createFeligresService = async ({ data }) => {
 
 export const updateFeligresService = async ({ id, data }) => {
   try {
-    const res = await parishApi.put(`/feligres/${id}`, data)
+    const res = await parishApi.put(`/feligreses/${id}`, data)
     return res.data
   } catch (error) {
     if (error.response && error.response.data && error.response.data.error) {
@@ -40,7 +41,7 @@ export const updateFeligresService = async ({ id, data }) => {
 
 export const deleteFeligresService = async ({ id }) => {
   try {
-    const res = await parishApi.delete(`/feligres/${id}`)
+    const res = await parishApi.delete(`/feligreses/${id}`)
     return res.data
   } catch (error) {
     if (error.response && error.response.data && error.response.data.error) {
