@@ -15,7 +15,6 @@ export const EventSection = ({ refresh, data }) => {
 
   const handleSelectedClick = (event) => {
     setSelected(event)
-    openDraw()
   }
 
   const handleClose = () => {
@@ -24,7 +23,7 @@ export const EventSection = ({ refresh, data }) => {
   }
 
   const onDoubleClickOpenDraw = () => {
-    // openDraw()
+    openDraw()
   }
 
   useEffect(() => {

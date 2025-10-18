@@ -73,7 +73,7 @@ export const AppRouter = () => {
             <Route path='event' element={<EventPage />} />
             <Route path='comunity-leader' element={<MinistersPage />} />
             <Route path='feligreses' element={<FeligresPage />} />
-            <Route path='intention' element={<h1>intencion</h1>} />
+            <Route path='event/:id' element={<h1>intencion</h1>} />
             <Route path='ministry' element={<MinistryPage />} />
             <Route path='liturgy-turns' element={<h1>liturgia</h1>} />
             <Route path='service-group' element={<GrupoServicioPage />} />

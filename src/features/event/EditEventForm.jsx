@@ -13,9 +13,10 @@ import { useEvent } from '../../hook/useEvent'
 import { useCommunity } from '../../hook/useCommunity'
 import { useParishService } from '../../hook/useParishService'
 import { InputField } from '../../components/inputField'
-import { MdEventAvailable } from 'react-icons/md'
+import { MdEventAvailable, MdNavigateNext } from 'react-icons/md'
 import { CiCalendarDate } from 'react-icons/ci'
 import { FaChurch } from 'react-icons/fa'
+import { LuNavigation } from 'react-icons/lu'
 
 export const EditEventForm = ({ initialData, onSaved, onDeleted }) => {
   const { formData, setFormData, handleChange, validate } = useForm(
@@ -135,12 +136,15 @@ export const EditEventForm = ({ initialData, onSaved, onDeleted }) => {
     <FormWrapper onSubmit={handleSave}>
       <Header>
         <TitleIconContainer>
-          <FaChurch size='2em' color='#3498db' />
+          <FaChurch size='2em' />
         </TitleIconContainer>
         <HeaderContent>
           <h2>Editar Evento</h2>
           <p>Editando: {formData.nombre || '...'}</p>
         </HeaderContent>
+        <TitleIconContainer>
+          <MdNavigateNext size='1em' cursor='pointer' />
+        </TitleIconContainer>
       </Header>
 
       <FormBody>
@@ -311,6 +315,8 @@ const TitleIconContainer = styled.div`
   background-color: ${({ theme }) => theme.bg3};
   padding: 8px;
   border-radius: 8px;
+  /* background-color: ${({ theme }) => theme.bg4}; */
+  /* color: ${({ theme }) => theme.textsecondary}; */
 `
 
 const HeaderContent = styled.div`
