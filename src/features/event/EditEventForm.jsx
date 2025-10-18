@@ -296,6 +296,7 @@ const FormWrapper = styled.form`
   flex-direction: column;
   /* height: 95vh; */
   color: ${({ theme }) => theme.text};
+  min-height: 95vh;
 `
 
 const Header = styled.div`
@@ -357,7 +358,7 @@ const TextArea = styled.textarea`
 `
 
 const Select = styled.select`
-  flex: 1;
+  /* flex: 1; */
   padding: 10px 15px;
   border-radius: 8px;
   border: none;
