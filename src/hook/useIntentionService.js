@@ -10,7 +10,7 @@ export const useIntentionService = () => {
 
       const res = await getIntentionByEventService({ id })
 
-      setIntention(res)
+      setIntention(res?.data)
       return res
     } catch (error) {
       throw error || { message: 'Error al encontrar grupo' }

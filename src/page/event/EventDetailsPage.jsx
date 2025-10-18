@@ -7,6 +7,7 @@ import { FcPrevious } from 'react-icons/fc'
 import { useUiModal } from '../../hook/useUiModal'
 import { AddButtonC } from '../../components/AddButton'
 import { useIntentionService } from '../../hook/useIntentionService'
+import { EventDetailsSection } from '../../features/event/EventDetailsSection'
 
 export const EventDetailsPage = () => {
   const { id } = useParams()
@@ -68,6 +69,7 @@ export const EventDetailsPage = () => {
         <AddButtonC textBtn='Agregar Intención' handleClick={handleOpenModal} />
         {/* <ModalMembersGroup grupo={grupos} onCreated={refreshMembers} /> */}
       </SubHeader>
+      <EventDetailsSection refresh={refreshMembers} data={intention} />
     </Container>
   )
 }
