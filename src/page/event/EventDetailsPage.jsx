@@ -8,6 +8,7 @@ import { useUiModal } from '../../hook/useUiModal'
 import { AddButtonC } from '../../components/AddButton'
 import { useIntentionService } from '../../hook/useIntentionService'
 import { EventDetailsSection } from '../../features/event/EventDetailsSection'
+import { ModalIntencion } from '../../features/intention/ModalIntention'
 
 export const EventDetailsPage = () => {
   const { id } = useParams()
@@ -46,7 +47,7 @@ export const EventDetailsPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  // console.log(intention)
+  // console.log(events)
   return (
     <Container>
       <Header>
@@ -67,7 +68,10 @@ export const EventDetailsPage = () => {
           <SubTitle>Intenciones</SubTitle>
         </HeaderContent>
         <AddButtonC textBtn='Agregar Intención' handleClick={handleOpenModal} />
-        {/* <ModalMembersGroup grupo={grupos} onCreated={refreshMembers} /> */}
+        <ModalIntencion
+          idEvento={events?.id_evento}
+          onCreated={refreshMembers}
+        />
       </SubHeader>
       <EventDetailsSection refresh={refreshMembers} data={intention} />
     </Container>

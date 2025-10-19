@@ -13,23 +13,29 @@ export const getIntentionByEventService = async ({ id }) => {
         id_evento,
         id_intencion,
         pagada,
+        montopagado,
         montoofrenda,
+        estadointencion,
       } = item
 
       const { id_feligres, nombre, apellido } = feligres || {}
       const { id_tipointencion, nombre: nom } = tipointencion || {}
+      const { id_estadoin, nombre: nomIn } = estadointencion || {}
 
       return {
         id_evento,
         id_intencion,
         id_feligres,
+        id_estadoin,
         feligres: `${nombre} ${apellido}`,
         tipo: nom,
         id_tipointencion,
         descripcion,
         solicitud: fechasolicitud,
         ofrenda: montoofrenda,
+        montopagado: montopagado ?? '0',
         estado_pago: pagada,
+        estado: nomIn,
       }
     })
 
