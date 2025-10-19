@@ -72,3 +72,21 @@ export const getAllTypeIntentionService = async () => {
     throw new Error(message)
   }
 }
+
+export const getAllStateIntentionService = async () => {
+  try {
+    const res = await parishApi.get('/state-intention')
+
+    if (res.status !== 200) {
+      throw new Error('No se pudieron obtener los tipos de estado')
+    }
+
+    return res.data
+  } catch (error) {
+    const message =
+      error.response?.data?.error ||
+      error.message ||
+      'Error desconocido al obtener las intenciones del evento'
+    throw new Error(message)
+  }
+}

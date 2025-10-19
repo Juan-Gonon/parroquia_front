@@ -17,7 +17,12 @@ import { useCatalogIntentionS } from '../../hook/useCatalogIntentionS'
 export const ModalIntencion = ({ idEvento, onCreated }) => {
   const { closeModal } = useUiModal()
   const { feligreses, getAllFeligres } = useFeligres()
-  const { typeIntention, getAllTypeIntentionS } = useCatalogIntentionS()
+  const {
+    typeIntention,
+    stateIntention,
+    getAllTypeIntentionS,
+    getAllStateIntentionS,
+  } = useCatalogIntentionS()
   const { createIntencionS } = useIntentionService()
 
   const { formData, errors, handleChange, validate, resetForm } = useForm(
@@ -46,7 +51,7 @@ export const ModalIntencion = ({ idEvento, onCreated }) => {
   useEffect(() => {
     getAllFeligres({ page: 1, limit: 1000 })
     getAllTypeIntentionS()
-    // getAllEstadosIntencion({ page: 1, limit: 100 })
+    getAllStateIntentionS()
   }, [])
 
   const handleSubmit = async (e) => {
@@ -77,7 +82,7 @@ export const ModalIntencion = ({ idEvento, onCreated }) => {
       })
     }
   }
-  // console.log(typeIntention)
+  // console.log(stateIntention)
 
   return (
     <ModalForm onAfterClose={resetForm}>
@@ -130,12 +135,11 @@ export const ModalIntencion = ({ idEvento, onCreated }) => {
           value={formData.idEstadoIntencion}
           onChange={handleChange}>
           <option value=''>Seleccionar estado de intención</option>
-          {/* {typeIntention?.map((e) => (
-            <option key={e.id_estado_intencion} value={e.id_estado_intencion}>
+          {stateIntention?.map((e) => (
+            <option key={e.id_estadoin} value={e.id_estadoin}>
               {e.nombre}
             </option>
-          ))} */}
-          <option value=''>Completado</option>
+          ))}
         </Select>
         <ErrorMessage $show={!!errors.idEstadoIntencion}>
           {errors.idEstadoIntencion}
