@@ -12,23 +12,12 @@ import { FaPrayingHands } from 'react-icons/fa'
 import { CiCalendarDate } from 'react-icons/ci'
 import { ModalForm } from '../../components/ModalForm'
 import { InputField } from '../../components/inputField'
-// import { useUiModal } from '../../hook/useUiModal'
-// import { useForm } from '../../hook/useForm'
-// import { ModalForm } from '../../components/ModalForm'
-// import { InputField } from '../../components/inputField'
-// import { useFeligres } from '../../hook/useFeligres'
-// import { useTipoIntencion } from '../../hook/useTipoIntencion'
-// import { useEstadoIntencion } from '../../hook/useEstadoIntencion'
-// import { useIntencion } from '../../hook/useIntencion'
-// import { FaPrayingHands } from 'react-icons/fa'
-// import { CiCalendarDate } from 'react-icons/ci'
-// import { MdAttachMoney } from 'react-icons/md'
+import { useCatalogIntentionS } from '../../hook/useCatalogIntentionS'
 
 export const ModalIntencion = ({ idEvento, onCreated }) => {
   const { closeModal } = useUiModal()
   const { feligreses, getAllFeligres } = useFeligres()
-  // const { tiposIntencion, getAllTiposIntencion } = useTipoIntencion()
-  // const { estadosIntencion, getAllEstadosIntencion } = useEstadoIntencion()
+  const { typeIntention, getAllTypeIntentionS } = useCatalogIntentionS()
   const { createIntencionS } = useIntentionService()
 
   const { formData, errors, handleChange, validate, resetForm } = useForm(
@@ -55,8 +44,8 @@ export const ModalIntencion = ({ idEvento, onCreated }) => {
   )
 
   useEffect(() => {
-    getAllFeligres({ page: 1, limit: 100 })
-    // getAllTiposIntencion({ page: 1, limit: 100 })
+    getAllFeligres({ page: 1, limit: 1000 })
+    getAllTypeIntentionS()
     // getAllEstadosIntencion({ page: 1, limit: 100 })
   }, [])
 
@@ -88,6 +77,7 @@ export const ModalIntencion = ({ idEvento, onCreated }) => {
       })
     }
   }
+  // console.log(typeIntention)
 
   return (
     <ModalForm onAfterClose={resetForm}>
@@ -124,12 +114,11 @@ export const ModalIntencion = ({ idEvento, onCreated }) => {
           value={formData.idTipoIntencion}
           onChange={handleChange}>
           <option value=''>Seleccionar tipo de intención</option>
-          {/* {tiposIntencion?.map((t) => (
-            <option key={t.id_tipo_intencion} value={t.id_tipo_intencion}>
+          {typeIntention?.map((t) => (
+            <option key={t.id_tipointencion} value={t.id_tipointencion}>
               {t.nombre}
             </option>
-          ))} */}
-          <option value=''>Difuntos</option>
+          ))}
         </Select>
         <ErrorMessage $show={!!errors.idTipoIntencion}>
           {errors.idTipoIntencion}
@@ -141,7 +130,7 @@ export const ModalIntencion = ({ idEvento, onCreated }) => {
           value={formData.idEstadoIntencion}
           onChange={handleChange}>
           <option value=''>Seleccionar estado de intención</option>
-          {/* {estadosIntencion?.map((e) => (
+          {/* {typeIntention?.map((e) => (
             <option key={e.id_estado_intencion} value={e.id_estado_intencion}>
               {e.nombre}
             </option>
