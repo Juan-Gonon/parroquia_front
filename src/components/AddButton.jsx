@@ -2,9 +2,9 @@ import React from 'react'
 import { MdAdd } from 'react-icons/md'
 import styled from 'styled-components'
 
-export const AddButtonC = ({ textBtn, handleClick }) => {
+export const AddButtonC = ({ textBtn, handleClick, disabled }) => {
   return (
-    <AddButton onClick={handleClick}>
+    <AddButton onClick={handleClick} disabled={disabled}>
       <MdAdd />
       <span>{textBtn}</span>
     </AddButton>

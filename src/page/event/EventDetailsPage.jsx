@@ -67,7 +67,11 @@ export const EventDetailsPage = () => {
         <HeaderContent>
           <SubTitle>Intenciones</SubTitle>
         </HeaderContent>
-        <AddButtonC textBtn='Agregar Intención' handleClick={handleOpenModal} />
+        <AddButtonC
+          textBtn='Agregar Intención'
+          handleClick={handleOpenModal}
+          disabled={!events?.aceptaintenciones}
+        />
         <ModalIntencion
           idEvento={events?.id_evento}
           onCreated={refreshMembers}
