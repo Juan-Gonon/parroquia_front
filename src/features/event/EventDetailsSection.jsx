@@ -7,6 +7,7 @@ import { useThemeStore } from '../../hook/useThemeStore'
 import { useUIdraw } from '../../hook/useUIdraw'
 import { TableC } from '../../components/TableC'
 import { RightDrawer } from '../../layout/RightDrawer'
+import { EditIntentionForm } from '../intention/EditIntentionForm'
 
 export const EventDetailsSection = ({ refresh, data }) => {
   const { theme } = useThemeStore()
@@ -26,6 +27,7 @@ export const EventDetailsSection = ({ refresh, data }) => {
     closeDraw()
     setTimeout(() => setSelected(null), 320)
   }
+  // console.log(selected)
 
   return (
     <Container $themeUse={theme}>
@@ -37,14 +39,17 @@ export const EventDetailsSection = ({ refresh, data }) => {
 
       <RightDrawer onClose={handleClose}>
         {selected && (
-          // <EditMemberForm
-          //   initialData={selected}
-          //   onDeleted={() => {
-          //     refresh()
-          //     handleClose()
-          //   }}
-          // />
-          <h1>Hola</h1>
+          <EditIntentionForm
+            initialData={selected}
+            onSaved={() => {
+              refresh()
+              handleClose()
+            }}
+            onDeleted={() => {
+              refresh()
+              handleClose()
+            }}
+          />
         )}
       </RightDrawer>
     </Container>
