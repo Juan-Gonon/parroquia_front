@@ -13,9 +13,15 @@ export const EventDetailsSection = ({ refresh, data }) => {
   const { theme } = useThemeStore()
   const { closeDraw, openDraw } = useUIdraw()
   const [selected, setSelected] = useState(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    refresh()
+    const fetchData = async () => {
+      setLoading(true)
+      await refresh()
+      setLoading(false)
+    }
+    fetchData()
   }, [])
 
   const handleRowClick = (rowData) => {
@@ -33,7 +39,22 @@ export const EventDetailsSection = ({ refresh, data }) => {
     <Container $themeUse={theme}>
       <section className='table-content'>
         <div className='table-body'>
-          <TableC data={data} onRowClick={handleRowClick} />
+          {loading ? (
+            <MessageContainer>
+              <Spinner />
+              <p>Cargando intenciones...</p>
+            </MessageContainer>
+          ) : data?.length > 0 ? (
+            <TableC data={data} onRowClick={handleRowClick} />
+          ) : (
+            <MessageContainer>
+              <EmptyIcon>📭</EmptyIcon>
+              <h3>Este evento no tiene intenciones registradas</h3>
+              <p>
+                Puedes agregar nuevas intenciones desde el módulo principal.
+              </p>
+            </MessageContainer>
+          )}
         </div>
       </section>
 
@@ -59,7 +80,7 @@ export const EventDetailsSection = ({ refresh, data }) => {
 const Container = styled.main`
   width: 100%;
   /* height: 60vh; */
-  min-height: 50vh;
+  min-height: 20vh;
   height: auto;
   padding: 20px;
   background-color: ${({ theme }) => theme.bgtotal};
@@ -89,6 +110,49 @@ const Container = styled.main`
       font-weight: 500;
       color: ${({ theme }) => theme.textprimary};
       border-top: 1px solid ${({ theme }) => theme.bg3};
+    }
+  }
+`
+
+const MessageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  text-align: center;
+  color: ${({ theme }) => theme.textprimary};
+  opacity: 0.9;
+
+  h3 {
+    margin-top: 10px;
+    font-size: 1.2rem;
+  }
+
+  p {
+    font-size: 0.95rem;
+    margin-top: 5px;
+    color: ${({ theme }) => theme.text};
+    opacity: 0.8;
+  }
+`
+
+const EmptyIcon = styled.span`
+  font-size: 2rem;
+`
+
+const Spinner = styled.div`
+  width: 40px;
+  height: 40px;
+  border: 4px solid ${({ theme }) => theme.bg3};
+  border-top-color: ${({ theme }) => theme.textprimary};
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 10px;
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
     }
   }
 `
