@@ -10,6 +10,7 @@ export const InputField = ({
   value,
   onChange,
   required,
+  disabled,
 }) => {
   return (
     <InputGroup>
@@ -23,6 +24,7 @@ export const InputField = ({
         value={value}
         onChange={onChange}
         required={required}
+        disabled={disabled}
       />
     </InputGroup>
   )

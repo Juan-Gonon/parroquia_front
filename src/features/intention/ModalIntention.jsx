@@ -83,7 +83,7 @@ export const ModalIntencion = ({ idEvento, onCreated }) => {
       })
     }
   }
-  // console.log(stateIntention)
+  // console.log(formData.pagada)
 
   return (
     <ModalForm onAfterClose={resetForm}>
@@ -115,60 +115,50 @@ export const ModalIntencion = ({ idEvento, onCreated }) => {
         </ErrorMessage>
 
         {/* TIPO INTENCIÓN */}
-        <Select
-          name='idTipoIntencion'
-          value={formData.idTipoIntencion}
-          onChange={handleChange}>
-          <option value=''>Seleccionar tipo de intención</option>
-          {typeIntention?.map((t) => (
-            <option key={t.id_tipointencion} value={t.id_tipointencion}>
-              {t.nombre}
-            </option>
-          ))}
-        </Select>
-        <ErrorMessage $show={!!errors.idTipoIntencion}>
-          {errors.idTipoIntencion}
-        </ErrorMessage>
+        <FlexRow>
+          <Select
+            name='idTipoIntencion'
+            value={formData.idTipoIntencion}
+            onChange={handleChange}>
+            <option value=''>Seleccionar tipo de intención</option>
+            {typeIntention?.map((t) => (
+              <option key={t.id_tipointencion} value={t.id_tipointencion}>
+                {t.nombre}
+              </option>
+            ))}
+          </Select>
+          <ErrorMessage $show={!!errors.idTipoIntencion}>
+            {errors.idTipoIntencion}
+          </ErrorMessage>
 
-        {/* ESTADO INTENCIÓN */}
-        <Select
-          name='idEstadoIntencion'
-          value={formData.idEstadoIntencion}
-          onChange={handleChange}>
-          <option value=''>Seleccionar estado de intención</option>
-          {stateIntention?.map((e) => (
-            <option key={e.id_estadoin} value={e.id_estadoin}>
-              {e.nombre}
-            </option>
-          ))}
-        </Select>
-        <ErrorMessage $show={!!errors.idEstadoIntencion}>
-          {errors.idEstadoIntencion}
-        </ErrorMessage>
+          {/* ESTADO INTENCIÓN */}
+          <Select
+            name='idEstadoIntencion'
+            value={formData.idEstadoIntencion}
+            onChange={handleChange}>
+            <option value=''>Seleccionar estado de intención</option>
+            {stateIntention?.map((e) => (
+              <option key={e.id_estadoin} value={e.id_estadoin}>
+                {e.nombre}
+              </option>
+            ))}
+          </Select>
+          <ErrorMessage $show={!!errors.idEstadoIntencion}>
+            {errors.idEstadoIntencion}
+          </ErrorMessage>
+        </FlexRow>
 
         {/* DESCRIPCIÓN */}
-        <InputField
-          icon={MdAttachMoney}
-          type='text'
+        <TextArea
           name='descripcion'
           placeholder='Descripción de la intención'
           value={formData.descripcion}
           onChange={handleChange}
         />
+
         <ErrorMessage $show={!!errors.descripcion}>
           {errors.descripcion}
         </ErrorMessage>
-
-        {/* MONTO OFRENDA */}
-        <InputField
-          icon={MdAttachMoney}
-          type='number'
-          step='0.01'
-          name='montoOfrenda'
-          placeholder='Monto de la ofrenda (opcional)'
-          value={formData.montoOfrenda}
-          onChange={handleChange}
-        />
 
         {/* PAGADA */}
         <SwitchContainer>
@@ -197,6 +187,7 @@ export const ModalIntencion = ({ idEvento, onCreated }) => {
             placeholder='Monto pagado (opcional)'
             value={formData.montoPagado}
             onChange={handleChange}
+            disabled={!formData.pagada}
           />
           <InputField
             icon={CiCalendarDate}
@@ -205,8 +196,20 @@ export const ModalIntencion = ({ idEvento, onCreated }) => {
             placeholder='Fecha de pago (opcional)'
             value={formData.fechaPago}
             onChange={handleChange}
+            disabled={!formData.pagada}
           />
         </FlexRow>
+
+        {/* MONTO OFRENDA */}
+        <InputField
+          icon={MdAttachMoney}
+          type='number'
+          step='0.01'
+          name='montoOfrenda'
+          placeholder='Monto de la ofrenda (opcional)'
+          value={formData.montoOfrenda}
+          onChange={handleChange}
+        />
 
         <Actions>
           <CancelButton type='button' onClick={closeModal}>
@@ -227,13 +230,15 @@ const FormContainer = styled.form`
   padding: 25px;
   background-color: ${({ theme }) => theme.bgtgderecha};
   border-radius: 15px;
-  width: 500px;
+  width: 700px;
   max-width: 95%;
 `
 const FlexRow = styled.div`
   display: flex;
   gap: 15px;
   width: 100%;
+  justify-content: space-around;
+  align-items: center;
 `
 const Select = styled.select`
   flex: 1;
@@ -291,7 +296,7 @@ const SubmitButton = styled.button`
 `
 const ErrorMessage = styled.p`
   color: #e74c3c;
-  font-size: 0.85rem;
+  font-size: 0.65rem;
   margin: -8px 0 5px 5px;
   min-height: 18px;
   opacity: ${({ $show }) => ($show ? 1 : 0)};
@@ -321,5 +326,21 @@ const HeaderContent = styled.div`
     font-size: 0.8rem;
     color: ${({ theme }) => theme.gray500};
     margin: 0;
+  }
+`
+
+const TextArea = styled.textarea`
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: none;
+  background-color: ${({ theme }) => theme.bg2};
+  color: ${({ theme }) => theme.text};
+  font-size: ${({ theme }) => theme.fontsm};
+  resize: vertical;
+  min-height: 100px;
+  outline: none;
+
+  &:focus {
+    border: 2px solid ${({ theme }) => theme.bg4};
   }
 `
