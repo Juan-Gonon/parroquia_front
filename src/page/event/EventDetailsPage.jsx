@@ -3,12 +3,13 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useEvent } from '../../hook/useEvent'
 import { useCallback, useEffect } from 'react'
 import styled from 'styled-components'
-import { FcPrevious } from 'react-icons/fc'
 import { useUiModal } from '../../hook/useUiModal'
 import { AddButtonC } from '../../components/AddButton'
 import { useIntentionService } from '../../hook/useIntentionService'
 import { EventDetailsSection } from '../../features/event/EventDetailsSection'
 import { ModalIntencion } from '../../features/intention/ModalIntention'
+import { GrFormPreviousLink } from 'react-icons/gr'
+import { GiPeaceDove } from 'react-icons/gi'
 
 export const EventDetailsPage = () => {
   const { id } = useParams()
@@ -52,8 +53,8 @@ export const EventDetailsPage = () => {
     <Container>
       <Header>
         <TitleIconContainer>
-          <FcPrevious
-            size='1.8em'
+          <GrFormPreviousLink
+            size='2em'
             color='#fff'
             onClick={handleBack}
             cursor='pointer'
@@ -62,6 +63,9 @@ export const EventDetailsPage = () => {
         <HeaderContent>
           <Title>{events?.nombre}</Title>
         </HeaderContent>
+        <IconBackgDef>
+          <GiPeaceDove size='8em' color='#fff' />
+        </IconBackgDef>
       </Header>
       <SubHeader>
         <HeaderContent>
@@ -128,14 +132,25 @@ const Header = styled.div`
   width: 98%;
   border-radius: 15px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  position: relative;
 `
 
 const TitleIconContainer = styled.div`
+  background-color: ${({ theme }) => theme.bg4};
+  padding: 8px;
+  border-radius: 50px;
+`
+
+const IconBackgDef = styled.div`
   /* background-color: ${({ theme }) => theme.bg4}; */
   padding: 8px;
   border-radius: 8px;
+  position: absolute;
+  /* background: red; */
+  right: 45px;
+  opacity: 0.5;
 `
-
 const HeaderContent = styled.div`
   flex-grow: 1;
   h2 {
