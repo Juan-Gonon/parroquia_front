@@ -1,5 +1,8 @@
 import { useState } from 'react'
-import { getIntentionByEventService } from '../service/intentionService'
+import {
+  createIntencionService,
+  getIntentionByEventService,
+} from '../service/intentionService'
 
 export const useIntentionService = () => {
   const [intention, setIntention] = useState([])
@@ -17,8 +20,25 @@ export const useIntentionService = () => {
     }
   }
 
+  const createIntencionS = async ({ data }) => {
+    const { fechaPago, montoPagado, montoOfrenda, ...rest } = data
+    const newData = { ...rest }
+
+    if (fechaPago?.length) newData.fechaPago = fechaPago
+    if (montoPagado?.length) newData.montoPagado = montoPagado
+    if (montoOfrenda?.length) newData.montoOfrenda = montoOfrenda
+
+    try {
+      const res = await createIntencionService({ data: newData })
+      return res
+    } catch (error) {
+      throw error || { message: 'Error inesperado' }
+    }
+  }
+
   return {
     intention,
     getIntentionByEventS,
+    createIntencionS,
   }
 }

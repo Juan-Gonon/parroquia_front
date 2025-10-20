@@ -64,6 +64,7 @@ export const ModalIntencion = ({ idEvento, onCreated }) => {
       const payload = { ...formData, idEvento }
 
       await createIntencionS({ data: payload })
+      // console.log(payload)
       Swal.fire({
         title: 'Intención creada correctamente',
         text: 'El registro fue exitoso.',

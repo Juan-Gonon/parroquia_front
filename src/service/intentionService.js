@@ -90,3 +90,18 @@ export const getAllStateIntentionService = async () => {
     throw new Error(message)
   }
 }
+
+export const createIntencionService = async ({ data }) => {
+  try {
+    const res = await parishApi.post('/intention', data)
+    if (res.status !== 200) {
+      throw new Error('No se pudo crear la intención')
+    }
+    return res.data
+  } catch (error) {
+    if (error.response?.data?.error) {
+      throw new Error(error.response.data.error)
+    }
+    throw new Error(error.message || 'Error desconocido')
+  }
+}
