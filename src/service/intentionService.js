@@ -105,3 +105,20 @@ export const createIntencionService = async ({ data }) => {
     throw new Error(error.message || 'Error desconocido')
   }
 }
+
+export const updateIntentionService = async ({ data, id }) => {
+  try {
+    const res = await parishApi.put(`/intention/${id}`, data)
+
+    if (res.status !== 200) {
+      throw new Error('No se pudo actualizar la intención')
+    }
+
+    return res.data
+  } catch (error) {
+    if (error.response?.data?.error) {
+      throw new Error(error.response.data.error)
+    }
+    throw new Error(error.message || 'Error desconocido')
+  }
+}

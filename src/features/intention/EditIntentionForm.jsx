@@ -137,7 +137,7 @@ export const EditIntentionForm = ({ initialData, onSaved, onDeleted }) => {
         </TitleIconContainer>
         <HeaderContent>
           <h2>Editar Intención</h2>
-          <p>Editando intención de {formData.descripcion || '...'}</p>
+          <p>Editando intención de {initialData?.feligres || '...'}</p>
         </HeaderContent>
       </Header>
 

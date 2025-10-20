@@ -2,6 +2,7 @@ import { useState } from 'react'
 import {
   createIntencionService,
   getIntentionByEventService,
+  updateIntentionService,
 } from '../service/intentionService'
 
 export const useIntentionService = () => {
@@ -36,9 +37,29 @@ export const useIntentionService = () => {
     }
   }
 
+  const updateIntentionS = async ({ data, id }) => {
+    const { fechaPago, montoOfrenda, montoPagado, ...rest } = data
+    const newData = rest
+
+    if (fechaPago?.length) newData.fechaPago = fechaPago
+    if (montoOfrenda?.length) newData.montoOfrenda = montoOfrenda
+    if (montoPagado?.length) newData.montoPagado = montoPagado
+    // console.log(newData)
+    if (!newData?.pagada) newData.montoPagado = '0'
+    try {
+      if (!id) throw new Error('El id de la intención es requerido')
+
+      const res = await updateIntentionService({ data: newData, id })
+      return res
+    } catch (error) {
+      throw error || { message: 'Error inesperado' }
+    }
+  }
+
   return {
     intention,
     getIntentionByEventS,
     createIntencionS,
+    updateIntentionS,
   }
 }
