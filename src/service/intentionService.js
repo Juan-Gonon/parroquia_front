@@ -122,3 +122,20 @@ export const updateIntentionService = async ({ data, id }) => {
     throw new Error(error.message || 'Error desconocido')
   }
 }
+
+export const deleteIntentionService = async ({ id }) => {
+  try {
+    const res = await parishApi.delete(`/intention/${id}`)
+
+    if (res.status !== 200) {
+      throw new Error('No se pudo eliminar la intención')
+    }
+
+    return res.data
+  } catch (error) {
+    if (error.response?.data?.error) {
+      throw new Error(error.response.data.error)
+    }
+    throw new Error(error.message || 'Error desconocido')
+  }
+}

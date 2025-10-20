@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import {
   createIntencionService,
+  deleteIntentionService,
   getIntentionByEventService,
   updateIntentionService,
 } from '../service/intentionService'
@@ -56,10 +57,22 @@ export const useIntentionService = () => {
     }
   }
 
+  const deleteIntentionS = async ({ id }) => {
+    try {
+      if (!id) throw new Error('El id de la intención es requerido')
+
+      const res = await deleteIntentionService({ id })
+      return res
+    } catch (error) {
+      throw error || { message: 'Error inesperado' }
+    }
+  }
+
   return {
     intention,
     getIntentionByEventS,
     createIntencionS,
     updateIntentionS,
+    deleteIntentionS,
   }
 }
