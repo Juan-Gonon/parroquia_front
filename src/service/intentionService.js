@@ -139,3 +139,20 @@ export const deleteIntentionService = async ({ id }) => {
     throw new Error(error.message || 'Error desconocido')
   }
 }
+
+export const getIntentionByYearAndMonthService = async ({ year, month }) => {
+  try {
+    const res = await parishApi.get(`/intention/by-month/${year}/${month}`)
+
+    if (res.status !== 200) {
+      throw new Error('No se pudo obtener datos')
+    }
+
+    return res.data
+  } catch (error) {
+    if (error.response?.data?.error) {
+      throw new Error(error.response.data.error)
+    }
+    throw new Error(error.message || 'Error desconocido')
+  }
+}

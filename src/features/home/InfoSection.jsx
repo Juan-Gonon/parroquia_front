@@ -1,6 +1,25 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect } from 'react'
 import styled from 'styled-components'
+import { useHomeInfo } from '../../hook/useHomeInfo'
 
 export const InfoSection = () => {
+  const { data, getAllIntentionByYearAndMonthS } = useHomeInfo()
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const today = new Date()
+      const year = today.getFullYear()
+      const month = today.getMonth() + 1
+
+      await getAllIntentionByYearAndMonthS({ year, month })
+    }
+
+    fetchData()
+  }, [])
+
+  // console.log(data)
+
   return (
     <Container>
       <div className='info-content'>
