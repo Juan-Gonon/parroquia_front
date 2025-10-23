@@ -3,8 +3,10 @@ import { GiPeaceDove } from 'react-icons/gi'
 import { GrFormPreviousLink } from 'react-icons/gr'
 import styled from 'styled-components'
 import { InfoSection } from '../../features/home/InfoSection'
+import { useAuthStore } from '../../hook/useAuthStore'
 
 export const Home = () => {
+  const { status } = useAuthStore()
   return (
     <Container>
       <Header>
@@ -19,7 +21,7 @@ export const Home = () => {
           <GiPeaceDove size='8em' color='#fff' />
         </IconBackgDef>
       </Header>
-      <InfoSection />
+      {status === 'authenticated' && <InfoSection />}
     </Container>
   )
 }
