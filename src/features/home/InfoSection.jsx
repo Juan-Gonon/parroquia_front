@@ -2,7 +2,7 @@
 import { useEffect } from 'react'
 import styled from 'styled-components'
 import { useHomeInfo } from '../../hook/useHomeInfo'
-import { Bar, Line } from 'react-chartjs-2'
+import { Line } from 'react-chartjs-2'
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -15,6 +15,7 @@ import {
   Legend,
   Filler,
 } from 'chart.js'
+import { GrapichBar } from '../../components/GrapichBar'
 
 ChartJS.register(
   CategoryScale,
@@ -42,42 +43,6 @@ export const InfoSection = () => {
     }
     fetchData()
   }, [])
-
-  /* ---------------------------------
-     OFRENDAS DEL MES
-  ----------------------------------*/
-  const agrupado = data?.agrupadoPorTipo || {}
-  const totalRecaudado = data?.totalRecaudado || 0
-
-  const barLabels = Object.keys(agrupado)
-  const barValues = Object.values(agrupado)
-
-  const barData = {
-    labels: barLabels,
-    datasets: [
-      {
-        label: 'Intenciones',
-        data: barValues,
-        backgroundColor: barLabels.map((_, i) => colorForIndex(i)),
-        borderRadius: 8,
-      },
-    ],
-  }
-
-  const barOptions = {
-    responsive: true,
-    plugins: {
-      legend: { display: false },
-    },
-    scales: {
-      x: { grid: { display: false }, ticks: { color: '#555' } },
-      y: {
-        beginAtZero: true,
-        ticks: { color: '#555' },
-        grid: { color: 'rgba(200,200,200,0.15)' },
-      },
-    },
-  }
 
   /* ---------------------------------
      TENDENCIA (últimos 6 meses)
@@ -130,21 +95,7 @@ export const InfoSection = () => {
         {/* ------------------- IZQUIERDA ------------------- */}
         <div className='diagram-content'>
           {/* --- Ofrendas del mes --- */}
-          <Card>
-            <HeaderCard>
-              <h3>Ofrendas del Mes</h3>
-              <p>
-                Total recaudado: <strong>Q{totalRecaudado}</strong>
-              </p>
-            </HeaderCard>
-            <ChartWrapper>
-              {barLabels.length > 0 ? (
-                <Bar data={barData} options={barOptions} />
-              ) : (
-                <p className='empty'>No hay datos disponibles</p>
-              )}
-            </ChartWrapper>
-          </Card>
+          <GrapichBar data={data} />
 
           {/* --- Tendencia últimos 6 meses --- */}
           <Card>
@@ -183,13 +134,6 @@ export const InfoSection = () => {
 }
 
 /* ----------------- Helpers y estilos ----------------- */
-function colorForIndex(i, alpha = 1) {
-  const hue = (i * 67) % 360
-  return alpha === 1
-    ? `hsl(${hue} 70% 45%)`
-    : `hsla(${hue}, 70%, 50%, ${alpha})`
-}
-
 const Container = styled.main`
   width: 100%;
   min-height: calc(100vh - ${({ theme }) => theme.navHeight});
