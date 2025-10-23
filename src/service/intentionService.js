@@ -156,3 +156,20 @@ export const getIntentionByYearAndMonthService = async ({ year, month }) => {
     throw new Error(error.message || 'Error desconocido')
   }
 }
+
+export const getByLastMonthsService = async ({ count }) => {
+  try {
+    const res = await parishApi.get(`/intention/by-last-months/${count}`)
+
+    if (res.status !== 200) {
+      throw new Error('No se pudo obtener datos')
+    }
+
+    return res.data
+  } catch (error) {
+    if (error.response?.data?.error) {
+      throw new Error(error.response.data.error)
+    }
+    throw new Error(error.message || 'Error desconocido')
+  }
+}

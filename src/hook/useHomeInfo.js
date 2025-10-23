@@ -1,8 +1,12 @@
 import { useState } from 'react'
-import { getIntentionByYearAndMonthService } from '../service/intentionService'
+import {
+  getByLastMonthsService,
+  getIntentionByYearAndMonthService,
+} from '../service/intentionService'
 
 export const useHomeInfo = () => {
   const [data, setData] = useState({})
+  const [lastMonths, setLastMonths] = useState([])
   const getAllIntentionByYearAndMonthS = async ({ year, month }) => {
     try {
       if (!year) throw new Error('El año de las intenciones es requerida')
@@ -16,8 +20,22 @@ export const useHomeInfo = () => {
       throw error || { message: 'Error inesperado' }
     }
   }
+  const getByLastMonthsS = async ({ count }) => {
+    try {
+      if (!count) throw new Error('El parametro count es requerido')
+
+      const res = await getByLastMonthsService({ count })
+      // console.log(res)
+      setLastMonths(res)
+      return res
+    } catch (error) {
+      throw error || { message: 'Error inesperado' }
+    }
+  }
   return {
     data,
+    lastMonths,
     getAllIntentionByYearAndMonthS,
+    getByLastMonthsS,
   }
 }

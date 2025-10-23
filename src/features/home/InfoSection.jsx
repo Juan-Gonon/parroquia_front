@@ -1,9 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useMemo } from 'react'
+import { useEffect } from 'react'
 import styled from 'styled-components'
 import { useHomeInfo } from '../../hook/useHomeInfo'
 import { Bar, Line } from 'react-chartjs-2'
-
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -14,6 +13,7 @@ import {
   Title,
   Tooltip,
   Legend,
+  Filler,
 } from 'chart.js'
 
 ChartJS.register(
@@ -24,11 +24,13 @@ ChartJS.register(
   BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  Filler
 )
 
 export const InfoSection = () => {
-  const { data, getAllIntentionByYearAndMonthS } = useHomeInfo()
+  const { data, lastMonths, getAllIntentionByYearAndMonthS, getByLastMonthsS } =
+    useHomeInfo()
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,12 +38,14 @@ export const InfoSection = () => {
       const year = today.getFullYear()
       const month = today.getMonth() + 1
       await getAllIntentionByYearAndMonthS({ year, month })
+      await getByLastMonthsS({ count: 6 })
     }
-
     fetchData()
   }, [])
 
-  // --- Datos para Ofrendas (barras) ---
+  /* ---------------------------------
+     OFRENDAS DEL MES
+  ----------------------------------*/
   const agrupado = data?.agrupadoPorTipo || {}
   const totalRecaudado = data?.totalRecaudado || 0
 
@@ -64,9 +68,6 @@ export const InfoSection = () => {
     responsive: true,
     plugins: {
       legend: { display: false },
-      title: {
-        display: false,
-      },
     },
     scales: {
       x: { grid: { display: false }, ticks: { color: '#555' } },
@@ -78,77 +79,26 @@ export const InfoSection = () => {
     },
   }
 
-  // --- Datos para Intenciones (línea por mes) ---
-  // Usamos data.intenciones[]: cada item tiene fechapago, montopagado, tipointencion.nombre
-  const linePrepared = useMemo(() => {
-    const intenciones = data?.intenciones || []
-
-    // Si no hay intenciones, devolvemos vacíos
-    if (!intenciones.length) {
-      return { months: [], tipos: [], datasets: [] }
-    }
-
-    // 1) Determinar rango: últimos 6 meses (incluye mes actual)
-    const monthsCount = 6
-    const today = new Date()
-    const months = []
-    const monthIdxToLabel = {} // 'YYYY-MM' -> label
-
-    for (let i = monthsCount - 1; i >= 0; i--) {
-      const d = new Date(today.getFullYear(), today.getMonth() - i, 1)
-      const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}` // YYYY-MM
-      const label = d.toLocaleString('es-ES', { month: 'short' }) // ene, feb...
-      months.push(key)
-      monthIdxToLabel[key] = capitalize(label)
-    }
-
-    // 2) Detectar tipos (usar las llaves de agrupado o los tipos en intenciones)
-    const tiposSet = new Set(Object.keys(agrupado || {}))
-    intenciones.forEach((it) => {
-      const tipoNombre = it?.tipointencion?.nombre
-      if (tipoNombre) tiposSet.add(tipoNombre)
-    })
-    const tipos = Array.from(tiposSet)
-
-    // 3) Inicializar contador meses x tipo
-    const counts = {}
-    tipos.forEach((t) => {
-      counts[t] = months.map(() => 0)
-    })
-
-    // 4) Recorrer intenciones y sumar al mes correspondiente (si cae en el rango de months)
-    intenciones.forEach((it) => {
-      const fecha = it?.fechapago ? new Date(it.fechapago) : null
-      const tipoNombre = it?.tipointencion?.nombre
-      if (!fecha || !tipoNombre) return
-
-      const key = `${fecha.getFullYear()}-${String(fecha.getMonth() + 1).padStart(2, '0')}`
-      const monthIndex = months.indexOf(key)
-      if (monthIndex !== -1) {
-        counts[tipoNombre][monthIndex] += 1
-      }
-    })
-
-    // 5) Crear datasets para Chart.js
-    const datasets = tipos.map((t, i) => ({
-      label: t,
-      data: counts[t],
-      borderColor: colorForIndex(i),
-      backgroundColor: colorForIndex(i, 0.18),
-      tension: 0.3,
-      fill: false,
-      pointRadius: 3,
-      pointHoverRadius: 5,
-    }))
-
-    const labels = months.map((k) => monthIdxToLabel[k])
-
-    return { months: labels, tipos, datasets }
-  }, [data, agrupado])
+  /* ---------------------------------
+     TENDENCIA (últimos 6 meses)
+  ----------------------------------*/
+  const lineLabels = lastMonths?.map((item) => item.mes) || []
+  const lineValues = lastMonths?.map((item) => Number(item.totalRecaudado) || 0)
 
   const lineData = {
-    labels: linePrepared.months,
-    datasets: linePrepared.datasets,
+    labels: lineLabels,
+    datasets: [
+      {
+        label: 'Total Recaudado (Q)',
+        data: lineValues,
+        borderColor: 'rgba(75,192,192,1)',
+        backgroundColor: 'rgba(75,192,192,0.3)',
+        tension: 0.3,
+        fill: true,
+        pointRadius: 4,
+        pointHoverRadius: 6,
+      },
+    ],
   }
 
   const lineOptions = {
@@ -171,10 +121,15 @@ export const InfoSection = () => {
     },
   }
 
+  /* ---------------------------------
+     Renderizado
+  ----------------------------------*/
   return (
     <Container>
       <div className='info-content'>
+        {/* ------------------- IZQUIERDA ------------------- */}
         <div className='diagram-content'>
+          {/* --- Ofrendas del mes --- */}
           <Card>
             <HeaderCard>
               <h3>Ofrendas del Mes</h3>
@@ -191,6 +146,7 @@ export const InfoSection = () => {
             </ChartWrapper>
           </Card>
 
+          {/* --- Tendencia últimos 6 meses --- */}
           <Card>
             <HeaderCard>
               <h3>Intenciones del Mes</h3>
@@ -199,8 +155,7 @@ export const InfoSection = () => {
               </p>
             </HeaderCard>
             <ChartWrapper>
-              {linePrepared.months.length > 0 &&
-              linePrepared.datasets.length > 0 ? (
+              {lastMonths && lastMonths.length > 0 ? (
                 <Line data={lineData} options={lineOptions} />
               ) : (
                 <p className='empty'>
@@ -211,6 +166,7 @@ export const InfoSection = () => {
           </Card>
         </div>
 
+        {/* ------------------- DERECHA ------------------- */}
         <div className='nave-content'>
           <Card>
             <h3>Próximos Eventos</h3>
@@ -226,20 +182,12 @@ export const InfoSection = () => {
   )
 }
 
-/* ----------------- helpers & estilos ----------------- */
-
+/* ----------------- Helpers y estilos ----------------- */
 function colorForIndex(i, alpha = 1) {
-  // Genera colores HSL para que sean legibles y diferentes
-  const hue = (i * 67) % 360 // paso de 67 deg para variedad
-  if (alpha === 1) return `hsl(${hue} 70% 45%)`
-  // alpha < 1 -> color rgba-like usando hsl + alpha in CSS level 4 syntax
-  // fallback simple:
-  return `hsla(${hue}, 70%, 50%, ${alpha})`
-}
-
-function capitalize(str = '') {
-  if (!str) return ''
-  return str.charAt(0).toUpperCase() + str.slice(1)
+  const hue = (i * 67) % 360
+  return alpha === 1
+    ? `hsl(${hue} 70% 45%)`
+    : `hsla(${hue}, 70%, 50%, ${alpha})`
 }
 
 const Container = styled.main`
@@ -259,7 +207,7 @@ const Container = styled.main`
 
   .diagram-content {
     display: grid;
-    grid-template-rows: 1sfr 1fr;
+    grid-template-rows: 1fr 1fr;
     gap: 20px;
   }
 
@@ -271,7 +219,6 @@ const Container = styled.main`
 `
 
 const Card = styled.div`
-  /* background-color: ${({ theme }) => theme.whiteBg}; */
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   padding: 10px;
@@ -281,7 +228,7 @@ const Card = styled.div`
 
   h3 {
     margin: 0;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     color: ${({ theme }) => theme.textprimary};
   }
 
