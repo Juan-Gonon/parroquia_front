@@ -3,10 +3,12 @@ import {
   getByLastMonthsService,
   getIntentionByYearAndMonthService,
 } from '../service/intentionService'
+import { getAllUpcomingEventService } from '../service/eventService'
 
 export const useHomeInfo = () => {
   const [data, setData] = useState({})
   const [lastMonths, setLastMonths] = useState([])
+  const [eventU, setEventU] = useState([])
   const getAllIntentionByYearAndMonthS = async ({ year, month }) => {
     try {
       if (!year) throw new Error('El año de las intenciones es requerida')
@@ -32,10 +34,24 @@ export const useHomeInfo = () => {
       throw error || { message: 'Error inesperado' }
     }
   }
+
+  const getAllUpcomingEventS = async () => {
+    try {
+      const res = await getAllUpcomingEventService()
+      // console.log(res)
+      setEventU(res)
+      return res
+    } catch (error) {
+      throw error || { message: 'Error inesperado' }
+    }
+  }
+
   return {
     data,
     lastMonths,
+    eventU,
     getAllIntentionByYearAndMonthS,
     getByLastMonthsS,
+    getAllUpcomingEventS,
   }
 }
