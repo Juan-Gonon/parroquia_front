@@ -16,8 +16,7 @@ import {
 } from 'chart.js'
 import { GrapichBar } from '../../components/GrapichBar'
 import { GraphicLine } from '../../components/GraphicLine'
-import { FaChurch } from 'react-icons/fa6'
-import { MdOutlineUpcoming } from 'react-icons/md'
+import { EventCard } from '../../components/EventCard'
 
 ChartJS.register(
   CategoryScale,
@@ -75,22 +74,11 @@ export const InfoSection = () => {
             {eventU && eventU.length > 0 ? (
               <EventList>
                 {eventU.slice(0, 2).map((ev) => (
-                  <Header key={ev.id_evento}>
-                    <TitleIconContainer>
-                      <MdOutlineUpcoming size='2em' color='#3498db' />
-                    </TitleIconContainer>
-                    <HeaderContent>
-                      <h2>{ev.nombre}</h2>
-                      <p>
-                        {new Date(ev.fecha_ini).toLocaleDateString('es-GT', {
-                          weekday: 'long',
-                          day: 'numeric',
-                          month: 'long',
-                          year: 'numeric',
-                        })}
-                      </p>
-                    </HeaderContent>
-                  </Header>
+                  <EventCard
+                    key={ev.id_evento}
+                    nombre={ev.nombre}
+                    fecha_ini={ev.fecha_ini}
+                  />
                 ))}
 
                 <a href='/event' className='see-more'>
@@ -194,81 +182,5 @@ const EventList = styled.div`
 
   .see-more:hover {
     text-decoration: underline;
-  }
-`
-
-const EventItem = styled.div`
-  background-color: ${({ theme }) => theme.bgtgderecha};
-  border-radius: 10px;
-  padding: 10px 12px;
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  transition: 0.2s ease;
-  border: 1px solid transparent;
-
-  &:hover {
-    background-color: ${({ theme }) => theme.bgHover};
-    border-color: ${({ theme }) => theme.borderColor};
-  }
-
-  .event-info {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-
-  h4 {
-    font-size: 0.9rem;
-    margin: 0;
-    color: ${({ theme }) => theme.textprimary};
-  }
-
-  p {
-    font-size: 0.75rem;
-    color: ${({ theme }) => theme.gray400};
-    margin: 0;
-    text-transform: capitalize;
-  }
-
-  span {
-    font-size: 0.75rem;
-    color: ${({ theme }) => theme.textsecondary};
-  }
-`
-
-const Header = styled.div`
-  display: flex;
-  align-items: center;
-  padding: 15px 20px;
-  border-bottom: 1px solid #eee;
-  /* background-color: #fcfcfc; */
-  gap: 15px;
-`
-
-const TitleIconContainer = styled.div`
-  background-color: ${({ theme }) => theme.bg3};
-  padding: 8px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`
-
-const HeaderContent = styled.div`
-  flex-grow: 1;
-
-  h2 {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: ${({ theme }) => theme.textprimary || '#333'};
-    margin: 0;
-  }
-
-  p {
-    font-size: 0.8rem;
-    color: ${({ theme }) => theme.gray500};
-    margin: 0;
-    font-weight: 400;
   }
 `
