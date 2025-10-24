@@ -17,6 +17,8 @@ import {
 import { GrapichBar } from '../../components/GrapichBar'
 import { GraphicLine } from '../../components/GraphicLine'
 import { EventCard } from '../../components/EventCard'
+import { useCommunity } from '../../hook/useCommunity'
+import { ComunityCardHome } from '../../components/ComunityCardHome'
 
 ChartJS.register(
   CategoryScale,
@@ -39,20 +41,22 @@ export const InfoSection = () => {
     getAllUpcomingEventS,
     getByLastMonthsS,
   } = useHomeInfo()
+  const { community, getAllCommunityS } = useCommunity()
 
   useEffect(() => {
     const fetchData = async () => {
       const today = new Date()
       const year = today.getFullYear()
       const month = today.getMonth() + 1
-      await getAllIntentionByYearAndMonthS({ year, month })
       await getByLastMonthsS({ count: 6 })
       await getAllUpcomingEventS()
+      await getAllCommunityS({ limit: 2, page: 1 })
+      await getAllIntentionByYearAndMonthS({ year, month })
     }
     fetchData()
   }, [])
 
-  // console.log(eventU)
+  // console.log(community)
 
   return (
     <Container>
@@ -92,7 +96,24 @@ export const InfoSection = () => {
 
           <Card>
             <h3>Comunidades</h3>
-            <div className='chart-placeholder'>👥 Lista de comunidades</div>
+
+            {community && community.length > 0 ? (
+              <EventList>
+                {community.map((comunity) => (
+                  <ComunityCardHome
+                    key={comunity.id_comunidad}
+                    nombre={comunity.nombre}
+                    direccion={comunity.direccion}
+                  />
+                ))}
+
+                <a href='/communities' className='see-more'>
+                  Ver más
+                </a>
+              </EventList>
+            ) : (
+              <p className='empty'>No hay próximos eventos.</p>
+            )}
           </Card>
         </div>
       </div>
@@ -128,7 +149,7 @@ const Container = styled.main`
     display: grid;
     grid-template-rows: 1fr 1fr;
     gap: 20px;
-    height: 100%; /* 🔥 Igual aquí */
+    height: 100%;
   }
 `
 
