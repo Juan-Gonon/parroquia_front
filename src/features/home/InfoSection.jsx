@@ -48,10 +48,10 @@ export const InfoSection = () => {
       const today = new Date()
       const year = today.getFullYear()
       const month = today.getMonth() + 1
-      await getByLastMonthsS({ count: 6 })
       await getAllUpcomingEventS()
       await getAllCommunityS({ limit: 2, page: 1 })
       await getAllIntentionByYearAndMonthS({ year, month })
+      await getByLastMonthsS({ count: 6 })
     }
     fetchData()
   }, [])
