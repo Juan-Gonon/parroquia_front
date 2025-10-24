@@ -120,6 +120,7 @@ const Container = styled.main`
   background-color: ${({ theme }) => theme.bg};
   color: ${({ theme }) => theme.text};
   border-radius: 10px;
+  overflow: hidden;
 
   .info-content {
     display: grid;
@@ -132,12 +133,14 @@ const Container = styled.main`
     display: grid;
     grid-template-rows: 1fr 1fr;
     gap: 20px;
+    height: 100%;
   }
 
   .nave-content {
     display: grid;
     grid-template-rows: 1fr 1fr;
     gap: 20px;
+    height: 100%; /* 🔥 Igual aquí */
   }
 `
 
@@ -148,6 +151,7 @@ const Card = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  height: 100%;
 
   h3 {
     margin: 0;

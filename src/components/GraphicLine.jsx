@@ -23,6 +23,7 @@ export const GraphicLine = ({ lastMonths }) => {
 
   const lineOptions = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: { position: 'top', labels: { color: '#555' } },
       title: {
@@ -68,6 +69,7 @@ const Card = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  height: 100%;
 
   h3 {
     margin: 0;
@@ -111,4 +113,5 @@ const HeaderCard = styled.div`
 const ChartWrapper = styled.div`
   flex: 1;
   margin-top: 10px;
+  height: 100%;
 `
