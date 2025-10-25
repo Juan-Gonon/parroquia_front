@@ -1,41 +1,17 @@
+/* eslint-disable no-unused-vars */
 import styled, { useTheme } from 'styled-components'
-import { MdOutlineDescription, MdDelete, MdEdit } from 'react-icons/md'
-import { FaHandsHelping } from 'react-icons/fa'
-import Swal from 'sweetalert2'
-import { useGrupoServicioService } from '../hook/useGrupoService'
+import { MdEdit } from 'react-icons/md'
+import { FaHandsHelping, FaRegCalendarCheck } from 'react-icons/fa'
 import { IoEyeSharp } from 'react-icons/io5'
 
 export const GrupoServicioCard = ({
   grupo,
   handleSelect,
-  onDeleted,
   handleSelectDetail,
+  handleAsigEventGroup,
 }) => {
   const theme = useTheme()
-  const { deleteGrupoS } = useGrupoServicioService()
   const { id_grupo, nombre, descripcion, activo, ministerio } = grupo
-
-  const handleDelete = async () => {
-    const confirm = await Swal.fire({
-      title: '¿Eliminar grupo?',
-      text: 'Esta acción no se puede deshacer.',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#3085d6',
-      confirmButtonText: 'Sí, eliminar',
-    })
-
-    if (confirm.isConfirmed) {
-      try {
-        await deleteGrupoS({ id: id_grupo })
-        Swal.fire('Eliminado', 'Grupo eliminado correctamente', 'success')
-        onDeleted()
-      } catch {
-        Swal.fire('Error', 'No se pudo eliminar el grupo', 'error')
-      }
-    }
-  }
 
   return (
     <Card $theme={theme}>
@@ -56,8 +32,8 @@ export const GrupoServicioCard = ({
         <IconButton onClick={() => handleSelect(grupo)}>
           <MdEdit size='1.4em' />
         </IconButton>
-        <IconButton onClick={handleDelete}>
-          <MdDelete size='1.4em' />
+        <IconButton onClick={() => handleAsigEventGroup(grupo)}>
+          <FaRegCalendarCheck size='1.4em' />
         </IconButton>
       </Footer>
     </Card>

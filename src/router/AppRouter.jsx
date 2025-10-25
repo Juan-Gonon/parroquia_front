@@ -18,6 +18,7 @@ import { GrupoServicioPage } from '../page/groupService/GrupoServicioPage'
 import { GroupDetailsPage } from '../page/groupDetails/GroupDetailsPage'
 import { FeligresPage } from '../page/feligres/FeligresPage'
 import { EventDetailsPage } from '../page/event/EventDetailsPage'
+import { GroupAsigEventPage } from '../page/groupDetails/GroupAsigEventPage'
 
 export const AppRouter = () => {
   const { status, renewLogin } = useAuthStore()
@@ -79,6 +80,7 @@ export const AppRouter = () => {
             <Route path='liturgy-turns' element={<h1>liturgia</h1>} />
             <Route path='service-group' element={<GrupoServicioPage />} />
             <Route path='service-group/:id' element={<GroupDetailsPage />} />
+            <Route path='asigeventgroup/:id' element={<GroupAsigEventPage />} />
 
             {/* Redirección por defecto */}
             <Route path='/*' element={<Navigate to='/' />} />

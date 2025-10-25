@@ -32,6 +32,10 @@ export const GrupoServicioSection = ({ refresh, data }) => {
     setTimeout(() => setSelected(null), 300)
   }
 
+  const handleAsigEventGroup = (grupo) => {
+    navigate(`/asigeventgroup/${grupo?.id_grupo}`)
+  }
+
   // console.log(selected)
 
   return (
@@ -45,9 +49,7 @@ export const GrupoServicioSection = ({ refresh, data }) => {
                 grupo={grupo}
                 handleSelect={handleSelect}
                 handleSelectDetail={handleSelectDetail}
-                onDeleted={() => {
-                  refresh()
-                }}
+                handleAsigEventGroup={handleAsigEventGroup}
               />
             ))}
           </CardsGrid>
