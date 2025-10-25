@@ -17,7 +17,7 @@ export const GrupoServicioCard = ({
     <Card $theme={theme}>
       <ParishText>{ministerio}</ParishText>
       <Header>
-        <FaHandsHelping color={theme.primary} size='1.4em' />
+        <FaHandsHelping size='1.4em' />
         <h2>{nombre}</h2>
       </Header>
 
@@ -42,7 +42,7 @@ export const GrupoServicioCard = ({
 
 const ParishText = styled.span`
   font-size: ${({ theme }) => theme.fontsm};
-  color: ${({ theme }) => theme.primary};
+  color: ${({ theme }) => theme.whiteBg};
   font-weight: 600;
   text-transform: uppercase;
   text-align: end;
@@ -52,7 +52,7 @@ const ParishText = styled.span`
 
 /* STYLES */
 const Card = styled.div`
-  background: ${({ theme }) => theme.bgtgderecha};
+  background: ${({ theme }) => theme.lightbackground};
   border-radius: 10px;
   padding: 15px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
@@ -109,8 +109,8 @@ const IconButton = styled.button`
   background: none;
   border: none;
   cursor: pointer;
-  color: ${({ theme }) => theme.primary};
+  color: ${({ theme }) => theme.barrascroll};
   &:hover {
-    color: ${({ theme }) => theme.primary}cc;
+    color: ${({ theme }) => theme.primary};
   }
 `

@@ -68,7 +68,7 @@ export const CommunityCard = ({ community, handleSelectedClick }) => {
 
 const CardContainer = styled.div`
   display: flex;
-  background-color: ${({ theme }) => theme.bgtgderecha};
+  background-color: ${({ theme }) => theme.lightbackground};
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   overflow: hidden;
@@ -148,7 +148,7 @@ const DetailItem = styled.div`
 
 const IconWrapper = styled.div`
   margin-right: 15px;
-  color: ${({ theme }) => theme.primary};
+  color: ${({ theme }) => theme.barrascroll};
 `
 
 const Value = styled.p`
