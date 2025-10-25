@@ -10,6 +10,7 @@ import { EventDetailsSection } from '../../features/event/EventDetailsSection'
 import { ModalIntencion } from '../../features/intention/ModalIntention'
 import { GrFormPreviousLink } from 'react-icons/gr'
 import { GiPeaceDove } from 'react-icons/gi'
+import { MdOutlineAdfScanner } from 'react-icons/md'
 
 export const EventDetailsPage = () => {
   const { id } = useParams()
@@ -48,7 +49,10 @@ export const EventDetailsPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  // console.log(events)
+  // console.log({
+  //   intention,
+  //   events,
+  // })
   return (
     <Container>
       <Header>
@@ -71,6 +75,9 @@ export const EventDetailsPage = () => {
         <HeaderContent>
           <SubTitle>Intenciones</SubTitle>
         </HeaderContent>
+        <TitleIconContainer>
+          <MdOutlineAdfScanner size='2em' color='#fff' cursor='pointer' />
+        </TitleIconContainer>
         <AddButtonC
           textBtn='Agregar Intención'
           handleClick={handleOpenModal}
