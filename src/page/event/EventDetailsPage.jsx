@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useNavigate, useParams } from 'react-router-dom'
 import { useEvent } from '../../hook/useEvent'
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useUiModal } from '../../hook/useUiModal'
 import { AddButtonC } from '../../components/AddButton'
@@ -15,6 +15,7 @@ import { PDFViewer } from '@react-pdf/renderer'
 import { PDF } from '../../components/PDF'
 
 export const EventDetailsPage = () => {
+  const [showPdf, setShowPdf] = useState(false)
   const { id } = useParams()
   const { events, getEventByIdS } = useEvent()
   const navigate = useNavigate()
@@ -44,6 +45,14 @@ export const EventDetailsPage = () => {
 
   const handleOpenModal = () => {
     openModal()
+  }
+
+  const handleOpenPdf = () => {
+    setShowPdf(true)
+  }
+
+  const handleClosePdf = () => {
+    setShowPdf(false)
   }
 
   useEffect(() => {
@@ -78,7 +87,12 @@ export const EventDetailsPage = () => {
           <SubTitle>Intenciones</SubTitle>
         </HeaderContent>
         <TitleIconContainer>
-          <MdOutlineAdfScanner size='2em' color='#fff' cursor='pointer' />
+          <MdOutlineAdfScanner
+            size='2em'
+            color='#fff'
+            cursor='pointer'
+            onClick={handleOpenPdf}
+          />
         </TitleIconContainer>
         <AddButtonC
           textBtn='Agregar Intención'
@@ -91,11 +105,14 @@ export const EventDetailsPage = () => {
         />
       </SubHeader>
       <EventDetailsSection refresh={refreshMembers} data={intention} />
-      {/* <PDFOverlay>
-        <PDFViewer width='100%' height='100%'>
-          <PDF />
-        </PDFViewer>
-      </PDFOverlay> */}
+      {showPdf && (
+        <PDFOverlay>
+          <CloseBtn onClick={handleClosePdf}>✕</CloseBtn>
+          <PDFViewer width='80%' height='90%'>
+            <PDF />
+          </PDFViewer>
+        </PDFOverlay>
+      )}
     </Container>
   )
 }
@@ -206,14 +223,33 @@ const SubTitle = styled.h1`
 `
 
 const PDFOverlay = styled.div`
-  position: fixed; /* se fija sobre toda la pantalla */
+  position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5); /* fondo semitransparente opcional */
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 9999; /* asegúrate que esté por encima de todo */
+  z-index: 9999;
+`
+
+const CloseBtn = styled.button`
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: #fff;
+  color: #333;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 10000;
+  transition: 0.2s ease;
+  &:hover {
+    background: #f1f1f1;
+  }
 `
