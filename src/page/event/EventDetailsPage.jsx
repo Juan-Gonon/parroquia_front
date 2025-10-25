@@ -13,6 +13,8 @@ import { GiPeaceDove } from 'react-icons/gi'
 import { MdOutlineAdfScanner } from 'react-icons/md'
 import { PDFViewer } from '@react-pdf/renderer'
 import { PDF } from '../../components/PDF'
+import { useAsigEventGroup } from '../../hook/useAsigEventGroup'
+import { GroupAsigEveCard } from '../../components/GroupAsigEveCard'
 
 export const EventDetailsPage = () => {
   const [showPdf, setShowPdf] = useState(false)
@@ -21,11 +23,13 @@ export const EventDetailsPage = () => {
   const navigate = useNavigate()
   const { openModal } = useUiModal()
   const { intention, getIntentionByEventS } = useIntentionService()
+  const { groups, getAllByEventAsigGroupS } = useAsigEventGroup()
 
   useEffect(() => {
     return async () => {
       try {
         await getEventByIdS({ id })
+        await getAllByEventAsigGroupS({ id })
       } catch (error) {
         // console.log(error)
         navigate('/home')
@@ -59,6 +63,8 @@ export const EventDetailsPage = () => {
     refreshMembers()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  // console.log(groups)
 
   // console.log({
   //   intention,
@@ -103,6 +109,20 @@ export const EventDetailsPage = () => {
         />
       </SubHeader>
       <EventDetailsSection refresh={refreshMembers} data={intention} />
+      <SubHeader>
+        <HeaderContent>
+          <SubTitle>Grupos Asignados</SubTitle>
+        </HeaderContent>
+      </SubHeader>
+      <CardsGrid>
+        {groups?.map((group) => (
+          <GroupAsigEveCard
+            key={group?.id_asig_ge}
+            nombre={group?.nombre}
+            ministerio={group?.ministerio}
+          />
+        ))}
+      </CardsGrid>
       {showPdf && (
         <PDFOverlay>
           <CloseBtn onClick={handleClosePdf}>✕</CloseBtn>
@@ -256,4 +276,13 @@ const CloseBtn = styled.button`
   &:hover {
     background: #f1f1f1;
   }
+`
+
+const CardsGrid = styled.div`
+  display: grid;
+  padding: 5px 25px;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  /* background: red; */
+  width: 98%;
 `

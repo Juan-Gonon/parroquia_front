@@ -1,6 +1,11 @@
-import { createAsigEventGrouptService } from '../service/asigGroupEventService'
+import { useState } from 'react'
+import {
+  createAsigEventGrouptService,
+  getAllByEventAsigGroupService,
+} from '../service/asigGroupEventService'
 
 export const useAsigEventGroup = () => {
+  const [groups, setGroups] = useState([])
   const createAsigEventGrouptS = async ({ data }) => {
     const { notas, ...rest } = data
 
@@ -14,7 +19,24 @@ export const useAsigEventGroup = () => {
       return error || { message: 'Error inesperado' }
     }
   }
+
+  const getAllByEventAsigGroupS = async ({ id }) => {
+    try {
+      if (!id) {
+        throw new Error('El id del grupo es requerido')
+      }
+
+      const res = await getAllByEventAsigGroupService({ id })
+
+      setGroups(res?.data)
+      return res
+    } catch (error) {
+      throw error || { message: 'Error inesperado' }
+    }
+  }
   return {
+    groups,
     createAsigEventGrouptS,
+    getAllByEventAsigGroupS,
   }
 }
