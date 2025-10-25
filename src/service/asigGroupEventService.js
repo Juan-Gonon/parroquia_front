@@ -50,3 +50,21 @@ export const getAllByEventAsigGroupService = async ({ id }) => {
     throw new Error(message)
   }
 }
+
+export const deleteAsigGroupService = async ({ id }) => {
+  try {
+    const res = await parishApi.delete(`/asigeventgroup/${id}`)
+
+    // if (res.status !== 200) {
+    //   throw new Error('No se pudieron obtener los grupos')
+    // }
+
+    return res
+  } catch (error) {
+    const message =
+      error.response?.data?.error ||
+      error.message ||
+      'Error desconocido al obtener las intenciones del evento'
+    throw new Error(message)
+  }
+}

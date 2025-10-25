@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import {
   createAsigEventGrouptService,
+  deleteAsigGroupService,
   getAllByEventAsigGroupService,
 } from '../service/asigGroupEventService'
 
@@ -34,9 +35,24 @@ export const useAsigEventGroup = () => {
       throw error || { message: 'Error inesperado' }
     }
   }
+
+  const deleteAsigGroupS = async ({ id }) => {
+    try {
+      if (!id) {
+        throw new Error('El id del grupo es requerido')
+      }
+
+      const res = await deleteAsigGroupService({ id })
+
+      return res
+    } catch (error) {
+      throw error || { message: 'Error inesperado' }
+    }
+  }
   return {
     groups,
     createAsigEventGrouptS,
     getAllByEventAsigGroupS,
+    deleteAsigGroupS,
   }
 }

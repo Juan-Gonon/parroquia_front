@@ -23,7 +23,8 @@ export const EventDetailsPage = () => {
   const navigate = useNavigate()
   const { openModal } = useUiModal()
   const { intention, getIntentionByEventS } = useIntentionService()
-  const { groups, getAllByEventAsigGroupS } = useAsigEventGroup()
+  const { groups, getAllByEventAsigGroupS, deleteAsigGroupS } =
+    useAsigEventGroup()
 
   useEffect(() => {
     return async () => {
@@ -42,6 +43,11 @@ export const EventDetailsPage = () => {
     await getIntentionByEventS({ id })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getIntentionByEventS])
+
+  const refreshGroups = useCallback(async () => {
+    await getAllByEventAsigGroupS({ id })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [getAllByEventAsigGroupS])
 
   const handleBack = () => {
     navigate(-1)
@@ -63,6 +69,11 @@ export const EventDetailsPage = () => {
     refreshMembers()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  const handleDeleteAsigGroup = async (id) => {
+    await deleteAsigGroupS({ id })
+    refreshGroups()
+  }
 
   // console.log(groups)
 
@@ -115,11 +126,13 @@ export const EventDetailsPage = () => {
         </HeaderContent>
       </SubHeader>
       <CardsGrid>
-        {groups?.map((group) => (
+        {groups.map((group) => (
           <GroupAsigEveCard
             key={group?.id_asig_ge}
             nombre={group?.nombre}
             ministerio={group?.ministerio}
+            id={group?.id_asig_ge}
+            handleDelete={handleDeleteAsigGroup}
           />
         ))}
       </CardsGrid>
@@ -140,7 +153,7 @@ const Container = styled.section`
   height: 100%;
   /* background: aquamarine; */
   position: relative;
-  padding-top: 10px;
+  padding: 10px 5px 15px;
 `
 
 // const ContentContainer = styled.div`
