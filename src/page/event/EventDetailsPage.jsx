@@ -11,6 +11,8 @@ import { ModalIntencion } from '../../features/intention/ModalIntention'
 import { GrFormPreviousLink } from 'react-icons/gr'
 import { GiPeaceDove } from 'react-icons/gi'
 import { MdOutlineAdfScanner } from 'react-icons/md'
+import { PDFViewer } from '@react-pdf/renderer'
+import { PDF } from '../../components/PDF'
 
 export const EventDetailsPage = () => {
   const { id } = useParams()
@@ -89,6 +91,11 @@ export const EventDetailsPage = () => {
         />
       </SubHeader>
       <EventDetailsSection refresh={refreshMembers} data={intention} />
+      {/* <PDFOverlay>
+        <PDFViewer width='100%' height='100%'>
+          <PDF />
+        </PDFViewer>
+      </PDFOverlay> */}
     </Container>
   )
 }
@@ -196,4 +203,17 @@ const SubTitle = styled.h1`
   margin: 0;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   /* font-style: italic; */
+`
+
+const PDFOverlay = styled.div`
+  position: fixed; /* se fija sobre toda la pantalla */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); /* fondo semitransparente opcional */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* asegúrate que esté por encima de todo */
 `
