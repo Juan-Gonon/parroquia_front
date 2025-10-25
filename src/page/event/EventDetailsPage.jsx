@@ -109,7 +109,7 @@ export const EventDetailsPage = () => {
         <PDFOverlay>
           <CloseBtn onClick={handleClosePdf}>✕</CloseBtn>
           <PDFViewer width='80%' height='90%'>
-            <PDF />
+            <PDF intentions={intention} event={events} />
           </PDFViewer>
         </PDFOverlay>
       )}
