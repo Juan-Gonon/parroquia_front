@@ -86,14 +86,12 @@ export const EventDetailsPage = () => {
         <HeaderContent>
           <SubTitle>Intenciones</SubTitle>
         </HeaderContent>
-        <TitleIconContainer>
-          <MdOutlineAdfScanner
-            size='2em'
-            color='#fff'
-            cursor='pointer'
-            onClick={handleOpenPdf}
-          />
-        </TitleIconContainer>
+        <TitleIconButton
+          onClick={handleOpenPdf}
+          // eslint-disable-next-line prettier/prettier
+          disabled={!events?.aceptaintenciones}>
+          <MdOutlineAdfScanner size='2em' color='#fff' cursor='pointer' />
+        </TitleIconButton>
         <AddButtonC
           textBtn='Agregar Intención'
           handleClick={handleOpenModal}
@@ -168,6 +166,12 @@ const Header = styled.div`
 `
 
 const TitleIconContainer = styled.div`
+  background-color: ${({ theme }) => theme.bg4};
+  padding: 8px;
+  border-radius: 50px;
+`
+
+const TitleIconButton = styled.button`
   background-color: ${({ theme }) => theme.bg4};
   padding: 8px;
   border-radius: 50px;
