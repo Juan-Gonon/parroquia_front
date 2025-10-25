@@ -55,7 +55,7 @@ export const MembersGroup = ({ refresh, data }) => {
 const Container = styled.main`
   width: 100%;
   /* height: 60vh; */
-  min-height: 50vh;
+  min-height: auto;
   height: auto;
   padding: 20px;
   background-color: ${({ theme }) => theme.bgtotal};
