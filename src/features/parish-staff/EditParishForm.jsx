@@ -1,8 +1,8 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable react-hooks/exhaustive-deps */
-// EditParishForm.jsx
 import { useEffect } from 'react'
 import Swal from 'sweetalert2'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { useForm } from '../../hook/useForm'
 import { InputField } from '../../components/inputField'
 import { AiOutlineMail, AiOutlinePhone, AiOutlineUser } from 'react-icons/ai'
@@ -28,6 +28,7 @@ export const EditParishForm = ({ initialData, onSaved, onDeleted }) => {
       return errs
     }
   )
+
   const { role, getAllParishRol, onDeleteParish, updateParishS } =
     useParishService()
 
@@ -46,8 +47,6 @@ export const EditParishForm = ({ initialData, onSaved, onDeleted }) => {
     }
   }, [initialData, setFormData, role])
 
-  // console.log(formData)
-
   useEffect(() => {
     getAllParishRol({ page: 1, limit: 20 })
   }, [])
@@ -57,11 +56,10 @@ export const EditParishForm = ({ initialData, onSaved, onDeleted }) => {
     if (!validate()) return
     try {
       await updateParishS({ data: formData, id: formData.id })
-      // Swal.fire('Guardado', 'Datos actualizados correctamente', 'success'
       Swal.fire({
         icon: 'success',
         title: 'Actualizado',
-        text: 'Registro actualizados correctamente',
+        text: 'Registro actualizado correctamente',
         showConfirmButton: false,
         timer: 1800,
         timerProgressBar: true,
@@ -89,7 +87,6 @@ export const EditParishForm = ({ initialData, onSaved, onDeleted }) => {
 
     try {
       await onDeleteParish(formData.id)
-
       Swal.fire({
         icon: 'success',
         title: 'Eliminado',
@@ -100,7 +97,6 @@ export const EditParishForm = ({ initialData, onSaved, onDeleted }) => {
         position: 'top-end',
         toast: true,
       })
-
       onDeleted?.()
     } catch (err) {
       Swal.fire('Error', err.message || 'No se pudo eliminar', 'error')
@@ -108,118 +104,150 @@ export const EditParishForm = ({ initialData, onSaved, onDeleted }) => {
   }
 
   return (
-    <FormContainer onSubmit={handleSave}>
-      <Title>
-        <FaRegUserCircle />
-        <h1>Actualizar datos de {`${formData?.nombre}`}</h1>
-      </Title>
+    <FormWrapper onSubmit={handleSave}>
+      <Header>
+        <IconCircle>
+          <FaRegUserCircle size='1.8em' />
+        </IconCircle>
+        <HeaderText>
+          <h2>Editar Párroco</h2>
+          <p>Editando: {formData.nombre || '...'}</p>
+        </HeaderText>
+      </Header>
 
-      <InputField
-        icon={AiOutlineUser}
-        type='text'
-        name='nombre'
-        placeholder='Nombre'
-        value={formData.nombre}
-        onChange={handleChange}
-      />
-      <InputField
-        icon={FaRegAddressCard}
-        type='text'
-        name='apellido'
-        placeholder='Apellido'
-        value={formData.apellido}
-        onChange={handleChange}
-      />
-      <InputField
-        icon={MdOutlineHome}
-        type='text'
-        name='direccion'
-        placeholder='Dirección'
-        value={formData.direccion}
-        onChange={handleChange}
-      />
-      <InputField
-        icon={AiOutlineMail}
-        type='email'
-        name='email'
-        placeholder='Correo electrónico'
-        value={formData.email}
-        onChange={handleChange}
-      />
-      <InputField
-        icon={AiOutlinePhone}
-        type='text'
-        name='telefono'
-        placeholder='Teléfono'
-        value={formData.telefono}
-        onChange={handleChange}
-      />
+      <FormBody>
+        <InputField
+          icon={AiOutlineUser}
+          type='text'
+          name='nombre'
+          placeholder='Nombre'
+          value={formData.nombre}
+          onChange={handleChange}
+        />
+        <InputField
+          icon={FaRegAddressCard}
+          type='text'
+          name='apellido'
+          placeholder='Apellido'
+          value={formData.apellido}
+          onChange={handleChange}
+        />
+        <InputField
+          icon={MdOutlineHome}
+          type='text'
+          name='direccion'
+          placeholder='Dirección'
+          value={formData.direccion}
+          onChange={handleChange}
+        />
+        <InputField
+          icon={AiOutlineMail}
+          type='email'
+          name='email'
+          placeholder='Correo electrónico'
+          value={formData.email}
+          onChange={handleChange}
+        />
+        <InputField
+          icon={AiOutlinePhone}
+          type='text'
+          name='telefono'
+          placeholder='Teléfono'
+          value={formData.telefono}
+          onChange={handleChange}
+        />
 
-      <Select name='idRol' value={formData.idRol || ''} onChange={handleChange}>
-        {!formData.idRol && <option value=''>Seleccione un rol</option>}
+        <Select
+          name='idRol'
+          value={formData.idRol || ''}
+          onChange={handleChange}>
+          {!formData.idRol && <option value=''>Seleccione un rol</option>}
+          {role?.map((rol) => (
+            <option key={rol.id_rol} value={rol.id_rol}>
+              {rol.nombre}
+            </option>
+          ))}
+        </Select>
 
-        {role?.map((rol) => (
-          <option key={rol.id_rol} value={rol.id_rol}>
-            {rol.nombre}
-          </option>
-        ))}
-      </Select>
+        <QuoteFooter>
+          “El que sirve a los demás, sirve a Dios.” – San Vicente de Paúl
+        </QuoteFooter>
 
-      <Actions>
-        <DangerBtn type='button' onClick={handleDelete}>
-          Eliminar
-        </DangerBtn>
-        <SaveBtn type='submit'>Guardar</SaveBtn>
-      </Actions>
-    </FormContainer>
+        <Actions>
+          <DangerBtn type='button' onClick={handleDelete}>
+            Eliminar
+          </DangerBtn>
+          <SaveBtn type='submit'>Guardar Cambios</SaveBtn>
+        </Actions>
+      </FormBody>
+    </FormWrapper>
   )
 }
 
-const FormContainer = styled.form`
+/* ----------------- ESTILOS ------------------ */
+
+const ButtonBase = css`
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
   display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding-top: 6px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  line-height: 1;
 `
 
-const Title = styled.div`
-  margin: 6px 0 8px;
-  color: ${({ theme }) => theme.textprimary};
+const FormWrapper = styled.form`
+  background-color: ${({ theme }) => theme.bgtotal};
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 700px;
   display: flex;
-  text-align: center;
-  justify-content: center;
+  flex-direction: column;
+  min-height: max-content;
+  color: ${({ theme }) => theme.text};
+`
+
+const Header = styled.div`
+  display: flex;
   align-items: center;
+  padding: 15px 20px;
+  border-bottom: 1px solid #eee;
   gap: 15px;
 `
 
-const Actions = styled.div`
-  display: flex;
-  gap: 8px;
-  justify-content: flex-end;
-  margin-top: 12px;
+const IconCircle = styled.div`
+  background-color: ${({ theme }) => theme.bg3};
+  padding: 10px;
+  border-radius: 50%;
+  color: ${({ theme }) => theme.textprimary};
 `
 
-const DangerBtn = styled.button`
-  background: #e74c3c;
-  color: #fff;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 8px;
-  cursor: pointer;
-`
-const SaveBtn = styled.button`
-  padding: 10px 20px;
-  border-radius: 8px;
-  border: none;
-  background-color: ${({ theme }) => theme.bg4};
-  color: ${({ theme }) => theme.textsecondary};
-  font-weight: 600;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-
-  &:hover {
-    transform: scale(1.05);
+const HeaderText = styled.div`
+  h2 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 0;
+    color: ${({ theme }) => theme.textprimary};
   }
+  p {
+    font-size: 0.85rem;
+    color: ${({ theme }) => theme.gray500};
+    margin: 0;
+  }
+`
+
+const FormBody = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  flex-grow: 1;
+  overflow-y: auto;
 `
 
 const Select = styled.select`
@@ -230,9 +258,47 @@ const Select = styled.select`
   color: ${({ theme }) => theme.text};
   font-size: ${({ theme }) => theme.fontsm};
   outline: none;
-  cursor: pointer;
 
   &:focus {
     border: 2px solid ${({ theme }) => theme.bg4};
+  }
+`
+
+const QuoteFooter = styled.div`
+  font-size: 0.8rem;
+  color: ${({ theme }) => theme.gray500};
+  text-align: center;
+  padding: 10px 0;
+  font-style: italic;
+  border-top: 1px solid #f0f0f0;
+`
+
+const Actions = styled.div`
+  display: flex;
+  gap: 12px;
+  justify-content: space-around;
+  align-items: center;
+  padding-top: 10px;
+`
+
+const DangerBtn = styled.button`
+  ${ButtonBase}
+  background: none;
+  color: #e74c3c;
+  border: 1px solid #e74c3c;
+
+  &:hover {
+    background: ${({ theme }) => theme.gray500};
+  }
+`
+
+const SaveBtn = styled.button`
+  ${ButtonBase}
+  background-color: ${({ theme }) => theme.bg4};
+  color: ${({ theme }) => theme.textsecondary};
+  border: none;
+
+  &:hover {
+    background-color: #2980b9;
   }
 `

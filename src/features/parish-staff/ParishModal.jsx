@@ -1,21 +1,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from 'react'
 import styled from 'styled-components'
+import Swal from 'sweetalert2'
 import { useUiModal } from '../../hook/useUiModal'
-import { AiOutlineUser, AiOutlineMail, AiOutlinePhone } from 'react-icons/ai'
-import { MdOutlineHome } from 'react-icons/md'
-import { FaRegAddressCard } from 'react-icons/fa'
-import { ModalForm } from '../../components/ModalForm'
-import { InputField } from '../../components/inputField'
 import { useParishService } from '../../hook/useParishService'
 import { useForm } from '../../hook/useForm'
-import Swal from 'sweetalert2'
-// import { useThemeStore } from '../../hook/useThemeStore'
+import { ModalForm } from '../../components/ModalForm'
+import { InputField } from '../../components/inputField'
+import { AiOutlineUser, AiOutlineMail, AiOutlinePhone } from 'react-icons/ai'
+import { MdOutlineHome } from 'react-icons/md'
+import { FaRegAddressCard, FaChurch } from 'react-icons/fa'
 
 export const ParishModal = ({ onCreated }) => {
-  // const { theme } = useThemeStore()
   const { closeModal } = useUiModal()
   const { role, getAllParishRol, createParishS } = useParishService()
+
   const { formData, errors, handleChange, validate, resetForm } = useForm(
     {
       nombre: '',
@@ -44,7 +43,6 @@ export const ParishModal = ({ onCreated }) => {
     closeModal()
 
     const res = await createParishS({ data: formData })
-
     if (res?.message) {
       Swal.fire({
         icon: 'error',
@@ -55,12 +53,8 @@ export const ParishModal = ({ onCreated }) => {
         background: '#fff',
         color: '#333',
         iconColor: '#d33',
-        showClass: {
-          popup: 'animate__animated animate__shakeX',
-        },
-        hideClass: {
-          popup: 'animate__animated animate__fadeOutUp',
-        },
+        showClass: { popup: 'animate__animated animate__shakeX' },
+        hideClass: { popup: 'animate__animated animate__fadeOutUp' },
       })
     } else {
       Swal.fire({
@@ -68,28 +62,33 @@ export const ParishModal = ({ onCreated }) => {
         text: 'El registro fue exitoso.',
         icon: 'success',
         confirmButtonText: 'Aceptar',
-        confirmButtonColor: '#4CAF50', // verde moderno
+        confirmButtonColor: '#4CAF50',
         background: '#f9f9f9',
         color: '#333',
         iconColor: '#4CAF50',
-        showClass: {
-          popup: 'animate__animated animate__fadeInDown',
-        },
-        hideClass: {
-          popup: 'animate__animated animate__fadeOutUp',
-        },
+        showClass: { popup: 'animate__animated animate__fadeInDown' },
+        hideClass: { popup: 'animate__animated animate__fadeOutUp' },
       })
-
       onCreated?.()
     }
   }
 
   return (
-    <>
-      <ModalForm onAfterClose={resetForm}>
-        <FormContainer onSubmit={handleSubmit}>
-          <Title>Registrar Personal Parroquial</Title>
+    <ModalForm onAfterClose={resetForm}>
+      <FormContainer onSubmit={handleSubmit}>
+        {/* Encabezado */}
+        <Header>
+          <TitleIconContainer>
+            <FaChurch size='2em' color='#3498db' />
+          </TitleIconContainer>
+          <HeaderContent>
+            <h2>Registrar Personal Parroquial</h2>
+            <p>"Servir a Dios es el mayor honor de todos."</p>
+          </HeaderContent>
+        </Header>
 
+        {/* Campos */}
+        <FlexRow>
           <InputField
             icon={AiOutlineUser}
             type='text'
@@ -98,8 +97,6 @@ export const ParishModal = ({ onCreated }) => {
             value={formData.nombre}
             onChange={handleChange}
           />
-          <ErrorMessage $show={!!errors.nombre}>{errors.nombre}</ErrorMessage>
-
           <InputField
             icon={FaRegAddressCard}
             type='text'
@@ -108,19 +105,21 @@ export const ParishModal = ({ onCreated }) => {
             value={formData.apellido}
             onChange={handleChange}
           />
-          <ErrorMessage $show={!!errors.apellido}>
-            {errors.apellido}
-          </ErrorMessage>
+        </FlexRow>
+        <ErrorMessage $show={!!errors.nombre || !!errors.apellido}>
+          {errors.nombre || errors.apellido}
+        </ErrorMessage>
 
-          <InputField
-            icon={MdOutlineHome}
-            type='text'
-            name='direccion'
-            placeholder='Dirección'
-            value={formData.direccion}
-            onChange={handleChange}
-          />
+        <InputField
+          icon={MdOutlineHome}
+          type='text'
+          name='direccion'
+          placeholder='Dirección'
+          value={formData.direccion}
+          onChange={handleChange}
+        />
 
+        <FlexRow>
           <InputField
             icon={AiOutlineMail}
             type='email'
@@ -129,7 +128,6 @@ export const ParishModal = ({ onCreated }) => {
             value={formData.email}
             onChange={handleChange}
           />
-
           <InputField
             icon={AiOutlinePhone}
             type='text'
@@ -138,33 +136,30 @@ export const ParishModal = ({ onCreated }) => {
             value={formData.telefono}
             onChange={handleChange}
           />
+        </FlexRow>
 
-          <Select name='idRol' value={formData.idRol} onChange={handleChange}>
-            <option value=''>Seleccione un rol</option>
-            {/* <option value='1'>Sacerdote</option>
-          <option value='2'>Catequista</option>
-          <option value='3'>Administrador</option> */}
-            {role?.map((rol) => (
-              <option key={rol.id_rol} value={rol.id_rol}>
-                {rol.nombre}
-              </option>
-            ))}
-          </Select>
-          <ErrorMessage $show={!!errors.idRol}>{errors.idRol}</ErrorMessage>
+        <Select name='idRol' value={formData.idRol} onChange={handleChange}>
+          <option value=''>Seleccione un rol</option>
+          {role?.map((rol) => (
+            <option key={rol.id_rol} value={rol.id_rol}>
+              {rol.nombre}
+            </option>
+          ))}
+        </Select>
+        <ErrorMessage $show={!!errors.idRol}>{errors.idRol}</ErrorMessage>
 
-          <Actions>
-            <CancelButton type='button' onClick={closeModal}>
-              Cancelar
-            </CancelButton>
-            <SubmitButton type='submit'>Guardar</SubmitButton>
-          </Actions>
-        </FormContainer>
-      </ModalForm>
-    </>
+        <Actions>
+          <CancelButton type='button' onClick={closeModal}>
+            Cancelar
+          </CancelButton>
+          <SubmitButton type='submit'>Guardar</SubmitButton>
+        </Actions>
+      </FormContainer>
+    </ModalForm>
   )
 }
 
-/* STYLES */
+/* ===================== ESTILOS ===================== */
 
 const FormContainer = styled.form`
   display: flex;
@@ -173,45 +168,66 @@ const FormContainer = styled.form`
   padding: 25px;
   background-color: ${({ theme }) => theme.bgtgderecha};
   border-radius: 15px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  width: 400px;
-  max-width: 90%;
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.12);
+  width: 700px;
+  max-width: 95%;
+  animation: fadeIn 0.3s ease;
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 `
 
-const Title = styled.h2`
-  text-align: center;
-  font-size: ${({ theme }) => theme.fontlg};
-  color: ${({ theme }) => theme.textprimary};
-  margin-bottom: 10px;
+const Header = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 15px 20px;
+  border-bottom: 1px solid #eee;
+  gap: 15px;
 `
 
-// const InputGroup = styled.div`
-//   display: flex;
-//   align-items: center;
-//   background-color: ${({ theme }) => theme.bg2};
-//   padding: 10px 15px;
-//   border-radius: 8px;
-//   gap: 10px;
-//   transition: border 0.2s ease;
+const TitleIconContainer = styled.div`
+  background-color: ${({ theme }) => theme.bg3};
+  padding: 8px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
 
-//   &:focus-within {
-//     border: 2px solid ${({ theme }) => theme.bg4};
-//   }
-// `
+const HeaderContent = styled.div`
+  flex-grow: 1;
+  h2 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: ${({ theme }) => theme.textprimary || '#333'};
+    margin: 0;
+  }
+  p {
+    font-size: 0.8rem;
+    color: ${({ theme }) => theme.gray500};
+    margin: 0;
+    font-weight: 400;
+  }
+`
 
-// const Icon = styled.span`
-//   color: ${({ theme }) => theme.texttertiary};
-//   font-size: 1.2em;
-// `
+const FlexRow = styled.div`
+  display: flex;
+  gap: 15px;
+  width: 100%;
+  justify-content: space-between;
 
-// const Input = styled.input`
-//   border: none;
-//   outline: none;
-//   background: transparent;
-//   flex: 1;
-//   color: ${({ theme }) => theme.text};
-//   font-size: ${({ theme }) => theme.fontsm};
-// `
+  @media (max-width: 600px) {
+    flex-direction: column;
+  }
+`
 
 const Select = styled.select`
   padding: 10px 15px;
@@ -243,9 +259,11 @@ const CancelButton = styled.button`
   color: ${({ theme }) => theme.gray600};
   font-weight: 600;
   cursor: pointer;
+  transition: all 0.2s ease;
 
   &:hover {
     background-color: ${({ theme }) => theme.gray400};
+    transform: scale(1.03);
   }
 `
 
@@ -265,10 +283,10 @@ const SubmitButton = styled.button`
 `
 
 const ErrorMessage = styled.p`
-  color: #e74c3c; /* rojo moderno */
+  color: #e74c3c;
   font-size: 0.85rem;
   margin: -8px 0 5px 5px;
-  min-height: 18px; /* mantiene espacio aunque no haya error */
+  min-height: 18px;
   display: flex;
   align-items: center;
   opacity: ${({ $show }) => ($show ? 1 : 0)};
