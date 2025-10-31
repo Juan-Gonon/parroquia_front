@@ -11,7 +11,6 @@ import { FaChurch } from 'react-icons/fa'
 import { useCommunity } from '../../hook/useCommunity'
 
 export const CommunityModal = ({ onCreated }) => {
-  // const { theme } = useThemeStore()
   const { closeModal } = useUiModal()
   const { createCommunityS } = useCommunity()
   const { formData, errors, handleChange, validate, resetForm } = useForm(
@@ -25,9 +24,9 @@ export const CommunityModal = ({ onCreated }) => {
     (values) => {
       const errs = {}
       if (!values.nombre) errs.nombre = 'El nombre es requerido'
-      if (!values.direccion) errs.apellido = 'La direccion es requerido'
+      if (!values.direccion) errs.direccion = 'La dirección es requerida'
       if (!values.id_parroquia)
-        errs.id_parroquia = 'Debe seleccionar la parroquia'
+        errs.id_parroquia = 'Debe seleccionar una parroquia'
       return errs
     }
   )
@@ -35,8 +34,8 @@ export const CommunityModal = ({ onCreated }) => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (!validate()) return
-    closeModal()
 
+    closeModal()
     const res = await createCommunityS({ data: formData })
 
     if (res?.message) {
@@ -44,107 +43,96 @@ export const CommunityModal = ({ onCreated }) => {
         icon: 'error',
         title: 'Oops...',
         text: res.message || 'Ocurrió un error inesperado.',
-        confirmButtonText: 'Reintentar',
-        confirmButtonColor: '#d33',
-        background: '#fff',
-        color: '#333',
-        iconColor: '#d33',
-        showClass: {
-          popup: 'animate__animated animate__shakeX',
-        },
-        hideClass: {
-          popup: 'animate__animated animate__fadeOutUp',
-        },
       })
     } else {
       Swal.fire({
         title: 'Comunidad creada correctamente',
         text: 'El registro fue exitoso.',
         icon: 'success',
-        confirmButtonText: 'Aceptar',
-        confirmButtonColor: '#4CAF50', // verde moderno
-        background: '#f9f9f9',
-        color: '#333',
-        iconColor: '#4CAF50',
-        showClass: {
-          popup: 'animate__animated animate__fadeInDown',
-        },
-        hideClass: {
-          popup: 'animate__animated animate__fadeOutUp',
-        },
       })
-
       onCreated?.()
     }
   }
 
   return (
-    <>
-      <ModalForm onAfterClose={resetForm}>
-        <FormContainer onSubmit={handleSubmit}>
-          <Title>Registrar Comunidad</Title>
+    <ModalForm onAfterClose={resetForm}>
+      <FormContainer onSubmit={handleSubmit}>
+        {/* ENCABEZADO */}
+        <Header>
+          <IconBox>
+            <FaChurch size='2em' color='#3498db' />
+          </IconBox>
+          <HeaderContent>
+            <h2>Nueva Comunidad</h2>
+            <p>“Donde hay fe, hay comunidad.”</p>
+          </HeaderContent>
+        </Header>
 
-          <InputField
-            icon={FaChurch}
-            type='text'
-            name='nombre'
-            placeholder='Nombre'
-            value={formData.nombre}
-            onChange={handleChange}
-          />
-          <ErrorMessage $show={!!errors.nombre}>{errors.nombre}</ErrorMessage>
+        {/* CAMPOS DEL FORMULARIO */}
+        <InputField
+          icon={FaChurch}
+          type='text'
+          name='nombre'
+          placeholder='Nombre de la comunidad'
+          value={formData.nombre}
+          onChange={handleChange}
+        />
+        <ErrorMessage $show={!!errors.nombre}>{errors.nombre}</ErrorMessage>
 
-          <InputField
-            icon={MapPin}
-            type='text'
-            name='direccion'
-            placeholder='Dirección'
-            value={formData.direccion}
-            onChange={handleChange}
-          />
+        <InputField
+          icon={MapPin}
+          type='text'
+          name='direccion'
+          placeholder='Dirección'
+          value={formData.direccion}
+          onChange={handleChange}
+        />
+        <ErrorMessage $show={!!errors.direccion}>
+          {errors.direccion}
+        </ErrorMessage>
 
-          <InputField
-            icon={AiOutlineMail}
-            type='email'
-            name='email'
-            placeholder='Correo electrónico'
-            value={formData.email}
-            onChange={handleChange}
-          />
+        <InputField
+          icon={AiOutlineMail}
+          type='email'
+          name='email'
+          placeholder='Correo electrónico (opcional)'
+          value={formData.email}
+          onChange={handleChange}
+        />
 
-          <InputField
-            icon={AiOutlinePhone}
-            type='text'
-            name='telefono'
-            placeholder='Teléfono'
-            value={formData.telefono}
-            onChange={handleChange}
-          />
+        <InputField
+          icon={AiOutlinePhone}
+          type='text'
+          name='telefono'
+          placeholder='Teléfono (opcional)'
+          value={formData.telefono}
+          onChange={handleChange}
+        />
 
-          <Select
-            name='id_parroquia'
-            value={formData.id_parroquia}
-            onChange={handleChange}>
-            <option value=''>Seleccione una parroquia</option>
-            <option value='1'>Santa Catalina de Alejandría</option>
-          </Select>
-          <ErrorMessage $show={!!errors.id_parroquia}>
-            {errors.id_parroquia}
-          </ErrorMessage>
+        <Select
+          name='id_parroquia'
+          value={formData.id_parroquia}
+          onChange={handleChange}>
+          <option value=''>Seleccione una parroquia</option>
+          <option value='1'>Santa Catalina de Alejandría</option>
+        </Select>
+        <ErrorMessage $show={!!errors.id_parroquia}>
+          {errors.id_parroquia}
+        </ErrorMessage>
 
-          <Actions>
-            <CancelButton type='button' onClick={closeModal}>
-              Cancelar
-            </CancelButton>
-            <SubmitButton type='submit'>Guardar</SubmitButton>
-          </Actions>
-        </FormContainer>
-      </ModalForm>
-    </>
+        {/* BOTONES */}
+        <Actions>
+          <CancelButton type='button' onClick={closeModal}>
+            Cancelar
+          </CancelButton>
+          <SubmitButton type='submit'>Guardar</SubmitButton>
+        </Actions>
+      </FormContainer>
+    </ModalForm>
   )
 }
 
-/* STYLES */
+/* ──────────────── ESTILOS ──────────────── */
 
 const FormContainer = styled.form`
   display: flex;
@@ -153,16 +141,43 @@ const FormContainer = styled.form`
   padding: 25px;
   background-color: ${({ theme }) => theme.bgtgderecha};
   border-radius: 15px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  width: 400px;
-  max-width: 90%;
+  width: 480px;
+  max-width: 95%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 `
 
-const Title = styled.h2`
-  text-align: center;
-  font-size: ${({ theme }) => theme.fontlg};
-  color: ${({ theme }) => theme.textprimary};
-  margin-bottom: 10px;
+const Header = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 5px;
+`
+
+const IconBox = styled.div`
+  background: ${({ theme }) => theme.bg3};
+  padding: 10px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+
+const HeaderContent = styled.div`
+  flex-grow: 1;
+
+  h2 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: ${({ theme }) => theme.textprimary || '#333'};
+    margin: 0;
+  }
+
+  p {
+    font-size: 0.8rem;
+    color: ${({ theme }) => theme.gray500};
+    margin: 0;
+    font-weight: 400;
+  }
 `
 
 const Select = styled.select`
@@ -195,6 +210,7 @@ const CancelButton = styled.button`
   color: ${({ theme }) => theme.gray600};
   font-weight: 600;
   cursor: pointer;
+  transition: background 0.2s ease;
 
   &:hover {
     background-color: ${({ theme }) => theme.gray400};
@@ -209,20 +225,21 @@ const SubmitButton = styled.button`
   color: ${({ theme }) => theme.textsecondary};
   font-weight: 600;
   cursor: pointer;
-  transition: transform 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
 
   &:hover {
     transform: scale(1.05);
+    background-color: ${({ theme }) => theme.bg4hover || '#2980b9'};
   }
 `
 
 const ErrorMessage = styled.p`
-  color: #e74c3c; /* rojo moderno */
+  color: #e74c3c;
   font-size: 0.85rem;
-  margin: -8px 0 5px 5px;
-  min-height: 18px; /* mantiene espacio aunque no haya error */
-  display: flex;
-  align-items: center;
-  opacity: ${({ $show }) => ($show ? 1 : 0)};
+  min-height: 18px;
+  margin: -5px 0 5px 5px;
   transition: opacity 0.2s ease-in-out;
+  opacity: ${({ $show }) => ($show ? 1 : 0)};
 `
