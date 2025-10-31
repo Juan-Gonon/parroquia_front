@@ -24,7 +24,7 @@ export const LoginView = () => {
             {/* Church name */}
             <div>
               <h1 className='text-5xl font-bold text-primary-foreground mb-4 text-balance'>
-                Parroquia San José
+                Iglesia de Zunilito
               </h1>
               <p className='text-xl text-primary-foreground/70 text-pretty'>
                 Bienvenido a nuestra comunidad de fe

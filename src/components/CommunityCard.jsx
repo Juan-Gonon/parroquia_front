@@ -3,6 +3,7 @@ import styled, { useTheme } from 'styled-components'
 import { FaChurch } from 'react-icons/fa'
 import { AiOutlineMail, AiOutlinePhone } from 'react-icons/ai'
 import { MdLocationOn } from 'react-icons/md'
+import imgI from '../../public/imgIgle01.png'
 
 export const CommunityCard = ({ community, handleSelectedClick }) => {
   const { nombre, direccion, telefono, email, parroquia } = community
@@ -15,10 +16,7 @@ export const CommunityCard = ({ community, handleSelectedClick }) => {
   return (
     <CardContainer>
       <ImageContainer>
-        <img
-          src='https://cdn.pixabay.com/photo/2023/08/03/19/34/catholic-church-8167850_1280.png'
-          alt={`Fachada de ${nombre}`}
-        />
+        <img src={imgI} alt={`Fachada de ${nombre}`} />
       </ImageContainer>
 
       <InfoContainer>
