@@ -17,7 +17,7 @@ export const MinistryPage = () => {
     <Container>
       <Navbar textBtn='Crear nuevo Ministerio'>
         <ContentContainer>
-          <Title>Comunidades de Fe</Title>
+          <Title>Ministerios de Fe</Title>
           <Citation>
             "Donde dos o tres se reúnen en mi nombre, allí estoy yo en medio de
             ellos." <br /> (Mateo 18:20)
