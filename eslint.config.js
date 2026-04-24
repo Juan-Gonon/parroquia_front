@@ -45,6 +45,7 @@ export default defineConfig([
           trailingComma: 'es5',
           bracketSpacing: true,
           jsxSingleQuote: true,
+          endOfLine: 'auto',
         },
       ],
     },

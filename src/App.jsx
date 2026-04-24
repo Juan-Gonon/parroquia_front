@@ -1,8 +1,15 @@
+import { Provider } from 'react-redux'
+import { AppRouter } from './router/AppRouter'
+import { store } from './app/storaje'
+import { BrowserRouter } from 'react-router-dom'
+
 function App() {
   return (
-    <>
-      <h1>Hola Mundo</h1>
-    </>
+    <Provider store={store}>
+      <BrowserRouter>
+        <AppRouter />
+      </BrowserRouter>
+    </Provider>
   )
 }
 
